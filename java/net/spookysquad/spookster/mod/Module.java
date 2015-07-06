@@ -16,7 +16,6 @@ public abstract class Module implements Listener {
 		this.color = color;
 	}
 	
-	
 	public String getName() {
 		return this.name;
 	}
