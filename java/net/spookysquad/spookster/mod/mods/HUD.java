@@ -19,7 +19,7 @@ public class HUD extends Module {
 		if(event instanceof EventPostHudRender) {
 			FontUtil fontRenderer = new FontUtil();
 
-			fontRenderer.drawStringWithShadow("Spookster", 2, 2, 0xffffff, 0.7F);
+			fontRenderer.drawStringWithShadow("Spookster", 2, 6.5F, 0xffffff, 0.7F);
 			
 			int posY = 2;
 			for(Module mod: Spookster.instance.moduleManager.getModules()) {
