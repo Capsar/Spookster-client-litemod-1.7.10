@@ -69,14 +69,14 @@ public class GameEvents {
 	public static void onRenderBlockByRenderTypeEvent(final ReturnEventInfo<RenderBlocks, Boolean> e, final Block block,
 			final int x, final int y, final int z) {
 
-		e.getSource().setRenderAllFaces(false);
+		/*e.getSource().setRenderAllFaces(false);
 		final EventRenderBlock event = new EventRenderBlock(block);
 		Spookster.instance.eventManager.callEvent(event);
 		if (event.isCancelled()) {
 			e.setReturnValue(false);
 			return;
 		}
-		e.getSource().setRenderAllFaces(true);
+		e.getSource().setRenderAllFaces(true);*/
 	}
 
 	public static void onGetPlayerRelativeBlockHardnessEvent(final ReturnEventInfo<Block, Float> e,
