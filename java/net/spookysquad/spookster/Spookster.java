@@ -9,6 +9,7 @@ import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.spookysquad.spookster.event.EventManager;
+import net.spookysquad.spookster.event.events.EventGameTick;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.event.events.EventPacketGet;
@@ -47,6 +48,9 @@ public class Spookster implements PacketHandler, Tickable, HUDRenderListener {
 
 	private boolean[] keys = new boolean[256 + 15];
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
+		EventGameTick tick = new EventGameTick();
+		tick.call();
+		
 		if (inGame && minecraft.inGameHasFocus) {
 			for (int i = 0; i < 256 + 15; i++) {
 				if (i < 256) {

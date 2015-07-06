@@ -2,13 +2,13 @@ package net.spookysquad.spookster.utils;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
-import net.minecraft.block.Block;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.stats.StatList;
@@ -16,8 +16,6 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
 
 public class PlayerUtil extends Wrapper {
 
@@ -140,5 +138,24 @@ public class PlayerUtil extends Wrapper {
 
 	public static Block getBlock(double offset) {
 		return BlockUtil.getBlock(getPlayer().boundingBox.copy().offset(0.0D, offset, 0.0D));
+	}
+	
+	public static boolean isInsideBlock() {
+		AxisAlignedBB bb = getPlayer().boundingBox.copy();
+		
+		for(int x = MathHelper.floor_double(bb.minX); x < MathHelper.floor_double(bb.maxX) + 1; x++) {
+			for(int y = MathHelper.floor_double(bb.minY); y < MathHelper.floor_double(bb.maxY) + 1; y++) {
+				for(int z = MathHelper.floor_double(bb.minZ); z < MathHelper.floor_double(bb.maxZ) + 1; z++) {
+					Block block = getWorld().getBlock(x, y, z);
+					if(block != null) {
+						AxisAlignedBB boundingBox = block.getCollisionBoundingBoxFromPool(getWorld(), x, y, z);
+						if(boundingBox != null && bb.intersectsWith(boundingBox)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
