@@ -88,12 +88,11 @@ public abstract class Module implements Listener {
 		}
 	}
 
-	private boolean onEnable() {
+	public boolean onEnable() {
 		return true;
 	}
 
-	private void onDisable() {
+	public void onDisable() {
 
 	}
-
 }
