@@ -13,6 +13,7 @@ import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.utils.AngleUtil;
 import net.spookysquad.spookster.utils.PacketUtil;
 import net.spookysquad.spookster.utils.PlayerUtil;
 import net.spookysquad.spookster.utils.TimeUtil;
@@ -39,12 +40,10 @@ public class Triggerbot extends Module implements HasValues {
 				Entity entity = PlayerUtil.getEntityOnMouseCurser(range);
 				if (entity instanceof EntityPlayer) {
 					livingbase = (EntityPlayer) entity;
-					if (livingbase == null)
-						return;
+					if (livingbase == null) return;
 					boolean canAttack = PlayerUtil.canAttack(livingbase, range);
-					boolean shouldAim = PlayerUtil.shouldAim(5, livingbase);
-					if (canAttack && shouldAim)
-						PlayerUtil.smoothAim(livingbase, aimspeed, false);
+					boolean shouldAim = AngleUtil.shouldAim(5, livingbase);
+					if (canAttack && shouldAim) AngleUtil.smoothAim(livingbase, aimspeed, false);
 					if (aps != 0 && canAttack && time.hasDelayRun((1000 / aps))) {
 						time.setReset(time.getCurrentTime() + (new Random()).nextInt(150));
 						getPlayer().swingItem();
@@ -53,9 +52,9 @@ public class Triggerbot extends Module implements HasValues {
 					}
 				}
 			} else if (livingbase != null) {
-				boolean canAttack = PlayerUtil.canAttack(livingbase, 0) && getPlayer().getDistanceToEntity(livingbase) <= 4.4
-						&& getPlayer().canEntityBeSeen(livingbase);
-				boolean shouldStopToAim = PlayerUtil.shouldAim(60, livingbase);
+				boolean canAttack = PlayerUtil.canAttack(livingbase, 0)
+						&& getPlayer().getDistanceToEntity(livingbase) <= 4.4 && getPlayer().canEntityBeSeen(livingbase);
+				boolean shouldStopToAim = AngleUtil.shouldAim(60, livingbase);
 				if (!canAttack || aimspeed == 0) {
 					livingbase = null;
 					return;
@@ -64,7 +63,7 @@ public class Triggerbot extends Module implements HasValues {
 						livingbase = null;
 						return;
 					}
-					PlayerUtil.smoothAim(livingbase, aimspeed, false);
+					AngleUtil.smoothAim(livingbase, aimspeed, false);
 				}
 			}
 		}
