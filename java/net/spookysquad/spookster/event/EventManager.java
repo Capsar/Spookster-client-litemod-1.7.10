@@ -17,6 +17,14 @@ public class EventManager extends Manager {
 		
 	}
 	
+	public void registerListener(Listener listener) {
+		listeners.add(listener);
+	}
+	
+	public void unregisterListener(Listener listener) {
+		listeners.remove(listener);
+	}
+	
 	/**
 	 * Sends the event to all listeners
 	 * @param event

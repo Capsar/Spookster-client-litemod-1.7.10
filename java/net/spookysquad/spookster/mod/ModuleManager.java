@@ -11,14 +11,28 @@ import net.spookysquad.spookster.manager.Manager;
 
 public class ModuleManager extends Manager implements Listener {
 	
+	private Spookster spookster;
 	private ArrayList<Module> modules = new ArrayList<Module>();
 	
 	public void init(Spookster spookster) {
+		this.spookster = spookster;
 		
+		spookster.eventManager.registerListener(this);
 	}
 	
 	public void deinit(Spookster spookster) {
 		
+		spookster.eventManager.unregisterListener(this);
+	}
+	
+	public void registerModule(Module module) {
+		modules.add(module);
+		spookster.eventManager.registerListener(module);
+	}
+	
+	public void unregisterModule(Module module) {
+		modules.remove(module);
+		spookster.eventManager.unregisterListener(module);
 	}
 	
 	/**
