@@ -6,17 +6,17 @@ import net.minecraft.client.multiplayer.WorldClient;
 
 public class Wrapper {
 
-	private Minecraft mc = Minecraft.getMinecraft();
+	private static Minecraft mc = Minecraft.getMinecraft();
 	
 	/** 
 	 * TODO: Make an instance of a rapper, possibly force him to sing using nigerian folk tunes and then create a new class using his lyrics.
 	 */
 	
-	public EntityPlayerSP getPlayer() {
+	public static EntityPlayerSP getPlayer() {
 		return mc.thePlayer;
 	}
 	
-	public WorldClient getWorld() {
+	public static WorldClient getWorld() {
 		return mc.theWorld;
 	}
 }

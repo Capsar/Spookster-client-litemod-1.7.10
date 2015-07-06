@@ -30,6 +30,7 @@ public class NoFall extends Module {
 				
 				if(packet.func_149466_j()) {
 					event.cancel();
+					
 				}
 			}
 		}
