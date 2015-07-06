@@ -5,8 +5,16 @@ import java.util.regex.Pattern;
 import org.lwjgl.opengl.GL11;
 
 public class FontUtil extends Wrapper {
+	
+	public static String filterText(String text) {
+		text = text.replaceAll("&", "§");
+		text = text.replaceAll("\247", "§");
+		
+		return text;
+	}
 
     public static float drawString(String text, float x, float y, int color) {
+    	text = filterText(text);
     	GL11.glTranslatef(x, y, 0);
     	float returnFloat = getFont().drawString(text, 0, 0, color, false);
     	GL11.glTranslatef(-x, -y, 0);
@@ -14,10 +22,12 @@ public class FontUtil extends Wrapper {
     }
     
     public static float drawCenteredString(String text, float x, float y, int color) {
+    	text = filterText(text);
     	return drawString(text, x - (getFont().getStringWidth(text) / 2), y, color);
     }
     
     public static float drawStringWithShadow(String text, float x, float y, int color) {
+    	text = filterText(text);
     	GL11.glTranslatef(x, y, 0);
     	float returnFloat = getFont().drawString(text, 0, 0, color, true);
     	GL11.glTranslatef(-x, -y, 0);
@@ -25,6 +35,7 @@ public class FontUtil extends Wrapper {
     }
     
     public static float drawStringWithShadow(String text, float x, float y, int color, float width, int shadowColor) {
+    	text = filterText(text);
     	GL11.glTranslatef(width, width, 0);
     	drawString(stripColorCodes(text), x, y, shadowColor);
     	GL11.glTranslatef(-width, -width, 0);
