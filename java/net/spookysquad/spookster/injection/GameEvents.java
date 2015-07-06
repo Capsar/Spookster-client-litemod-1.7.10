@@ -30,6 +30,7 @@ import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.event.events.EventPushOutOfBlocks;
 import net.spookysquad.spookster.event.events.EventRenderBlock;
 import net.spookysquad.spookster.event.events.EventRenderNameTag;
+import net.spookysquad.spookster.utils.PacketUtil;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
 import com.mumfrey.liteloader.transformers.event.ReturnEventInfo;
@@ -107,9 +108,12 @@ public class GameEvents {
 	public static void onAddToSendQueueEvent(EventInfo<NetHandlerPlayClient> e, Packet packet) {
 		final EventPacketSend event = new EventPacketSend(packet);
 		Spookster.instance.eventManager.callEvent(event);
-		packet = event.getPacket();
+		
 		if (event.isCancelled()) {
 			e.cancel();
+		} else if (event.getPacket() != packet) {
+			e.cancel();
+			PacketUtil.sendPacket(event.getPacket());
 		}
 	}
 

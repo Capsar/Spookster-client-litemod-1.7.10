@@ -84,7 +84,7 @@ public abstract class Module implements Listener {
 		if (this.state) {
 			if (onEnable()) {
 				Spookster.instance.eventManager.registerListener(this);
-			} else {
+			} else if (onDisable()) {
 				this.state = false;
 			}
 		} else {
@@ -96,7 +96,7 @@ public abstract class Module implements Listener {
 		return true;
 	}
 
-	public void onDisable() {
-
+	public boolean onDisable() {
+		return true;
 	}
 }
