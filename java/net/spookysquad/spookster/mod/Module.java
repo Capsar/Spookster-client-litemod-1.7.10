@@ -1,6 +1,6 @@
 package net.spookysquad.spookster.mod;
 
-import org.lwjgl.input.Keyboard;
+import java.util.ArrayList;
 
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Listener;
@@ -26,6 +26,10 @@ public abstract class Module implements Listener {
 
 	public boolean isEnabled() {
 		return state;
+	}
+	
+	public void setEnabled(boolean state) {
+		this.state = state;
 	}
 	
 	public String[] getName() {
@@ -73,6 +77,13 @@ public abstract class Module implements Listener {
 
 	public void setName(String[] moduleName) {
 		this.name = moduleName;
+	}
+
+	public void setName(ArrayList<String> name) {
+		String[] alias = new String[name.size()];
+		alias = name.toArray(alias);
+		
+		this.name = alias;
 	}
 
 	public void setKeyCode(int keyCode) {

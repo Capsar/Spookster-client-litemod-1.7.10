@@ -29,7 +29,8 @@ public class NoFall extends Module {
 	@Override
 	public boolean onEnable() {
 		PlayerUtil.inflictDamage(4);
-		land = 1;
+		fallDistance = 0;
+		land = -1;
 
 		return true;
 	}
@@ -50,29 +51,25 @@ public class NoFall extends Module {
 	public void onEvent(Event e) {
 		if (e instanceof EventPreMotion) {
 			EventPreMotion event = (EventPreMotion) e;
+			
 			fallDistance += Wrapper.getPlayer().fallDistance;
+			
 			if (fallDistance > 3 && isSafe()) {
 				land = 0;
 			}
-
 		} else if (e instanceof EventPacketSend) {
 			EventPacketSend event = (EventPacketSend) e;
 			if (event.getPacket() instanceof C03PacketPlayer) {
 				C06PacketPlayerPosLook packet = PacketUtil.forcedC06Packet((C03PacketPlayer) event.getPacket());
-				if (land == 1) {
-					if (isEnabled()) {
-						System.err.println("FALL DISTANCE RESET FGT");
-					}
-					fallDistance = 0;
-					land = -1;
-				}
 				if (land < 1) {
 					event.setPacket(new C03PacketPlayer.C06PacketPlayerPosLook(packet.getPositionX(),
 							Wrapper.getPlayer().boundingBox.minY + (land == -1 ? 0.6F : 0.3F), Wrapper.getPlayer().posY
 									+ (land == -1 ? 0.6F : 0.3F), packet.getPositionZ(), packet.getYaw(), packet.getPitch(), false));
+					
 					if (land == 0) {
-						land++;
+						toggle();
 					}
+					
 					if (!isEnabled()) {
 						Spookster.instance.eventManager.unregisterListener(this);
 					}
