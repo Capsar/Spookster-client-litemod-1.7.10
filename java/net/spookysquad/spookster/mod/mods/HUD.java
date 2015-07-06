@@ -13,7 +13,7 @@ import org.lwjgl.input.Keyboard;
 public class HUD extends Module {
 
 	public HUD() {
-		super(new String[] { "HUD" }, "Displays the Heads up Display", Type.RENDER, Keyboard.KEY_H, 0xFFffffff);
+		super(new String[] { "HUD" }, "Displays the Heads up Display", Type.RENDER, Keyboard.KEY_H, -1);
 	}
 
 	public void onEvent(Event event) {
@@ -23,10 +23,12 @@ public class HUD extends Module {
 			
 			fontRenderer.drawStringWithShadow("Spookster", 2, 2, 0xffffff);
 			
-			int posY = -2;
+			int posY = 2;
 			for(Module mod: Spookster.instance.moduleManager.getModules()) {
 				if(mod.isEnabled()) {
-					fontRenderer.drawStringWithShadow(mod.getDisplay(), 2, posY += 12, mod.getColor());
+					if(mod.getColor() != -1) {
+						fontRenderer.drawStringWithShadow(mod.getDisplay(), 2, posY += 10, mod.getColor());
+					}
 				}
 			}
 		}
