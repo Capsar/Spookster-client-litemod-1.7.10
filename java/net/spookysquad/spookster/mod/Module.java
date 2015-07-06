@@ -96,11 +96,15 @@ public abstract class Module extends Wrapper implements Listener {
 		if (this.state) {
 			if (onEnable()) {
 				Spookster.instance.eventManager.registerListener(this);
-			} else if (onDisable()) {
+			} else {
 				this.state = false;
 			}
-		} else {
-			Spookster.instance.eventManager.unregisterListener(this);
+		} else { 
+			if(onDisable()) {
+				Spookster.instance.eventManager.unregisterListener(this);
+			} else {
+				this.state = true;
+			}
 		}
 	}
 

@@ -67,16 +67,14 @@ public class GameEvents {
 
 	public static void onRenderBlockByRenderTypeEvent(final ReturnEventInfo<RenderBlocks, Boolean> e, final Block block,
 			final int x, final int y, final int z) {
-		if(Spookster.instance.moduleManager.getModule(XRay.class).isEnabled()) {
-			
+		e.getSource().setRenderAllFaces(false);
+		if (Spookster.instance.moduleManager.getModule(XRay.class).isEnabled()) {
+			if (!XRay.blocks.contains(block)) {
+				e.setReturnValue(false);
+				return;
+			}
+			e.getSource().setRenderAllFaces(true);
 		}
-		/*
-		 * e.getSource().setRenderAllFaces(false); final EventRenderBlock event
-		 * = new EventRenderBlock(block);
-		 * Spookster.instance.eventManager.callEvent(event); if
-		 * (event.isCancelled()) { e.setReturnValue(false); return; }
-		 * e.getSource().setRenderAllFaces(true);
-		 */
 	}
 
 	public static void onGetPlayerRelativeBlockHardnessEvent(final ReturnEventInfo<Block, Float> e,

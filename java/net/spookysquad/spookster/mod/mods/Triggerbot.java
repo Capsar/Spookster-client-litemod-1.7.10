@@ -30,7 +30,7 @@ public class Triggerbot extends Module implements HasValues {
 	public int aps = 5;
 	public int aimspeed = 2;
 	public double range = 4.2;
-	private static EntityPlayer livingbase;
+	private EntityPlayer entityTarget;
 	TimeUtil time = new TimeUtil();
 
 	@Override
@@ -39,31 +39,31 @@ public class Triggerbot extends Module implements HasValues {
 			if (PlayerUtil.getEntityOnMouseCurser(range) != null) {
 				Entity entity = PlayerUtil.getEntityOnMouseCurser(range);
 				if (entity instanceof EntityPlayer) {
-					livingbase = (EntityPlayer) entity;
-					if (livingbase == null) return;
-					boolean canAttack = PlayerUtil.canAttack(livingbase, range);
-					boolean shouldAim = AngleUtil.shouldAim(5, livingbase);
-					if (canAttack && shouldAim) AngleUtil.smoothAim(livingbase, aimspeed, false);
+					entityTarget = (EntityPlayer) entity;
+					if (entityTarget == null) return;
+					boolean canAttack = PlayerUtil.canAttack(entityTarget, range);
+					boolean shouldAim = AngleUtil.shouldAim(5, entityTarget);
+					if (canAttack && shouldAim) AngleUtil.smoothAim(entityTarget, aimspeed, false);
 					if (aps != 0 && canAttack && time.hasDelayRun((1000 / aps))) {
 						time.setReset(time.getCurrentTime() + (new Random()).nextInt(150));
 						getPlayer().swingItem();
-						PacketUtil.addPacket(new C02PacketUseEntity(livingbase, Action.ATTACK));
-						PlayerUtil.attackEffectOnEntity(livingbase);
+						PacketUtil.addPacket(new C02PacketUseEntity(entityTarget, Action.ATTACK));
+						PlayerUtil.attackEffectOnEntity(entityTarget);
 					}
 				}
-			} else if (livingbase != null) {
-				boolean canAttack = PlayerUtil.canAttack(livingbase, 0)
-						&& getPlayer().getDistanceToEntity(livingbase) <= 4.4 && getPlayer().canEntityBeSeen(livingbase);
-				boolean shouldStopToAim = AngleUtil.shouldAim(60, livingbase);
+			} else if (entityTarget != null) {
+				boolean canAttack = PlayerUtil.canAttack(entityTarget, 0)
+						&& getPlayer().getDistanceToEntity(entityTarget) <= 4.4 && getPlayer().canEntityBeSeen(entityTarget);
+				boolean shouldStopToAim = AngleUtil.shouldAim(60, entityTarget);
 				if (!canAttack || aimspeed == 0) {
-					livingbase = null;
+					entityTarget = null;
 					return;
 				} else if (canAttack) {
 					if (shouldStopToAim) {
-						livingbase = null;
+						entityTarget = null;
 						return;
 					}
-					AngleUtil.smoothAim(livingbase, aimspeed, false);
+					AngleUtil.smoothAim(entityTarget, aimspeed, false);
 				}
 			}
 		}
