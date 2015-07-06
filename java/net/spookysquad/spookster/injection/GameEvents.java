@@ -70,14 +70,13 @@ public class GameEvents {
 	public static void onRenderBlockByRenderTypeEvent(final ReturnEventInfo<RenderBlocks, Boolean> e, final Block block,
 			final int x, final int y, final int z) {
 
-		/*e.getSource().setRenderAllFaces(false);
-		final EventRenderBlock event = new EventRenderBlock(block);
-		Spookster.instance.eventManager.callEvent(event);
-		if (event.isCancelled()) {
-			e.setReturnValue(false);
-			return;
-		}
-		e.getSource().setRenderAllFaces(true);*/
+		/*
+		 * e.getSource().setRenderAllFaces(false); final EventRenderBlock event
+		 * = new EventRenderBlock(block);
+		 * Spookster.instance.eventManager.callEvent(event); if
+		 * (event.isCancelled()) { e.setReturnValue(false); return; }
+		 * e.getSource().setRenderAllFaces(true);
+		 */
 	}
 
 	public static void onGetPlayerRelativeBlockHardnessEvent(final ReturnEventInfo<Block, Float> e,
@@ -108,13 +107,8 @@ public class GameEvents {
 	public static void onAddToSendQueueEvent(EventInfo<NetHandlerPlayClient> e, Packet packet) {
 		final EventPacketSend event = new EventPacketSend(packet);
 		Spookster.instance.eventManager.callEvent(event);
-		
-		if (event.isCancelled()) {
-			e.cancel();
-		} else if (event.getPacket() != packet) {
-			e.cancel();
-			PacketUtil.sendPacket(event.getPacket());
-		}
+		if (!event.isCancelled()) PacketUtil.sendPacket(event.getPacket());
+		e.cancel();
 	}
 
 	public static void onAddCollisionEvent(EventInfo<Block> e, World world, int x, int y, int z, AxisAlignedBB bb,
@@ -136,8 +130,7 @@ public class GameEvents {
 		if (arg1.equals(Minecraft.getMinecraft().thePlayer)) {
 			EventAttackEntity event = new EventAttackEntity(arg1, arg2);
 			Spookster.instance.eventManager.callEvent(event);
-			if (event.isCancelled())
-				e.cancel();
+			if (event.isCancelled()) e.cancel();
 		}
 	}
 
