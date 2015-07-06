@@ -13,7 +13,7 @@ public class Transformer extends EventInjectionTransformer
 {	
     @Override
 	protected void addEvents() {
-    	String listenerClass = "net.spookysqua.spookster.injection.GameEvents";
+    	String listenerClass = "net.spookysquad.spookster.injection.GameEvents";
     	
     	final Event preMotionUpdateEvent = Event.getOrCreate("preMotionUpdateEvent", true);
         final MethodInfo preMotionUpdateMethodInfo = new MethodInfo(Obf.EntityClientPlayerMP, (Obf)ObfuscationTable.preMotionUpdate, (Object)Void.TYPE, new Object[0]);
