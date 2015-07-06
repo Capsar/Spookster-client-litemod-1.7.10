@@ -2,7 +2,11 @@ package net.spookysquad.spookster.utils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
+import net.minecraft.client.settings.GameSettings;
+import net.minecraft.network.Packet;
 
 public class Wrapper {
 
@@ -22,5 +26,17 @@ public class Wrapper {
 	
 	public static WorldClient getWorld() {
 		return mc.theWorld;
+	}
+	
+	public static GameSettings getGameSettings() {
+		return mc.gameSettings;
+	}
+	
+	public static PlayerControllerMP getController() {
+		return mc.playerController;
+	}
+
+	public static FontRenderer getFont() {
+		return mc.fontRendererObj;
 	}
 }
