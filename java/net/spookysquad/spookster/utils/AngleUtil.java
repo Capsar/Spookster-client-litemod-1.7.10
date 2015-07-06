@@ -54,11 +54,11 @@ public class AngleUtil extends Wrapper {
 		return false;
 	}
 
-	public float normalizeAngle(float ang) {
+	public static float normalizeAngle(float ang) {
 		return MathHelper.wrapAngleTo180_float((ang + 180.0F) % 360.0F - 180.0F);
 	}
 
-	public float[] smoothAngles(float[] newAngles, float[] oldAngles, int percentage) {
+	public static float[] smoothAngles(float[] newAngles, float[] oldAngles, int percentage) {
 		float[] smoothAngles = new float[] { 0, 0 };
 		if (percentage < 0) {
 			percentage = 0;

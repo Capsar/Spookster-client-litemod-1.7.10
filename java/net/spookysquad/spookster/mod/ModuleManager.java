@@ -20,6 +20,7 @@ import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.mods.Fullbright;
 import net.spookysquad.spookster.mod.mods.HUD;
 import net.spookysquad.spookster.mod.mods.NoFall;
+import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.Speed;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 import net.spookysquad.spookster.mod.mods.XRay;
@@ -38,6 +39,7 @@ public class ModuleManager extends Manager implements Listener {
 		registerModule(new Fullbright());
 		registerModule(new HUD());
 		registerModule(new NoFall());
+		registerModule(new Phase());
 		registerModule(new Speed());
 		registerModule(new Triggerbot());
 		registerModule(new XRay());

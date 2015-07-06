@@ -1,5 +1,7 @@
 package net.spookysquad.spookster.event;
 
+import net.spookysquad.spookster.Spookster;
+
 public class Event {
 
 	private boolean isCancelled = false;
@@ -12,4 +14,8 @@ public class Event {
 		return isCancelled;
 	}
 	
+	public Event call() {
+		Spookster.instance.eventManager.callEvent(this);
+		return this;
+	}
 }
