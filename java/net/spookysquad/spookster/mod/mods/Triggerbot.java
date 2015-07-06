@@ -9,7 +9,7 @@ import org.lwjgl.input.Keyboard;
 public class Triggerbot extends Module {
 
 	public Triggerbot() {
-		super("Triggerbot", "When your cursor is over an enemy, it attacks.", Type.COMBAT, Keyboard.KEY_R, 0xFF0A9D0F);
+		super(new String[] { "Triggerbot" }, "When your cursor is over an enemy, it attacks.", Type.COMBAT, Keyboard.KEY_R, 0xFF0A9D0F);
 	}
 
 	@Override
