@@ -8,7 +8,7 @@ import com.mumfrey.liteloader.Tickable;
 
 public class HijackedLitemod implements Tickable {
 
-	private Spookster spookster;
+	private SpooksterLitemod spookster;
 	
 	public String getVersion() {
 		return spookster.getVersion();

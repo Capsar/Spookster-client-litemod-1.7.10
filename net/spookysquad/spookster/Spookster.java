@@ -1,33 +1,36 @@
 package net.spookysquad.spookster;
 
-import java.io.File;
+import java.util.ArrayList;
 
-import net.minecraft.client.Minecraft;
+import net.spookysquad.spookster.event.EventManager;
+import net.spookysquad.spookster.manager.Manager;
+import net.spookysquad.spookster.mod.ModuleManager;
 
-import com.mumfrey.liteloader.Tickable;
+public class Spookster {
 
-public class Spookster implements Tickable {
-
-	// Useless
-	public String getVersion() {
-		return null;
-	}
+	private ArrayList<Manager> managers = new ArrayList<Manager>();
+	public static Spookster instance;
 	
-	// Useless
-	public String getName() {
-		return null;
-	}
-
-	public void init(File configPath) {	
+	public EventManager eventManager;
+	public ModuleManager moduleManager;
+	
+	public void init() {
+		instance = this;
+		managers.add(eventManager = new EventManager());
+		managers.add(moduleManager = new ModuleManager());
 		
-	}
-
-	public void upgradeSettings(String version, File configPath, File oldConfigPath) {	
+		for(Manager manager: managers) {
+			manager.init(this);
+		}
 		
-	}
-
-
-	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
 		
+		Runtime.getRuntime().addShutdownHook(new Thread("Shutdown Thread") {
+			@Override
+			public void run() {
+				for(Manager manager: managers) {
+					manager.deinit(Spookster.this);
+				}
+			}
+		});
 	}
 }
