@@ -107,6 +107,7 @@ public class GameEvents {
 	public static void onAddToSendQueueEvent(EventInfo<NetHandlerPlayClient> e, Packet packet) {
 		final EventPacketSend event = new EventPacketSend(packet);
 		Spookster.instance.eventManager.callEvent(event);
+		packet = event.getPacket();
 		if (event.isCancelled()) {
 			e.cancel();
 		}
