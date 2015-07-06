@@ -30,12 +30,10 @@ public class ModuleManager extends Manager implements Listener {
 	
 	public void registerModule(Module module) {
 		modules.add(module);
-		spookster.eventManager.registerListener(module);
 	}
 	
 	public void unregisterModule(Module module) {
 		modules.remove(module);
-		spookster.eventManager.unregisterListener(module);
 	}
 	
 	/**
@@ -65,10 +63,18 @@ public class ModuleManager extends Manager implements Listener {
 	public void onEvent(Event event) {
 		if(event instanceof EventKeyPressed) {
 			EventKeyPressed pressed = (EventKeyPressed) event;
-			
+			for(Module m : getModules()) {
+				if(m.getKeyCode() == pressed.getKey()) {
+					m.toggle();
+				}
+			}
 		} else if(event instanceof EventMouseClicked) {
 			EventMouseClicked pressed = (EventMouseClicked) event;
-			
+			for(Module m : getModules()) {
+				if(m.getKeyCode() + 256 == pressed.getButton()) {
+					m.toggle();
+				}
+			}
 		}
 	}
 
