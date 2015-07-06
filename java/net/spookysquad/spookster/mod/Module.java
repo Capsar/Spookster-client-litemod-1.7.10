@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Listener;
+import net.spookysquad.spookster.utils.Wrapper;
 
-public abstract class Module implements Listener {
+public abstract class Module extends Wrapper implements Listener {
 	
 	private String[] name;
 	private int selectedAlias;
