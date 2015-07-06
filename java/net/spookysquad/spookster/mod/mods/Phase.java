@@ -37,7 +37,8 @@ public class Phase extends Module {
 				event.setBoundingBox(null);
 			}
 		}else if (e instanceof EventPreMotion) {			
-			if(getPlayer().isCollidedHorizontally && !PlayerUtil.isInsideBlock()) {
+			if(getPlayer().isCollidedHorizontally && getPlayer().onGround && !PlayerUtil.isInsideBlock()) {
+				
 				float dir = getPlayer().rotationYaw;
 				
 				if(getPlayer().moveForward < 0.0F) {

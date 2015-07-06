@@ -41,9 +41,6 @@ public class NoFall extends Module {
 	}
 
 	public boolean isSafe() {
-
-		// TODO: Add more ways of checking if can land
-
 		return getPlayer().isOnLadder() || getPlayer().isInWater();
 	}
 
@@ -67,7 +64,7 @@ public class NoFall extends Module {
 									+ (land == -1 ? 0.6F : 0.3F), packet.getPositionZ(), packet.getYaw(), packet.getPitch(), false));
 					
 					if (land == 0) {
-						toggle();
+						toggle(true);
 					}
 					
 					if (!isEnabled()) {

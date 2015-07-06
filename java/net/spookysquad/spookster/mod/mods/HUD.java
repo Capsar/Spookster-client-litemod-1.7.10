@@ -24,9 +24,9 @@ public class HUD extends Module {
 	
 				GL11.glPushMatrix();
 				GL11.glScalef(1.5F, 1.5F, 1.5F);
-				fontRenderer.drawStringWithShadow("S", 1, 1, 0xFFFFFFFF, 0.35F);
+				fontRenderer.drawStringWithShadow("" + Spookster.clientName.charAt(0), 1, 1, 0xFFFFFFFF, 0.35F);
 				GL11.glPopMatrix();
-				fontRenderer.drawStringWithShadow("pookster", 10, 5, 0xFFFFFFFF, 0.7F);
+				fontRenderer.drawStringWithShadow(Spookster.clientName.substring(1, Spookster.clientName.length()), 10, 5, 0xFFFFFFFF, 0.7F);
 				GL11.glPushMatrix();
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
 				fontRenderer.drawStringWithShadow("(§aWeed§f)", 21, 3, 0xFFFFFFFF, 1.4F);

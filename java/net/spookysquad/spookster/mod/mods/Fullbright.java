@@ -17,11 +17,17 @@ public class Fullbright extends Module {
 	}
 	
 	public boolean onEnable() {
+		if(getPlayer() == null)
+			return false;
+		
 		System.arraycopy(Wrapper.getWorld().provider.lightBrightnessTable, 0, tempBrightnessTable, 0, 16);
 		return true;
 	}
 	
 	public boolean onDisable() {
+		if(getPlayer() == null)
+			return false;
+		
 		System.arraycopy(tempBrightnessTable, 0, Wrapper.getWorld().provider.lightBrightnessTable, 0, 16);
 		return true;
 	}
