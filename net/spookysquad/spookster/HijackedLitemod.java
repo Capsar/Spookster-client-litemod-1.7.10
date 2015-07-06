@@ -6,6 +6,11 @@ import net.minecraft.client.Minecraft;
 
 import com.mumfrey.liteloader.Tickable;
 
+/**
+ * We'll use this as a template to paste into "hiding" the mod into another mod
+ * i.e TabbyChat, WorldEditWrapper
+ * @author TehNeon
+ */
 public class HijackedLitemod implements Tickable {
 
 	private SpooksterLitemod spookster;
