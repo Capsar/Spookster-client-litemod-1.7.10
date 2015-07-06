@@ -21,8 +21,8 @@ public class ModuleManager extends Manager implements Listener {
 		
 		spookster.eventManager.registerListener(this);
 		
-		registerModule(new HUD(spookster));
-		registerModule(new Triggerbot(spookster));
+		registerModule(new HUD());
+		registerModule(new Triggerbot());
 	}
 	
 	public void deinit(Spookster spookster) {

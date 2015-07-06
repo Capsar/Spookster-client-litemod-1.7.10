@@ -7,7 +7,6 @@ import net.spookysquad.spookster.event.Listener;
 
 public abstract class Module implements Listener {
 	
-	private Spookster spookster;
 	private String[] name;
 	private int selectedAlias;
 	
@@ -17,8 +16,7 @@ public abstract class Module implements Listener {
 	private int keyCode;
 	private boolean state = false;
 
-	public Module(Spookster spookster, String[] name, String desc, Type type, int keybind, int color) {
-		this.spookster = spookster;
+	public Module(String[] name, String desc, Type type, int keybind, int color) {
 		this.name = name;
 		this.desc = desc;
 		this.type = type;
@@ -26,6 +24,10 @@ public abstract class Module implements Listener {
 		this.keyCode = keybind;
 	}
 
+	public boolean isEnabled() {
+		return state;
+	}
+	
 	public String[] getName() {
 		return this.name;
 	}
