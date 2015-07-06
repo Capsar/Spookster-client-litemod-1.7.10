@@ -69,18 +69,16 @@ public class Speed extends Module {
 				}
 
 				boolean canStep = false;
-				if(false /** TODO: STEP */) {
-					for(Object o: getWorld().getCollidingBoundingBoxes(getPlayer(), getPlayer().boundingBox.copy().expand(0.5D, 0.0D, 0.5D))) {
-						if(o instanceof AxisAlignedBB) {
-							AxisAlignedBB bb = (AxisAlignedBB) o;
-							
-							if(bb != null) {
-								canStep = true;
-								shouldOffset = false;
-							}
+				for(Object o: getWorld().getCollidingBoundingBoxes(getPlayer(), getPlayer().boundingBox.copy().expand(0.5D, 0.0D, 0.5D))) {
+					if(o instanceof AxisAlignedBB) {
+						AxisAlignedBB bb = (AxisAlignedBB) o;
+						
+						if(bb != null) {
+							canStep = true;
+							shouldOffset = false;
 						}
 					}
-				}	
+				}
 				
 				if(iceBelow) {
 					getPlayer().motionX *= 1.51D;
