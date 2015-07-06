@@ -12,6 +12,10 @@ public class Wrapper {
 	 * TODO: Make an instance of a rapper, possibly force him to sing using nigerian folk tunes and then create a new class using his lyrics.
 	 */
 	
+	public static Minecraft getMinecraft() {
+		return mc;
+	}
+	
 	public static EntityPlayerSP getPlayer() {
 		return mc.thePlayer;
 	}

@@ -1,6 +1,7 @@
 package net.spookysquad.spookster.mod.mods;
 
 import net.spookysquad.spookster.event.Event;
+import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 
@@ -14,9 +15,7 @@ public class Triggerbot extends Module {
 
 	@Override
 	public void onEvent(Event event) {
-		
+		if(event instanceof EventPreMotion) {
+		}
 	}
-
-	
-	
 }
