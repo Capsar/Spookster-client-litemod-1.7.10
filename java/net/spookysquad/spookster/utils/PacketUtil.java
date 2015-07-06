@@ -38,9 +38,9 @@ public class PacketUtil extends Wrapper {
 				getPlayer().posY + y, getPlayer().posZ + z, getPlayer().rotationYaw, getPlayer().rotationPitch, onground));
 	}
 
-	public static Packet forcedC06Packet(C03PacketPlayer packet) {
+	public static C06PacketPlayerPosLook forcedC06Packet(C03PacketPlayer packet) {
 		if (packet instanceof C06PacketPlayerPosLook) {
-			return packet;
+			return (C06PacketPlayerPosLook) packet;
 		} else if (packet instanceof C05PacketPlayerLook) {
 			C05PacketPlayerLook packetC05 = (C05PacketPlayerLook) packet;
 			return new C06PacketPlayerPosLook(getPlayer().posX, getPlayer().boundingBox.minY, getPlayer().posY,
