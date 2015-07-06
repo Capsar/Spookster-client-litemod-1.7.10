@@ -18,7 +18,7 @@ public class HUD extends Module {
 
 	public void onEvent(Event event) {
 		if(event instanceof EventPostHudRender) {
-			FontRenderer fontRenderer = Wrapper.getMinecraft().fontRendererObj;
+			FontRenderer fontRenderer = Wrapper.getFont();
 
 			fontRenderer.drawStringWithShadow("Spookster", 2, 2, 0xffffff);
 			
