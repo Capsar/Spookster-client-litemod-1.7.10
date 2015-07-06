@@ -37,7 +37,7 @@ public class NoFall extends Module {
 
 	@Override
 	public boolean onDisable() {
-		return false;
+		return true;
 	}
 
 	public boolean isSafe() {
