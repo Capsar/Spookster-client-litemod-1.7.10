@@ -167,6 +167,28 @@ public class PlayerUtil extends Wrapper {
 		return false;
 	}
 
+	public float normalizeAngle(float ang) {
+		return MathHelper.wrapAngleTo180_float((ang + 180.0F) % 360.0F - 180.0F);
+	}
+
+	public float[] smoothAngles(float[] newAngles, float[] oldAngles, int percentage) {
+		float[] smoothAngles = new float[] { 0, 0 };
+		if (percentage < 0) {
+			percentage = 0;
+		} else if (percentage > 99) {
+			percentage = 99;
+		}
+
+		smoothAngles[0] = normalizeAngle(newAngles[0] - oldAngles[0]);
+		smoothAngles[1] = normalizeAngle(newAngles[1] - oldAngles[1]);
+
+		smoothAngles[0] = normalizeAngle(oldAngles[0] + smoothAngles[0] / 100 * (100 - percentage));
+		smoothAngles[1] = normalizeAngle(oldAngles[1] + smoothAngles[1] / 100 * (100 - percentage));
+
+		return new float[] { MathHelper.wrapAngleTo180_float(smoothAngles[0]),
+				MathHelper.wrapAngleTo180_float(smoothAngles[1]) };
+	}
+
 	public static boolean canAttack(EntityPlayer targetplayer, double range) {
 		if (range == 0) {
 			return targetplayer != null && targetplayer.getUniqueID() != null && targetplayer.getHealth() != 0
