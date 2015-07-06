@@ -8,6 +8,7 @@ import net.spookysquad.spookster.event.Listener;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.manager.Manager;
+import net.spookysquad.spookster.mod.mods.Fullbright;
 import net.spookysquad.spookster.mod.mods.HUD;
 import net.spookysquad.spookster.mod.mods.NoFall;
 import net.spookysquad.spookster.mod.mods.Speed;
@@ -24,6 +25,7 @@ public class ModuleManager extends Manager implements Listener {
 		
 		spookster.eventManager.registerListener(this);
 		
+		registerModule(new Fullbright());
 		registerModule(new HUD());
 		registerModule(new NoFall());
 		registerModule(new Speed());
