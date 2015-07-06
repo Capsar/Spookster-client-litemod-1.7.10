@@ -1,5 +1,5 @@
 package net.spookysquad.spookster.event;
 
-public class TempFile {
+public class Event {
 
 }
