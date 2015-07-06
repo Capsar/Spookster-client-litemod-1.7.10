@@ -60,7 +60,7 @@ public class Speed extends Module {
 				}
 
 				boolean liquidBelow = false;
-				if(PlayerUtil.getBlock(0.0D) instanceof BlockLiquid && false /** TODO: JESUS */) {
+				if(PlayerUtil.getBlock(0.0D) instanceof BlockLiquid && (false || false) /** TODO: JESUS */) {
 					liquidBelow = true;
 					shouldSpeed = false;
 				}
