@@ -7,17 +7,23 @@ import org.lwjgl.opengl.GL11;
 public class FontUtil extends Wrapper {
 
     public static float drawString(String text, float x, float y, int color) {
-    	return getFont().drawString(text, (int) x, (int) y, color, false);
+    	GL11.glTranslatef(x, y, 0);
+    	float returnFloat = getFont().drawString(text, 0, 0, color, false);
+    	GL11.glTranslatef(-x, -y, 0);
+    	return returnFloat;
     }
     
     public static float drawStringWithShadow(String text, float x, float y, int color) {
-    	return getFont().drawString(text, (int) x, (int) y, color, true);
+    	GL11.glTranslatef(x, y, 0);
+    	float returnFloat = getFont().drawString(text, 0, 0, color, true);
+    	GL11.glTranslatef(-x, -y, 0);
+    	return returnFloat;
     }
     
     public static float drawStringWithShadow(String text, float x, float y, int color, float width, int shadowColor) {
-    	GL11.glTranslated(width, width, 0);
+    	GL11.glTranslatef(width, width, 0);
     	drawString(stripColorCodes(text), x, y, shadowColor);
-    	GL11.glTranslated(-width, -width, 0);
+    	GL11.glTranslatef(-width, -width, 0);
     	return drawString(text, x, y, color);
     }
 
