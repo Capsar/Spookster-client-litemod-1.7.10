@@ -1,9 +1,13 @@
 package net.spookysquad.spookster;
 
 import java.io.File;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.INetHandler;
+import net.minecraft.network.Packet;
 
+import com.mumfrey.liteloader.PacketHandler;
 import com.mumfrey.liteloader.Tickable;
 
 /**
@@ -12,7 +16,7 @@ import com.mumfrey.liteloader.Tickable;
  * 
  * @author TehNeon
  */
-public class LiteModHijacked implements Tickable {
+public class LiteModHijacked implements Tickable, PacketHandler {
 
 	private Spookster spookster = new Spookster();
 
@@ -34,6 +38,14 @@ public class LiteModHijacked implements Tickable {
 
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
 		spookster.onTick(minecraft, partialTicks, inGame, clock);
+	}
+
+	public List<Class<? extends Packet>> getHandledPackets() {
+		return spookster.getHandledPackets();
+	}
+
+	public boolean handlePacket(INetHandler netHandler, Packet packet) {
+		return spookster.handlePacket(netHandler, packet);
 	}
 
 }

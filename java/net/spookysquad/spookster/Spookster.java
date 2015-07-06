@@ -20,8 +20,9 @@ import org.lwjgl.input.Mouse;
 
 import com.google.common.collect.ImmutableList;
 import com.mumfrey.liteloader.PacketHandler;
+import com.mumfrey.liteloader.Tickable;
 
-public class Spookster implements PacketHandler {
+public class Spookster implements PacketHandler, Tickable {
 
 	private ArrayList<Manager> managers = new ArrayList<Manager>();
 	public static Spookster instance;
