@@ -24,8 +24,10 @@ public class ModuleManager extends Manager implements Listener {
 	}
 	
 	public void deinit(Spookster spookster) {
-		
 		spookster.eventManager.unregisterListener(this);
+		for(Module mod: modules) {
+			unregisterModule(mod);
+		}
 	}
 	
 	public void registerModule(Module module) {
