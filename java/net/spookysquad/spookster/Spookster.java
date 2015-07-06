@@ -4,18 +4,22 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
-import com.mumfrey.liteloader.PacketHandler;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S0EPacketSpawnObject;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.spookysquad.spookster.event.EventManager;
+import net.spookysquad.spookster.event.events.EventKeyPressed;
+import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.event.events.EventPacketGet;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.ModuleManager;
+
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
+import com.google.common.collect.ImmutableList;
+import com.mumfrey.liteloader.PacketHandler;
 
 public class Spookster implements PacketHandler {
 
@@ -33,19 +37,40 @@ public class Spookster implements PacketHandler {
 		return "LiteAPI";
 	}
 
-	public void upgradeSettings(String version, File configPath,
-			File oldConfigPath) {
+	public void upgradeSettings(String version, File configPath, File oldConfigPath) {
 
 	}
 
-	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame,
-			boolean clock) {
+	private boolean[] keys = new boolean[256 + 15];
+	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
+		if (inGame && minecraft.inGameHasFocus) {
+			for (int i = 0; i < 256 + 15; i++) {
+				if (i < 256) {
+					if (Keyboard.isKeyDown(i) != keys[i]) {
+						keys[i] = !keys[i];
 
+						if (keys[i]) {
+							EventKeyPressed event = new EventKeyPressed(i);
+							eventManager.callEvent(event);
+						}
+					}
+				} else {
+					if (Mouse.isButtonDown(i - 256) != keys[i]) {
+						keys[i] = !keys[i];
+						if (keys[i]) {
+							EventMouseClicked event = new EventMouseClicked(i - 256);
+							eventManager.callEvent(event);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	public void init(File configPath) {
-		System.out.println("Loading up Spookster, Spooky-Squad " + this.getVersion());
+		System.out.println(configPath.getAbsolutePath());
+
 		instance = this;
 		managers.add(eventManager = new EventManager());
 		managers.add(moduleManager = new ModuleManager());
@@ -73,8 +98,7 @@ public class Spookster implements PacketHandler {
 	public boolean handlePacket(INetHandler netHandler, Packet packet) {
 		EventPacketGet packetGet = new EventPacketGet(packet);
 		eventManager.callEvent(packetGet);
-		if(packetGet.isCancelled())
-			return false;
+		if (packetGet.isCancelled()) return false;
 		return true;
 	}
 }
