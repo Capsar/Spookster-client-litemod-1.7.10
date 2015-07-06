@@ -1,8 +1,10 @@
 package net.spookysquad.spookster.mod.mods;
 
+import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 
@@ -14,6 +16,16 @@ public class XRay extends Module {
 
 	public void onEvent(Event event) {
 		
+	}
+	
+	public boolean onEnable() {
+		Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		return true;
+	}
+
+	public boolean onDisable() {
+		Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		return true;
 	}
 
 }
