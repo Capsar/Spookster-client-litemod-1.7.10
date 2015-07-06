@@ -39,7 +39,7 @@ public class Speed extends Module {
 		GameUtil.setGameSpeed(1.0F);
         Blocks.ice.slipperiness = 0.98F;
         Blocks.packed_ice.slipperiness = 0.98F;
-		return false;
+		return true;
 	}
 
 	@Override
