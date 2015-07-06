@@ -6,14 +6,17 @@ import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Listener;
 
 public abstract class Module implements Listener {
-	private String name;
+	
+	private String[] name;
+	private int selectedAlias;
+	
 	private Type type;
 	private String desc;
 	private int color;
 	private int keyCode;
 	private boolean state = false;
 
-	public Module(String name, String desc, Type type, String keybind, int color) {
+	public Module(String[] name, String desc, Type type, String keybind, int color) {
 		this.name = name;
 		this.desc = desc;
 		this.type = type;
@@ -21,8 +24,19 @@ public abstract class Module implements Listener {
 		this.keyCode = Keyboard.getKeyIndex(keybind);
 	}
 
-	public String getName() {
+	public String[] getName() {
 		return this.name;
+	}
+	
+	public String getDisplay() {
+		if(getName()[selectedAlias] != null) {
+			return getName()[selectedAlias];
+		}
+		return getClass().getSimpleName().replaceAll("Module", "");
+	}
+	
+	public int getSelected() {
+		return selectedAlias;
 	}
 
 	public Type getType() {
@@ -53,7 +67,7 @@ public abstract class Module implements Listener {
 		this.type = type;
 	}
 
-	public void setName(String moduleName) {
+	public void setName(String[] moduleName) {
 		this.name = moduleName;
 	}
 
