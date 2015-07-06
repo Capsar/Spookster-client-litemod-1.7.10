@@ -25,7 +25,7 @@ public class LiteModHijacked implements Tickable {
 	}
 
 	public void init(File configPath) {
-		spookster.init();
+		spookster.init(configPath);
 	}
 
 	public void upgradeSettings(String version, File configPath, File oldConfigPath) {
