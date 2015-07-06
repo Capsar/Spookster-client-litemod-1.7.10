@@ -19,12 +19,14 @@ public class XRay extends Module {
 	}
 	
 	public boolean onEnable() {
-		Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200, (int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200, (int) getPlayer().posZ + 200);
+//		Wrapper.getMinecraft().renderGlobal.loadRenderers();
 		return true;
 	}
 
 	public boolean onDisable() {
-		Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200, (int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200, (int) getPlayer().posZ + 200);
+//		Wrapper.getMinecraft().renderGlobal.loadRenderers();
 		return true;
 	}
 
