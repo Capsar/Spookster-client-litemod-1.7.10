@@ -1,13 +1,13 @@
 package net.spookysquad.spookster.event;
 
-import java.util.ArrayList;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.manager.Manager;
 
 public class EventManager extends Manager {
 
-	private ArrayList<Listener> listeners = new ArrayList<Listener>();
+	private CopyOnWriteArrayList<Listener> listeners = new CopyOnWriteArrayList<Listener>();
 	
 	public void init(Spookster spookster) {
 		
