@@ -14,10 +14,8 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.events.EventAttackEntity;
@@ -28,8 +26,8 @@ import net.spookysquad.spookster.event.events.EventPacketSend;
 import net.spookysquad.spookster.event.events.EventPostMotion;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.event.events.EventPushOutOfBlocks;
-import net.spookysquad.spookster.event.events.EventRenderBlock;
 import net.spookysquad.spookster.event.events.EventRenderNameTag;
+import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.utils.PacketUtil;
 
 import com.mumfrey.liteloader.transformers.event.EventInfo;
@@ -69,7 +67,9 @@ public class GameEvents {
 
 	public static void onRenderBlockByRenderTypeEvent(final ReturnEventInfo<RenderBlocks, Boolean> e, final Block block,
 			final int x, final int y, final int z) {
-
+		if(Spookster.instance.moduleManager.getModule(XRay.class).isEnabled()) {
+			
+		}
 		/*
 		 * e.getSource().setRenderAllFaces(false); final EventRenderBlock event
 		 * = new EventRenderBlock(block);
