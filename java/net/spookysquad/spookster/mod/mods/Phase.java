@@ -3,8 +3,8 @@ package net.spookysquad.spookster.mod.mods;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventBoundingBox;
-import net.spookysquad.spookster.event.events.EventGameTick;
 import net.spookysquad.spookster.event.events.EventInOpaqueBlock;
+import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.event.events.EventPushOutOfBlocks;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
@@ -36,8 +36,8 @@ public class Phase extends Module {
 			if(PlayerUtil.isInsideBlock() && event.getY() > getPlayer().boundingBox.minY - 0.001F) {
 				event.setBoundingBox(null);
 			}
-		}else if (e instanceof EventGameTick) {			
-			if(getPlayer().isCollidedHorizontally && getPlayer().onGround && !PlayerUtil.isInsideBlock()) {
+		}else if (e instanceof EventPreMotion) {			
+			if(getPlayer().isCollidedHorizontally && !PlayerUtil.isInsideBlock()) {
 				float dir = getPlayer().rotationYaw;
 				
 				if(getPlayer().moveForward < 0.0F) {
