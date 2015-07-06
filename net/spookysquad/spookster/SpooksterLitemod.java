@@ -8,6 +8,8 @@ import com.mumfrey.liteloader.Tickable;
 
 public class SpooksterLitemod implements Tickable {
 
+	private Spookster spookster;
+	
 	// Useless
 	public String getVersion() {
 		return null;
@@ -19,7 +21,8 @@ public class SpooksterLitemod implements Tickable {
 	}
 
 	public void init(File configPath) {	
-		
+		spookster = new Spookster();
+		spookster.init();
 	}
 
 	public void upgradeSettings(String version, File configPath, File oldConfigPath) {	
