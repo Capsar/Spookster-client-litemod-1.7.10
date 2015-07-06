@@ -44,7 +44,7 @@ public class NoFall extends Module {
 
 		// TODO: Add more ways of checking if can land
 
-		return Wrapper.getPlayer().isOnLadder() || Wrapper.getPlayer().isInWater();
+		return getPlayer().isOnLadder() || getPlayer().isInWater();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class NoFall extends Module {
 		if (e instanceof EventPreMotion) {
 			EventPreMotion event = (EventPreMotion) e;
 			
-			fallDistance += Wrapper.getPlayer().fallDistance;
+			fallDistance += getPlayer().fallDistance;
 			
 			if (fallDistance > 3 && isSafe()) {
 				land = 0;
@@ -63,7 +63,7 @@ public class NoFall extends Module {
 				C06PacketPlayerPosLook packet = PacketUtil.forcedC06Packet((C03PacketPlayer) event.getPacket());
 				if (land < 1) {
 					event.setPacket(new C03PacketPlayer.C06PacketPlayerPosLook(packet.getPositionX(),
-							Wrapper.getPlayer().boundingBox.minY + (land == -1 ? 0.6F : 0.3F), Wrapper.getPlayer().posY
+							getPlayer().boundingBox.minY + (land == -1 ? 0.6F : 0.3F), getPlayer().posY
 									+ (land == -1 ? 0.6F : 0.3F), packet.getPositionZ(), packet.getYaw(), packet.getPitch(), false));
 					
 					if (land == 0) {

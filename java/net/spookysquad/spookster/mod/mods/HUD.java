@@ -8,6 +8,7 @@ import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.utils.FontUtil;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
 
 public class HUD extends Module {
 
@@ -19,13 +20,22 @@ public class HUD extends Module {
 		if(event instanceof EventPostHudRender) {
 			FontUtil fontRenderer = new FontUtil();
 
-			fontRenderer.drawStringWithShadow("Spookster", 2, 6.5F, 0xffffff, 0.7F);
+			GL11.glPushMatrix();
+			GL11.glScalef(1.5F, 1.5F, 1.5F);
+			fontRenderer.drawStringWithShadow("S", 1, 1, 0xFFFFFFFF, 0.35F);
+			GL11.glPopMatrix();
+			fontRenderer.drawStringWithShadow("pookster", 10, 5, 0xFFFFFFFF, 0.7F);
+			GL11.glPushMatrix();
+			GL11.glScalef(0.5F, 0.5F, 0.5F);
+			fontRenderer.drawStringWithShadow("(§aWeed§f)", 21, 3, 0xFFFFFFFF, 1.4F);
+			GL11.glPopMatrix();
 			
-			int posY = 2;
+			int posY = 14;
 			for(Module mod: Spookster.instance.moduleManager.getModules()) {
 				if(mod.isEnabled()) {
 					if(mod.getColor() != -1) {
-						fontRenderer.drawStringWithShadow(mod.getDisplay(), 2, posY += 10, mod.getColor(), 0.7F);
+						fontRenderer.drawStringWithShadow(mod.getDisplay(), 2, posY, mod.getColor(), 0.7F);
+						posY += 9;
 					}
 				}
 			}

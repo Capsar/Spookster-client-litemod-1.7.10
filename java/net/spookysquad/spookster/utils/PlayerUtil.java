@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
+import net.minecraft.block.Block;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.stats.StatList;
@@ -15,6 +16,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
 
 public class PlayerUtil extends Wrapper {
 
@@ -142,8 +145,7 @@ public class PlayerUtil extends Wrapper {
 
 		float yaw = (float) (Math.atan2(zDist, xDist) * 180.0D / Math.PI) - 90.0F;
 		float pitch = (float) -(Math.atan2(yDist, dist) * 180.0D / Math.PI);
-		if (alsoPitch)
-			getPlayer().rotationPitch = updateRotation(getPlayer().rotationPitch, pitch, rate);
+		if (alsoPitch) getPlayer().rotationPitch = updateRotation(getPlayer().rotationPitch, pitch, rate);
 		getPlayer().rotationYaw = updateRotation(getPlayer().rotationYaw, yaw, rate);
 	}
 
@@ -157,7 +159,7 @@ public class PlayerUtil extends Wrapper {
 		}
 		return current + var4;
 	}
-	
+
 	public static boolean shouldAim(int degree, EntityLivingBase livingbase) {
 		float[] angles = getAngles(livingbase, getPlayer());
 		float yawDist = getDistanceBetweenAngle(getPlayer().rotationYaw, angles[0]);
@@ -178,5 +180,16 @@ public class PlayerUtil extends Wrapper {
 					&& getPlayer().getHeldItem() != null && getPlayer().getHeldItem().getItem() instanceof ItemSword
 					&& !getPlayer().isUsingItem() && getMinecraft().inGameHasFocus;
 		}
+	}
+
+	public static boolean isMoving() {
+		return getMinecraft().gameSettings.keyBindLeft.getIsKeyPressed()
+				|| getMinecraft().gameSettings.keyBindRight.getIsKeyPressed()
+				|| getMinecraft().gameSettings.keyBindForward.getIsKeyPressed()
+				|| getMinecraft().gameSettings.keyBindBack.getIsKeyPressed();
+	}
+
+	public static Block getBlock(double offset) {
+		return BlockUtil.getBlock(getPlayer().boundingBox.copy().offset(0.0D, offset, 0.0D));
 	}
 }
