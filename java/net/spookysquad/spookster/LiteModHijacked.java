@@ -33,9 +33,7 @@ public class LiteModHijacked implements Tickable, PacketHandler, HUDRenderListen
 		spookster.init(configPath);
 	}
 
-	public void upgradeSettings(String version, File configPath, File oldConfigPath) {
-		spookster.upgradeSettings(version, configPath, oldConfigPath);
-	}
+	public void upgradeSettings(String version, File configPath, File oldConfigPath) {}
 
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
 		spookster.onTick(minecraft, partialTicks, inGame, clock);

@@ -16,6 +16,7 @@ public abstract class Module extends Wrapper implements Listener {
 	private int color;
 	private int keyCode;
 	private boolean state = false;
+	private boolean visible = true;
 
 	public Module(String[] name, String desc, Type type, int keybind, int color) {
 		this.name = name;
@@ -64,6 +65,10 @@ public abstract class Module extends Wrapper implements Listener {
 		return keyCode;
 	}
 
+	public boolean isVisible() {
+		return visible;
+	}
+	
 	public void setColor(int color) {
 		this.color = color;
 	}
@@ -91,7 +96,11 @@ public abstract class Module extends Wrapper implements Listener {
 		this.keyCode = keyCode;
 	}
 
-	public void toggle() {
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public void toggle(boolean safeToFile) {
 		this.state = !this.state;
 		if (this.state) {
 			if (onEnable()) {
@@ -115,4 +124,5 @@ public abstract class Module extends Wrapper implements Listener {
 	public boolean onDisable() {
 		return true;
 	}
+
 }
