@@ -7,6 +7,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 
+import com.mumfrey.liteloader.HUDRenderListener;
 import com.mumfrey.liteloader.PacketHandler;
 import com.mumfrey.liteloader.Tickable;
 
@@ -16,7 +17,7 @@ import com.mumfrey.liteloader.Tickable;
  * 
  * @author TehNeon
  */
-public class LiteModHijacked implements Tickable, PacketHandler {
+public class LiteModHijacked implements Tickable, PacketHandler, HUDRenderListener {
 
 	private Spookster spookster = new Spookster();
 
@@ -46,6 +47,14 @@ public class LiteModHijacked implements Tickable, PacketHandler {
 
 	public boolean handlePacket(INetHandler netHandler, Packet packet) {
 		return spookster.handlePacket(netHandler, packet);
+	}
+
+	public void onPreRenderHUD(int screenWidth, int screenHeight) {
+		spookster.onPreRenderHUD(screenWidth, screenHeight);
+	}
+	
+	public void onPostRenderHUD(int screenWidth, int screenHeight) {
+		spookster.onPostRenderHUD(screenWidth, screenHeight);
 	}
 
 }

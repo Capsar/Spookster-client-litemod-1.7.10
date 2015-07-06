@@ -12,6 +12,8 @@ import net.spookysquad.spookster.event.EventManager;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.event.events.EventPacketGet;
+import net.spookysquad.spookster.event.events.EventPostHudRender;
+import net.spookysquad.spookster.event.events.EventPreHudRender;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.ModuleManager;
 
@@ -19,10 +21,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.google.common.collect.ImmutableList;
+import com.mumfrey.liteloader.HUDRenderListener;
 import com.mumfrey.liteloader.PacketHandler;
 import com.mumfrey.liteloader.Tickable;
 
-public class Spookster implements PacketHandler, Tickable {
+public class Spookster implements PacketHandler, Tickable, HUDRenderListener {
 
 	private ArrayList<Manager> managers = new ArrayList<Manager>();
 	public static Spookster instance;
@@ -101,5 +104,14 @@ public class Spookster implements PacketHandler, Tickable {
 		eventManager.callEvent(packetGet);
 		if (packetGet.isCancelled()) return false;
 		return true;
+	}
+
+	public void onPreRenderHUD(int screenWidth, int screenHeight) {
+		eventManager.callEvent(new EventPreHudRender(screenWidth, screenHeight));
+	
+	}
+
+	public void onPostRenderHUD(int screenWidth, int screenHeight) {
+		eventManager.callEvent(new EventPostHudRender(screenWidth, screenHeight));
 	}
 }

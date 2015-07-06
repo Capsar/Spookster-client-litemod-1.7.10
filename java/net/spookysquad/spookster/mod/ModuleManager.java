@@ -8,6 +8,7 @@ import net.spookysquad.spookster.event.Listener;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.manager.Manager;
+import net.spookysquad.spookster.mod.mods.HUD;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 
 public class ModuleManager extends Manager implements Listener {
@@ -20,7 +21,8 @@ public class ModuleManager extends Manager implements Listener {
 		
 		spookster.eventManager.registerListener(this);
 		
-		registerModule(new Triggerbot());
+		registerModule(new HUD(spookster));
+		registerModule(new Triggerbot(spookster));
 	}
 	
 	public void deinit(Spookster spookster) {
