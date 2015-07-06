@@ -3,6 +3,7 @@ package net.spookysquad.spookster.mod.mods;
 import net.minecraft.block.BlockIce;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.BlockPackedIce;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventPreMotion;
@@ -24,8 +25,17 @@ public class Speed extends Module {
 	}
 	
 	@Override
+	public boolean onEnable() {
+        Blocks.ice.slipperiness = 0.6F;
+        Blocks.packed_ice.slipperiness = 0.6F;
+		return true;
+	}
+	
+	@Override
 	public boolean onDisable() {
 		GameUtil.setGameSpeed(1.0F);
+        Blocks.ice.slipperiness = 0.98F;
+        Blocks.packed_ice.slipperiness = 0.98F;
 		return true;
 	}
 
