@@ -16,12 +16,12 @@ public abstract class Module implements Listener {
 	private int keyCode;
 	private boolean state = false;
 
-	public Module(String[] name, String desc, Type type, String keybind, int color) {
+	public Module(String[] name, String desc, Type type, int keybind, int color) {
 		this.name = name;
 		this.desc = desc;
 		this.type = type;
 		this.color = color;
-		this.keyCode = Keyboard.getKeyIndex(keybind);
+		this.keyCode = keybind;
 	}
 
 	public String[] getName() {
