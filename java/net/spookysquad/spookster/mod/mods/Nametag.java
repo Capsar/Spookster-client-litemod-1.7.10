@@ -48,7 +48,7 @@ public class Nametag extends Module implements HasValues {
 
 	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
 		
-		if (Friends.isFriend(name) && friends) {
+		if (Friends.isFriend(entity.getCommandSenderName()) && friends) {
 			 name = "\247b[FR]\247r | " + name; 
 		}
 		 
