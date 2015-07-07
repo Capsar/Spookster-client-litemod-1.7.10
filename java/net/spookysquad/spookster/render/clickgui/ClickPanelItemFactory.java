@@ -126,7 +126,7 @@ public class ClickPanelItemFactory {
 		public boolean editProperties;
 		protected ClickPanel panel;
 		protected double fX, fY, ticky;
-		private static final ResourceLocation ICON = new ResourceLocation("spookster", "textures/Small_LittleGhost.png");
+		private static final ResourceLocation ICON = new ResourceLocation("spookster", "textures/GExtra_Small_Ghost.png");
 
 		public EditablePanelItem(ClickPanel panel, Module module) {
 			super(module);
@@ -179,7 +179,7 @@ public class ClickPanelItemFactory {
 		}
 
 		public void drawEditableIcon(double posX, double posY) {
-			float size = 11.5F;
+			float size = 11F;
 			if (this.getModule().isEnabled()) drawTexturedRectangle(ICON, posX + xWidth - size - 1, posY - 3.5, size, size, 0.18F, 0.8F, 0.443F);
 			else drawTexturedRectangle(ICON, posX + xWidth - size - 1, posY - 3.5, size, size, 1, 1, 1);
 		}

@@ -48,10 +48,6 @@ public class ClickPanel extends FontUtil {
 		setState(true);
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public Type getType() {
 		return type;
 	}
@@ -96,12 +92,12 @@ public class ClickPanel extends FontUtil {
 	}
 
 	public void drawPanel(int x, int y) {
-		int width = Wrapper.getFont().getStringWidth(this.getName()) + 10;
+		int width = Wrapper.getFont().getStringWidth(name) + 10;
 		GuiUtil.drawSexyRect(posX, posY, posX + panelWidth, posY + panelHeight - 1, 0xaa808080, 0x00000000);
 		GuiUtil.drawRect(posX, posY + topHeight, posX + panelWidth, posY + panelHeight - 1, 0xFF34495E);
 		GuiUtil.drawRect(posX, posY, posX + panelWidth, posY + topHeight, 0xFF34495E);
 		GuiUtil.drawRect(posX + panelWidth - topHeight, posY, posX + panelWidth, posY + topHeight, this.getState() ? 0xFF2ECC71 : 0xFF2C3E50);
-		FontUtil.drawStringWithShadow(this.getName(), (float) posX + 1, (float) posY + 2F, 0xFFFFFF, 0.70F, 1.15F);
+		FontUtil.drawStringWithShadow(name, (float) posX + 1, (float) posY + 2F, 0xFFFFFF, 0.70F, 1.15F);
 
 		if (this.getState()) {
 			int h = topHeight + 4;
@@ -116,7 +112,7 @@ public class ClickPanel extends FontUtil {
 	}
 
 	public boolean leftClickPanel(int x, int y) {
-		int width = Wrapper.getFont().getStringWidth(getName()) + 19;
+		int width = Wrapper.getFont().getStringWidth(name) + 19;
 		timer = 0;
 		if (y >= posY && y <= (posY + 10) && (x >= posX && x <= (posX + 78))) {
 			if (screen.isFirst(this) && getDist(x, y) <= 10 && !isBeingDragged()) {
