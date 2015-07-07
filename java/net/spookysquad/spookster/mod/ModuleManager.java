@@ -23,6 +23,7 @@ import net.spookysquad.spookster.mod.mods.NoFall;
 import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.Speed;
 import net.spookysquad.spookster.mod.mods.Step;
+import net.spookysquad.spookster.mod.mods.Title;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.utils.ValueUtil;
@@ -53,6 +54,7 @@ public class ModuleManager extends Manager implements Listener {
 				new Phase(),
 				new Speed(),
 				new Step(),
+				new Title(),
 				new Triggerbot(),
 				new XRay()
 				));
