@@ -41,6 +41,7 @@ public class Spookster {
 
 	public static final String clientName = "Spookster";
 	public static final String clientAuthor = "Capsar, TehNeon & Rederpz";
+	public static final String clientVersion = "0.69";
 	public static String clientPrefix = "..";
 	public static boolean clientEnabled = false;
 	public static final File SAVE_LOCATION = Wrapper.getMinecraft().mcDataDir;
@@ -128,7 +129,7 @@ public class Spookster {
 			JsonObject client = new JsonObject();
 			client.addProperty("NAME", clientName);
 			client.addProperty("AUTHOR", clientAuthor);
-			client.addProperty("VERSION", getVersion());
+			client.addProperty("VERSION", clientVersion);
 			client.addProperty("CHATPREFIX", clientPrefix);
 			root.add("client", client);
 
