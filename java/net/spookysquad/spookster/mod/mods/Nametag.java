@@ -104,10 +104,11 @@ public class Nametag extends Module implements HasValues {
 		GL11.glPopMatrix();
 	}
 
-	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible", SCALEFACTOR = "Scale Factor",
-			SCALEDISTANCE = "Scale Distance";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(SNEAK, false, true), new Value(FRIENDS, false, true),
-			new Value(HEALTH, false, true), new Value(INVISIBLE, false, true), new Value(SCALEFACTOR, 0.1D, 4D, 0.1F), new Value(SCALEDISTANCE, 0, 32, 1) });
+	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible",
+			SCALEFACTOR = "Scale Factor", SCALEDISTANCE = "Scale Distance";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(SCALEFACTOR, 0.1D, 4D, 0.1F),
+			new Value(SCALEDISTANCE, 0, 32, 1), new Value(SNEAK, false, true), new Value(FRIENDS, false, true),
+			new Value(HEALTH, false, true), new Value(INVISIBLE, false, true) });
 
 	@Override
 	public List<Value> getValues() {
@@ -116,12 +117,13 @@ public class Nametag extends Module implements HasValues {
 
 	@Override
 	public Object getValue(String n) {
-		if (n.equals(SNEAK)) return sneak;
+		if (n.equals(SCALEFACTOR)) return scaleFactor;
+		else if (n.equals(SCALEDISTANCE)) return scaleDistance;
+		else if (n.equals(SNEAK)) return sneak;
 		else if (n.equals(FRIENDS)) return friends;
 		else if (n.equals(HEALTH)) return health;
 		else if (n.equals(INVISIBLE)) return invisibles;
-		else if (n.equals(SCALEFACTOR)) return scaleFactor;
-		else if (n.equals(SCALEDISTANCE)) return scaleDistance;
+
 		return null;
 	}
 
