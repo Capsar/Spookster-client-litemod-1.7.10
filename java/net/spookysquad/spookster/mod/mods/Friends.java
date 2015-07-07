@@ -31,7 +31,7 @@ public class Friends extends Module implements HasValues {
 	public boolean onDisable() {
 		return false;
 	};
-	
+
 	private static HashSet<Friend> friends = new HashSet<Friend>();
 
 	public void onEvent(Event event) {
@@ -42,13 +42,16 @@ public class Friends extends Module implements HasValues {
 					Entity entity = PlayerUtil.getEntityOnMouseCurser(5);
 					if (entity instanceof EntityPlayer) {
 						EntityPlayer player = (EntityPlayer) entity;
-						friends.add(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
+						if (getFriend(player.getCommandSenderName()) == null)
+							friends.add(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
+						else
+							friends.remove(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
 					}
 				}
 			}
 		}
 	}
-	
+
 	public static boolean isFriend(String name) {
 		return getFriend(name) == null ? false : !getFriend(name).isAttackable();
 	}
@@ -66,7 +69,6 @@ public class Friends extends Module implements HasValues {
 	private String FRIENDS = "Friends";
 	List<Value> values = Arrays.asList(new Value[] { new Value(FRIENDS, friends, Friend.class) });
 
-	
 	@Override
 	public List<Value> getValues() {
 		List<Value> tempList = new ArrayList<Value>();
@@ -164,8 +166,7 @@ public class Friends extends Module implements HasValues {
 		private Friends getOuterType() {
 			return Friends.this;
 		}
-		
-		
+
 	}
 
 }
