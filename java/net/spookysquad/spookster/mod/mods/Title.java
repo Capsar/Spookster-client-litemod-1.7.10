@@ -26,7 +26,7 @@ public class Title extends Module {
 		if(event instanceof EventPreMotion) {
 			String theTitle = "";
 			for(Module mod: Spookster.instance.moduleManager.getModules()) {
-				if(mod.isEnabled()) {
+				if(mod.isEnabled() && mod != this) {
 					theTitle = theTitle + mod.getDisplay() + ", ";
 				}
 			}
