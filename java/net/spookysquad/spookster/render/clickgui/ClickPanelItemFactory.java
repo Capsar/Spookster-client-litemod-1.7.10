@@ -153,9 +153,9 @@ public class ClickPanelItemFactory {
 						Integer min = (Integer) ps.getMin();
 						Integer max = (Integer) ps.getMax();
 						int d = (Integer) ob;
-						total += FontUtil.getFontHeight() * 0.5 + 2;
+						total += FontUtil.getFontHeight() * 0.5;
 						drawStringWithShadow(ps.getName() + ": " + ob.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF, 0.7F);
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
 						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, d), posY + 5 + total, 0xFF2ECC71);
 						drawRect(posX + getWidth(width, min, max, d) - (d <= min + 0.1 ? 0 : 0.5), posY + total, posX
@@ -164,9 +164,9 @@ public class ClickPanelItemFactory {
 						Double min = (Double) ps.getMin();
 						Double max = (Double) ps.getMax();
 						double d = (Double) ob;
-						total += FontUtil.getFontHeight() * 0.5 + 2;
+						total += FontUtil.getFontHeight() * 0.5;
 						drawStringWithShadow(ps.getName() + ": " + ob.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF);
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
 						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, d), posY + 5 + total, 0xFF2ECC71);
 						drawRect(posX + getWidth(width, min, max, d) - (d <= min + 0.1 ? 0 : 0.5), posY + total, posX
@@ -175,9 +175,9 @@ public class ClickPanelItemFactory {
 						Float min = (Float) ps.getMin();
 						Float max = (Float) ps.getMax();
 						float d = (Float) ob;
-						total += FontUtil.getFontHeight() * 0.5 + 2;
+						total += FontUtil.getFontHeight() * 0.5;
 						drawStringWithShadow(ps.getName() + ": " + ob.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF);
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
 						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, d), posY + 5 + total, 0xFF2ECC71);
 						drawRect(posX + getWidth(width, min, max, d) - (d <= min + 0.1 ? 0 : 0.5), posY + total, posX
@@ -227,8 +227,8 @@ public class ClickPanelItemFactory {
 						int max = (Integer) ps.getMax();
 						int d = (int) (x - posX);
 						int value = MathHelper.ceiling_double_int(getWidth(max - min, 0, width, d));
-						total += FontUtil.getFontHeight() * 0.5 + 2;
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
@@ -238,8 +238,8 @@ public class ClickPanelItemFactory {
 						double max = (Double) ps.getMax();
 						double d = x - posX;
 						double value = getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5 + 2;
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
@@ -249,8 +249,8 @@ public class ClickPanelItemFactory {
 						float max = (Float) ps.getMax();
 						float d = (float) (x - posX);
 						float value = (float) getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5 + 2;
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
@@ -311,8 +311,8 @@ public class ClickPanelItemFactory {
 						int max = (Integer) ps.getMax();
 						int d = (int) (x - posX);
 						int value = MathHelper.ceiling_double_int(getWidth(max - min, 0, width, d));
-						total += FontUtil.getFontHeight() * 0.5 + 2;
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
@@ -322,8 +322,8 @@ public class ClickPanelItemFactory {
 						double max = (Double) ps.getMax();
 						double d = x - posX;
 						double value = getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5 + 2;
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 
 						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
@@ -334,8 +334,8 @@ public class ClickPanelItemFactory {
 						float max = (Float) ps.getMax();
 						float d = (float) (x - posX);
 						float value = (float) getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5 + 2;
-						total += FontUtil.getFontHeight() * 0.5 + 6;
+						total += FontUtil.getFontHeight() * 0.5;
+						total += FontUtil.getFontHeight() * 0.5 + 1;
 						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
