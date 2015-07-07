@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Map;
 
+import org.lwjgl.input.Keyboard;
+
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.Listener;
@@ -100,16 +102,34 @@ public class ModuleManager extends Manager implements Listener {
 	public void onEvent(Event event) {
 		if (event instanceof EventKeyPressed) {
 			EventKeyPressed pressed = (EventKeyPressed) event;
-			for (Module m : getModules()) {
-				if (m.getKeyCode() == pressed.getKey()) {
-					m.toggle(true);
+			if(!Spookster.clientDisabled) {
+				for (Module m : getModules()) {
+					if (m.getKeyCode() == pressed.getKey()) {
+						m.toggle(true);
+					}
+				}
+				if(pressed.getKey() == Keyboard.KEY_UP && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+					Spookster.clientDisabled = true;
+					for(Module m: getModules()) {
+						if(m.isEnabled()) {
+							m.toggle(true);
+						}
+					}
+				}
+			} else {
+				if(pressed.getKey() == Keyboard.KEY_UP && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+					Spookster.clientDisabled = false;
 				}
 			}
+			
+			
 		} else if (event instanceof EventMouseClicked) {
 			EventMouseClicked pressed = (EventMouseClicked) event;
-			for (Module m : getModules()) {
-				if (m.getKeyCode() + 256 == pressed.getButton()) {
-					m.toggle(true);
+			if(!Spookster.clientDisabled) {
+				for (Module m : getModules()) {
+					if (m.getKeyCode() + 256 == pressed.getButton()) {
+						m.toggle(true);
+					}
 				}
 			}
 		}

@@ -41,6 +41,7 @@ public class Spookster {
 	public static final String clientName = "Spookster";
 	public static final String clientAuthor = "Capsar, TehNeon & Rederpz";
 	public static String clientPrefix = "..";
+	public static boolean clientDisabled = true;
 	public static final File SAVE_LOCATION = Wrapper.getMinecraft().mcDataDir;
 	public static final File ASSETS_LOCATION = new File(SAVE_LOCATION, "assets");
 	public static final File INDEXES_LOCATION = new File(ASSETS_LOCATION, "indexes");
@@ -138,6 +139,7 @@ public class Spookster {
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
 		EventGameTick tick = new EventGameTick();
 		tick.call();
+		
 		
 		if (inGame && minecraft.inGameHasFocus) {
 			for (int i = 0; i < 256 + 15; i++) {
