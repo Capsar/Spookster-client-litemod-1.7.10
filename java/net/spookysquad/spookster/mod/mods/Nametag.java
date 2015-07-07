@@ -43,7 +43,7 @@ public class Nametag extends Module implements HasValues {
 	public boolean health = true;
 	public boolean friends = true;
 	public boolean invisibles = true;
-	public float scaleFactor = 1.6F;
+	public double scaleFactor = 1.6d;
 	public int scaleDistance = 16;
 
 	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
@@ -59,18 +59,18 @@ public class Nametag extends Module implements HasValues {
 			name = name + " \247a" + (int) (entity.getHealth() + entity.getAbsorptionAmount());
 		}
 
-		float theScale = scaleFactor;
+		double theScale = scaleFactor;
 		FontRenderer fontRenderer = Wrapper.getMinecraft().fontRendererObj;
 		if (entity.getDistanceToEntity(Wrapper.getPlayer()) > scaleDistance) {
 			theScale *= entity.getDistanceToEntity(Wrapper.getPlayer()) / scaleDistance;
 		}
-		float currentScale = 0.016666668F * theScale;
+		double currentScale = 0.016666668F * theScale;
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) posX + 0.0F, (float) posY + entity.height + 0.5F, (float) posZ);
 		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 		GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
-		GL11.glScalef(-currentScale, -currentScale, currentScale);
+		GL11.glScaled(-currentScale, -currentScale, currentScale);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDepthMask(false);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -131,7 +131,7 @@ public class Nametag extends Module implements HasValues {
 		else if (n.equals(FRIENDS)) friends = Boolean.parseBoolean(v.toString());
 		else if (n.equals(HEALTH)) health = Boolean.parseBoolean(v.toString());
 		else if (n.equals(INVISIBLE)) invisibles = Boolean.parseBoolean(v.toString());
-		else if (n.equals(SCALEFACTOR)) scaleFactor = (Float) v;
+		else if (n.equals(SCALEFACTOR)) scaleFactor = (Double) v;
 		else if (n.equals(SCALEDISTANCE)) scaleDistance = (Integer) v;
 	}
 }
