@@ -43,7 +43,7 @@ public class Nametag extends Module implements HasValues {
 	public boolean health = true;
 	public boolean friends = true;
 	public float scaleFactor = 1.6F;
-	public float scaleDistance = 16;
+	public int scaleDistance = 16;
 
 	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
 		/*
@@ -106,7 +106,7 @@ public class Nametag extends Module implements HasValues {
 	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", SCALEFACTOR = "Scale Factor",
 			SCALEDISTANCE = "Scale Distance";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(SNEAK, false, true), new Value(FRIENDS, false, true),
-			new Value(HEALTH, false, true), new Value(SCALEFACTOR, 0.1f, 4f, 0.1f), new Value(SCALEDISTANCE, 0f, 32f, 1f) });
+			new Value(HEALTH, false, true), new Value(SCALEFACTOR, 0.1f, 4f, 0.1f), new Value(SCALEDISTANCE, 0, 32, 1) });
 
 	@Override
 	public List<Value> getValues() {
@@ -129,6 +129,6 @@ public class Nametag extends Module implements HasValues {
 		else if (n.equals(FRIENDS)) friends = Boolean.parseBoolean(v.toString());
 		else if (n.equals(HEALTH)) health = Boolean.parseBoolean(v.toString());
 		else if (n.equals(SCALEFACTOR)) scaleFactor = (Float) v;
-		else if (n.equals(SCALEDISTANCE)) scaleDistance = (Float) v;
+		else if (n.equals(SCALEDISTANCE)) scaleDistance = (Integer) v;
 	}
 }
