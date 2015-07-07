@@ -107,7 +107,7 @@ public class Nametag extends Module implements HasValues {
 	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible", SCALEFACTOR = "Scale Factor",
 			SCALEDISTANCE = "Scale Distance";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(SNEAK, false, true), new Value(FRIENDS, false, true),
-			new Value(HEALTH, false, true), new Value(INVISIBLE, false, true), new Value(SCALEFACTOR, 0.1f, 4f, 0.1f), new Value(SCALEDISTANCE, 0, 32, 1) });
+			new Value(HEALTH, false, true), new Value(INVISIBLE, false, true), new Value(SCALEFACTOR, 0.1D, 4D, 0.1F), new Value(SCALEDISTANCE, 0, 32, 1) });
 
 	@Override
 	public List<Value> getValues() {
