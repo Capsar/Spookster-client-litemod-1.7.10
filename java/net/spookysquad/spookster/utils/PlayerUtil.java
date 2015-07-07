@@ -114,17 +114,17 @@ public class PlayerUtil extends Wrapper {
 		}
 	}
 
-	public static boolean canAttack(EntityPlayer targetplayer, double range) {
+	public static boolean canAttack(EntityPlayer targetplayer, double range, boolean swordOnly) {
 		if (range == 0) {
 			return targetplayer != null && targetplayer.getUniqueID() != null && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
-					&& getPlayer().getHeldItem() != null && getPlayer().getHeldItem().getItem() instanceof ItemSword
+					&& (swordOnly ? getPlayer().getHeldItem() != null : true) && (swordOnly ? getPlayer().getHeldItem().getItem() instanceof ItemSword : true)
 					&& !getPlayer().isUsingItem() && getMinecraft().inGameHasFocus;
 		} else {
 			return targetplayer != null && getEntityOnMouseCurser(range) != null && targetplayer.getUniqueID() != null
 					&& getEntityOnMouseCurser(range).equals(targetplayer) && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
-					&& getPlayer().getHeldItem() != null && getPlayer().getHeldItem().getItem() instanceof ItemSword
+					&& (swordOnly ? getPlayer().getHeldItem() != null : true) && (swordOnly ? getPlayer().getHeldItem().getItem() instanceof ItemSword : true)
 					&& !getPlayer().isUsingItem() && getMinecraft().inGameHasFocus;
 		}
 	}

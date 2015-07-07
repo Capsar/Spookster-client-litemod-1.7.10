@@ -1,7 +1,9 @@
 package net.spookysquad.spookster.mod.mods;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlowstone;
@@ -17,6 +19,7 @@ import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -48,21 +51,46 @@ public class XRay extends Module {
 		this.brightness = getGameSettings().gammaSetting;
 		Wrapper.getGameSettings().ambientOcclusion = 0;
 		getGameSettings().gammaSetting = 100;
-		getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200,
-				(int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200,
-				(int) getPlayer().posZ + 200);
-//		Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		if(!rerenderLag) {
+			getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200,
+					(int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200,
+					(int) getPlayer().posZ + 200);
+		} else {
+			Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		}
+		
 		return super.onEnable();
 	}
 
 	public boolean onDisable() {
 		Wrapper.getGameSettings().ambientOcclusion = this.smoothLighting;
 		getGameSettings().gammaSetting = this.brightness;
-		getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200,
-				(int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200,
-				(int) getPlayer().posZ + 200);
-//		Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		if(!rerenderLag) {
+			getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200,
+					(int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200,
+					(int) getPlayer().posZ + 200);
+		} else {
+			Wrapper.getMinecraft().renderGlobal.loadRenderers();
+		}
+		
 		return super.onDisable();
+	}
+	
+	public boolean rerenderLag = false;
+	private String XRAY_RENDERER = "Rerender Lag";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(XRAY_RENDERER, false, true) });
+	
+	public List<Value> getValues() {
+		return values;
+	}
+
+	public Object getValue(String n) {
+		if(n.equals(XRAY_RENDERER)) return rerenderLag;
+		return null;
+	}
+
+	public void setValue(String n, Object v) {
+		if (n.equals(XRAY_RENDERER)) rerenderLag = Boolean.parseBoolean(v.toString());
 	}
 
 }

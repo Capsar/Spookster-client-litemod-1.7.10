@@ -14,8 +14,9 @@ import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.mods.ClickGui;
 import net.spookysquad.spookster.mod.mods.Fullbright;
-import net.spookysquad.spookster.mod.mods.HUD;
 import net.spookysquad.spookster.mod.mods.GangsterWalk;
+import net.spookysquad.spookster.mod.mods.HUD;
+import net.spookysquad.spookster.mod.mods.Nametag;
 import net.spookysquad.spookster.mod.mods.NoFall;
 import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.Speed;
@@ -41,6 +42,7 @@ public class ModuleManager extends Manager implements Listener {
 		registerModule(new Fullbright());
 		registerModule(new GangsterWalk());
 		registerModule(new HUD());
+		registerModule(new Nametag());
 		registerModule(new NoFall());
 		registerModule(new Phase());
 		registerModule(new Speed());

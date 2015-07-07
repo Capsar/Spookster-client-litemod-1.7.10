@@ -1,0 +1,10 @@
+{
+    "name": "${ant.project.name}",
+    "mcversion": "${litemodversion}",
+    "revision": "${build.number}",
+    "author": "${author}",
+    "description": "API used for other mods!\n - WorldEditWrapper\n - TabbyChat",
+    "classTransformerClasses" : [
+        "net.spookysquad.spookster.injection.Transformer"
+    ]
+}

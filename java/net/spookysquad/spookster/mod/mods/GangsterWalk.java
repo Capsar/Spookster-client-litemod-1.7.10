@@ -15,7 +15,7 @@ public class GangsterWalk extends Module {
 
 	public void onEvent(Event event) {
 		if(event instanceof EventPreMotion) {
-			getPlayer().cameraYaw -= 0.1F;
+			getPlayer().cameraYaw -= 0.5F;
 		}
 	}
 
