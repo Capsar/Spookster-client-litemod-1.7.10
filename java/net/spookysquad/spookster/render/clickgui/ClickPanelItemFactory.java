@@ -71,14 +71,14 @@ public class ClickPanelItemFactory {
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, getModule().isEnabled() ? 0xFF2ECC71 : 0xFF2C3E50);
 			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-"
 									: getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256)
-											: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF);
+											: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF, 0.70F);
 		}
 
 		public void drawPanelItemHover(double posX, double posY, int x, int y) {
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, getModule().isEnabled() ? 0xFF2ECC71 : 0xFF2C3E50);
 			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-"
 					: getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256)
-							: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF);
+							: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF, 0.70F);
 		}
 
 		@Override
@@ -139,10 +139,9 @@ public class ClickPanelItemFactory {
 			yHeight = 12;
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset - 12, posY + yHeight + yOffset, getModule().isEnabled() ? 0xFF2ECC71 : 0xFF2C3E50);
 			drawRect(posX + xOffset + xWidth - 15, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, 0xFF2C3E50);
-
 			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-"
 					: getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256)
-							: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF);
+							: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF, 0.70F);
 		
 			if (this.editProperties) {
 				int total = 2;
@@ -156,13 +155,13 @@ public class ClickPanelItemFactory {
 						int off = -4;
 						total += 12;
 						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, d ? 0xFF2ECC71 : 0xFF2C3E50);
-						drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 2 * 0.5F) - 1, 0xFFFFFFFF);
+						drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
 					} else {
 						double min = ValueUtil.toDouble(ps.getMin());
 						double max = ValueUtil.toDouble(ps.getMax());
-						total += FontUtil.getFontHeight() * 0.5;
-						drawStringWithShadow(ps.getName() + ": " + currentValue.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF, 0.7F);
-						total += FontUtil.getFontHeight() * 0.5 + 1;
+						total += FontUtil.getFontHeight() * 0.8;
+						drawStringWithShadow(ps.getName() + ": " + currentValue.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF, 0.7F, 0.8F);
+						total += FontUtil.getFontHeight() * 0.8 + 1;
 						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
 						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)), posY + 5 + total, 0xFF2ECC71);
 						drawRect(posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)) - (ValueUtil.toDouble(currentValue) <= min + 0.1 ? 0 : 0.5), posY + total, posX
@@ -180,9 +179,9 @@ public class ClickPanelItemFactory {
 		}
 
 		public void drawEditableIcon(double posX, double posY) {
-			float size = 8.999F;
-			if (this.getModule().isEnabled()) drawTexturedRectangle(ICON, posX + xWidth - 10.5, posY - 3, size, size, 0.18F, 0.8F, 0.443F);
-			else drawTexturedRectangle(ICON, posX + xWidth - 10.5, posY - 3, size, size, 1, 1, 1);
+			float size = 11.5F;
+			if (this.getModule().isEnabled()) drawTexturedRectangle(ICON, posX + xWidth - size - 1, posY - 3.5, size, size, 0.18F, 0.8F, 0.443F);
+			else drawTexturedRectangle(ICON, posX + xWidth - size - 1, posY - 3.5, size, size, 1, 1, 1);
 		}
 
 		@Override
@@ -214,7 +213,7 @@ public class ClickPanelItemFactory {
 						double max =  ValueUtil.toDouble(ps.getMax());
 						double newValue = x - posX;
 						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
-						total += FontUtil.getFontHeight() + 1;
+						total += FontUtil.getFontHeight() * 1.6 + 1;
 						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value);
 							return true;
@@ -267,7 +266,7 @@ public class ClickPanelItemFactory {
 						double max =  ValueUtil.toDouble(ps.getMax());
 						double newValue = x - posX;
 						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
-						total += FontUtil.getFontHeight() + 1;
+						total += FontUtil.getFontHeight() * 1.6 + 1;
 						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value);
 							return true;
