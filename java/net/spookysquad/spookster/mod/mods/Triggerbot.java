@@ -29,19 +29,22 @@ public class Triggerbot extends Module implements HasValues {
 
 	public int aps = 5;
 	public int aimspeed = 2;
-	public double range = 4.2;
+	public double attackRange = 4.2;
+	public double smoothRange = 4.4;
+	public boolean swordOnly = true;
+	public boolean smoothAssist = true;
 	private EntityPlayer entityTarget;
 	TimeUtil time = new TimeUtil();
 
 	@Override
 	public void onEvent(Event event) {
 		if (event instanceof EventPreMotion) {
-			if (PlayerUtil.getEntityOnMouseCurser(range) != null) {
-				Entity entity = PlayerUtil.getEntityOnMouseCurser(range);
+			if (PlayerUtil.getEntityOnMouseCurser(attackRange) != null) {
+				Entity entity = PlayerUtil.getEntityOnMouseCurser(attackRange);
 				if (entity instanceof EntityPlayer) {
 					entityTarget = (EntityPlayer) entity;
 					if (entityTarget == null) return;
-					boolean canAttack = PlayerUtil.canAttack(entityTarget, range);
+					boolean canAttack = PlayerUtil.canAttack(entityTarget, attackRange, swordOnly);
 					boolean shouldAim = AngleUtil.shouldAim(5, entityTarget);
 					if (canAttack && shouldAim) AngleUtil.smoothAim(entityTarget, aimspeed, false);
 					if (aps != 0 && canAttack && time.hasDelayRun((1000 / aps))) {
@@ -52,26 +55,28 @@ public class Triggerbot extends Module implements HasValues {
 					}
 				}
 			} else if (entityTarget != null) {
-				boolean canAttack = PlayerUtil.canAttack(entityTarget, 0)
-						&& getPlayer().getDistanceToEntity(entityTarget) <= 4.4 && getPlayer().canEntityBeSeen(entityTarget);
-				boolean shouldStopToAim = AngleUtil.shouldAim(60, entityTarget);
-				if (!canAttack || aimspeed == 0) {
-					entityTarget = null;
-					return;
-				} else if (canAttack) {
-					if (shouldStopToAim) {
+				if(smoothAssist) {
+					boolean canAttack = PlayerUtil.canAttack(entityTarget, 0, swordOnly)
+							&& getPlayer().getDistanceToEntity(entityTarget) <= smoothRange && getPlayer().canEntityBeSeen(entityTarget);
+					boolean shouldStopToAim = AngleUtil.shouldAim(60, entityTarget);
+					if (!canAttack || aimspeed == 0) {
 						entityTarget = null;
 						return;
+					} else if (canAttack) {
+						if (shouldStopToAim) {
+							entityTarget = null;
+							return;
+						}
+						AngleUtil.smoothAim(entityTarget, aimspeed, false);
 					}
-					AngleUtil.smoothAim(entityTarget, aimspeed, false);
 				}
 			}
 		}
 	}
 
-	private String APS = "Attacks per second", AIMSPEED = "Aim Speed", RANGE = "Range";
+	private String APS = "Attacks per second", AIMSPEED = "Aim Speed", ATTACKRANGE = "Attack Range", SMOOTHRANGE = "Smooth Range", SWORDONLY = "Swords only", SMOOTHAIM = "Smooth aim assist";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(APS, 0, 20, 1), new Value(AIMSPEED, 0, 30, 1),
-			new Value(RANGE, 3.0, 6.0, 0.1F) });
+			new Value(ATTACKRANGE, 3.0, 6.0, 0.1F), new Value(SMOOTHRANGE, 3.0, 6.0, 0.1F), new Value(SWORDONLY, false, true), new Value(SMOOTHAIM, false, true) });
 
 	@Override
 	public List<Value> getValues() {
@@ -82,7 +87,10 @@ public class Triggerbot extends Module implements HasValues {
 	public Object getValue(String n) {
 		if (n.equals(APS)) return aps;
 		else if (n.equals(AIMSPEED)) return aimspeed;
-		else if (n.equals(RANGE)) return range;
+		else if (n.equals(ATTACKRANGE)) return attackRange;
+		else if (n.equals(SMOOTHRANGE)) return smoothRange;
+		else if (n.equals(SWORDONLY)) return swordOnly;
+		else if (n.equals(SMOOTHAIM)) return smoothAssist;
 		return null;
 	}
 
@@ -90,6 +98,9 @@ public class Triggerbot extends Module implements HasValues {
 	public void setValue(String n, Object v) {
 		if (n.equals(APS)) aps = (Integer) v;
 		else if (n.equals(AIMSPEED)) aimspeed = (Integer) v;
-		else if (n.equals(RANGE)) range = (Math.round((Double) v * 10) / 10.0D);
+		else if (n.equals(ATTACKRANGE)) attackRange = (Math.round((Double) v * 10) / 10.0D);
+		else if (n.equals(SMOOTHRANGE)) smoothRange = (Math.round((Double) v * 10) / 10.0D);
+		else if (n.equals(SWORDONLY)) swordOnly = Boolean.parseBoolean(v.toString());
+		else if (n.equals(SMOOTHAIM)) smoothAssist = Boolean.parseBoolean(v.toString());
 	}
 }
