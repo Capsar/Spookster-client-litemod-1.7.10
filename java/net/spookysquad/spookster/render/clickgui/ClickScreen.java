@@ -18,9 +18,11 @@ import org.lwjgl.input.Mouse;
 
 public class ClickScreen extends GuiScreen {
 
-	protected static ClickScreen screen;
-	private static String showInfoString = "";
+											
+	public static int[] colors = new int[] {/*Background1*/0xFF34495E, /*enabled*/ 0xFF2ECC71, /*disabled*/ 0xFF2C3E50};
 	public static boolean justSwitched = false;
+	private static String showInfoString = "";
+	protected static ClickScreen screen;
 	private Module keyChangeModule;
 
 	public ClickScreen() {

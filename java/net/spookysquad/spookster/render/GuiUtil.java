@@ -100,12 +100,15 @@ public class GuiUtil extends FontUtil {
 		drawRect(x + size, y1 - size, x1 - size, y1, borderC);
 	}
 
-	public static void drawTexturedRectangle(ResourceLocation resourceLocation, double posX, double posY, float width,
-			float height, float r, float g, float b) {
+	public static void drawTexturedRectangle(ResourceLocation resourceLocation, double posX, double posY, float width, float height, int color) {
 		float u = 1, v = 1, uWidth = 1, vHeight = 1, textureWidth = 1, textureHeight = 1;
 		glEnable(GL_BLEND);
-		glColor4f(r, g, b, 1);
+		float red = (color >> 16 & 0xFF) / 255F;
+		float green = (color >> 8 & 0xFF) / 255F;
+		float blue = (color & 0xFF) / 255F;
+		float alpha = (color >> 24 & 0xFF) / 255F;
 		Wrapper.getMinecraft().getTextureManager().bindTexture(resourceLocation);
+		glColor4f(red, green, blue, alpha);
 		glBegin(GL_QUADS);
 		glTexCoord2d(u / textureWidth, v / textureHeight);
 		glVertex2d(posX, posY);

@@ -53,7 +53,6 @@ public class ValueUtil extends Wrapper {
 			newValue = 0;
 		}
 		double f = (width * newValue) / max;
-
 		if (Integer.class.isAssignableFrom(objectClass)) { return MathHelper.floor_double(f + min); }
 		if (Float.class.isAssignableFrom(objectClass)) { return (float) (Math.round((Double) (f + min) * 100000) / 100000.0D); }
 		return f + min;
