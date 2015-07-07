@@ -260,39 +260,18 @@ public class ClickPanelItemFactory {
 				for (Value ps : hep.getValues()) {
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
 					Object ob = hep.getValue(ps.getName());
-
-					if (ps.getMin() instanceof Integer) {
-						int min = (Integer) ps.getMin();
-						int max = (Integer) ps.getMax();
-						int d = (int) (x - posX);
-						int value = MathHelper.ceiling_double_int(getWidth(max - min, 0, width, d));
-						total += FontUtil.getFontHeight() + 1;
-						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value + min);
-							return true;
-						}
-					} else if (ps.getMin() instanceof Double) {
-						double min = (Double) ps.getMin();
-						double max = (Double) ps.getMax();
-						double d = x - posX;
-						double value = getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() + 1;
-						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value + min);
-							return true;
-						}
-					} else if (ps.getMin() instanceof Float) {
-						float min = (Float) ps.getMin();
-						float max = (Float) ps.getMax();
-						float d = (float) (x - posX);
-						float value = (float) getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() + 1;
-						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value + min);
-							return true;
-						}
-					} else if (ps.getMin() instanceof Boolean) {
+					if (ps.getMin() instanceof Boolean) {
 						total += 12;
+					} else {
+						double min = ValueUtil.toDouble(ps.getMin());
+						double max =  ValueUtil.toDouble(ps.getMax());
+						double newValue = x - posX;
+						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
+						total += FontUtil.getFontHeight() + 1;
+						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
+							hep.setValue(ps.getName(), value);
+							return true;
+						}
 					}
 				}
 			}

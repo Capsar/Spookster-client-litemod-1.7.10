@@ -104,6 +104,7 @@ public class ModuleManager extends Manager implements Listener {
 				} else {
 					Spookster.instance.disableAndSafeClient();
 				}
+				return;
 			}
 
 			if (Spookster.clientEnabled) {
