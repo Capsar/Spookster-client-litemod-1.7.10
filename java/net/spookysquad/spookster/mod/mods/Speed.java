@@ -168,7 +168,7 @@ public class Speed extends Module implements HasValues {
 		}
 	}
 
-	private String AUTOSPRINT = "Auto Sprint", SPEED = "Aim Speed", BOUNDINGBOXOFFSET = "Range";
+	private String AUTOSPRINT = "Auto Sprint", SPEED = "Speed", BOUNDINGBOXOFFSET = "Offset";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(SPEED, 1.0, 5.0, 0.01F),
 			new Value(AUTOSPRINT, false, true), new Value(BOUNDINGBOXOFFSET, false, true) });
 

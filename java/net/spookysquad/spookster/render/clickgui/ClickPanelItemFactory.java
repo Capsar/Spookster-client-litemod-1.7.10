@@ -125,7 +125,7 @@ public class ClickPanelItemFactory {
 		public boolean editProperties;
 		protected ClickPanel panel;
 		protected double fX, fY, ticky;
-		private static final ResourceLocation ICON = new ResourceLocation("tabbychat", "textures/gui/icons/icon_editable.png");
+		private static final ResourceLocation ICON = new ResourceLocation("spookster", "textures/icon_editable.png");
 
 		public EditablePanelItem(ClickPanel panel, Module module) {
 			super(module);

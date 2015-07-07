@@ -12,7 +12,8 @@ import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.HasValues.Value;
-import net.spookysquad.spookster.mod.mods.ClickGui;
+import net.spookysquad.spookster.mod.mods.ClickGUI;
+import net.spookysquad.spookster.mod.mods.ExternalGUI;
 import net.spookysquad.spookster.mod.mods.Fullbright;
 import net.spookysquad.spookster.mod.mods.GangsterWalk;
 import net.spookysquad.spookster.mod.mods.HUD;
@@ -48,7 +49,8 @@ public class ModuleManager extends Manager implements Listener {
 		registerModule(new Speed());
 		registerModule(new Triggerbot());
 		registerModule(new XRay());
-		registerModule(new ClickGui());
+		registerModule(new ClickGUI());
+		registerModule(new ExternalGUI());
 	}
 
 	public void deinit(Spookster spookster) {

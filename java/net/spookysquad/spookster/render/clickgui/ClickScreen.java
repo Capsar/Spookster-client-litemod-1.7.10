@@ -10,8 +10,8 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.render.external.console.MessageType;
 import net.spookysquad.spookster.utils.Wrapper;
-import net.spookysquad.spookster.utils.Wrapper.ChatEnum;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -58,7 +58,7 @@ public class ClickScreen extends GuiScreen {
 		int x2 = 2;
 		if (getPanels().isEmpty()) {
 			for (Type type : Type.values()) {
-				if (!type.getName().equals("")) {
+				if (!type.getName().equals("") && !Spookster.instance.moduleManager.getModulesWithType(type).isEmpty()) {
 					if (sc.getScaledWidth() - x < 0) {
 						ClickPanel panel = new ClickPanel(this, type, x2, 100);
 						addPanel(panel);
@@ -76,8 +76,7 @@ public class ClickScreen extends GuiScreen {
 	@Override
 	protected void keyTyped(final char c, final int i) {
 		if (keyChangeModule != null) {
-			Wrapper.logChat(ChatEnum.NOTIFY, "Changed binding off " + keyChangeModule.getName() + " to "
-					+ (i == 1 ? "NONE" : Keyboard.getKeyName(i)));
+			Wrapper.logChat(MessageType.NOTIFCATION, "Changed binding off " + keyChangeModule.getName() + " to " + (i == 1 ? "NONE" : Keyboard.getKeyName(i)));
 			keyChangeModule.setKeyCode(i == 1 ? -1 : i);
 			keyChangeModule = null;
 			if (i == 1) return;
@@ -92,8 +91,7 @@ public class ClickScreen extends GuiScreen {
 	@Override
 	protected void mouseClicked(int posX, int posY, int type) {
 		if (keyChangeModule != null) {
-			Wrapper.logChat(ChatEnum.NOTIFY, "Changed binding off " + keyChangeModule.getName() + " to "
-					+ (type == 0 ? "NONE" : Mouse.getButtonName(type)));
+			Wrapper.logChat(MessageType.NOTIFCATION, "Changed binding off " + keyChangeModule.getName() + " to " + (type == 0 ? "NONE" : Mouse.getButtonName(type)));
 			keyChangeModule.setKeyCode(type == 0 ? -1 : type + 256);
 			keyChangeModule = null;
 		}

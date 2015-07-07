@@ -8,10 +8,10 @@ import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.render.clickgui.ClickScreen;
 
-public class ClickGui extends Module {
+public class ClickGUI extends Module {
 
-	public ClickGui() {
-		super(new String[] { "ClickGui" }, "Opens the clickableGUI", Type.CORE, Keyboard.KEY_RSHIFT, -1);
+	public ClickGUI() {
+		super(new String[] { "ClickGUI" }, "Opens the clickableGUI", Type.CORE, Keyboard.KEY_RSHIFT, -1);
 	}
 
 	ClickScreen clickGUI;

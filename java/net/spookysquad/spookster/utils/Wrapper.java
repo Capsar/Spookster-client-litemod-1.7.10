@@ -8,6 +8,8 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.Packet;
+import net.spookysquad.spookster.render.external.MainWindow;
+import net.spookysquad.spookster.render.external.console.MessageType;
 
 public class Wrapper {
 
@@ -46,12 +48,7 @@ public class Wrapper {
 		return new ScaledResolution(getMinecraft(), getMinecraft().displayWidth, getMinecraft().displayHeight);
 	}
 
-	public static void logChat(ChatEnum chat, String text) {
-
+	public static void logChat(MessageType type, String text) {
+		MainWindow.mainConsole.addMessage(text, type);
 	}
-
-	public enum ChatEnum {
-		NOTIFY, ERROR;
-	}
-
 }

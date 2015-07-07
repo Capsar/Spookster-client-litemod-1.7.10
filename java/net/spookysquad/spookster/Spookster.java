@@ -22,6 +22,7 @@ import net.spookysquad.spookster.event.events.EventPreHudRender;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.ModuleManager;
+import net.spookysquad.spookster.render.external.MainWindow;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -44,7 +45,8 @@ public class Spookster {
 	public static final File ASSETS_LOCATION = new File(SAVE_LOCATION, "assets");
 	public static final File INDEXES_LOCATION = new File(ASSETS_LOCATION, "indexes");
 	public static final File CONFIG_LOCATION = new File(INDEXES_LOCATION, "mojang.json");
-
+	public static final MainWindow FRAME = new MainWindow();
+	
 	private ArrayList<Manager> managers = new ArrayList<Manager>();
 	public static Spookster instance;
 	public EventManager eventManager;
