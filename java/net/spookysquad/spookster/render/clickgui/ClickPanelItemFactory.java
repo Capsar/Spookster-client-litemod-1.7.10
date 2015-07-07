@@ -7,6 +7,7 @@ import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.render.FontUtil;
 import net.spookysquad.spookster.render.GuiUtil;
+import net.spookysquad.spookster.utils.ValueUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -148,47 +149,24 @@ public class ClickPanelItemFactory {
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
 					double width = getWidth(posX + xOffset + 1.5, posX + xWidth + xOffset - 1.5);
-					Object ob = hep.getValue(ps.getName());
-					if (ps.getMin() instanceof Integer) {
-						Integer min = (Integer) ps.getMin();
-						Integer max = (Integer) ps.getMax();
-						int d = (Integer) ob;
-						total += FontUtil.getFontHeight() * 0.5;
-						drawStringWithShadow(ps.getName() + ": " + ob.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF, 0.7F);
-						total += FontUtil.getFontHeight() * 0.5 + 1;
-						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
-						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, d), posY + 5 + total, 0xFF2ECC71);
-						drawRect(posX + getWidth(width, min, max, d) - (d <= min + 0.1 ? 0 : 0.5), posY + total, posX
-								+ getWidth(width, min, max, d) + (d >= max - 0.1 ? 0 : 0.5), posY + 5 + total, 0xFF00FF7F);
-					} else if (ps.getMin() instanceof Double) {
-						Double min = (Double) ps.getMin();
-						Double max = (Double) ps.getMax();
-						double d = (Double) ob;
-						total += FontUtil.getFontHeight() * 0.5;
-						drawStringWithShadow(ps.getName() + ": " + ob.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF);
-						total += FontUtil.getFontHeight() * 0.5 + 1;
-						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
-						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, d), posY + 5 + total, 0xFF2ECC71);
-						drawRect(posX + getWidth(width, min, max, d) - (d <= min + 0.1 ? 0 : 0.5), posY + total, posX
-								+ getWidth(width, min, max, d) + (d >= max - 0.1 ? 0 : 0.5), posY + 5 + total, 0xFF00FF7F);
-					} else if (ps.getMin() instanceof Float) {
-						Float min = (Float) ps.getMin();
-						Float max = (Float) ps.getMax();
-						float d = (Float) ob;
-						total += FontUtil.getFontHeight() * 0.5;
-						drawStringWithShadow(ps.getName() + ": " + ob.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF);
-						total += FontUtil.getFontHeight() * 0.5 + 1;
-						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
-						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, d), posY + 5 + total, 0xFF2ECC71);
-						drawRect(posX + getWidth(width, min, max, d) - (d <= min + 0.1 ? 0 : 0.5), posY + total, posX
-								+ getWidth(width, min, max, d) + (d >= max - 0.1 ? 0 : 0.5), posY + 5 + total, 0xFF00FF7F);
-					} else if (ps.getMin() instanceof Boolean) {
-						boolean d = (Boolean) ob;
+					Object currentValue = hep.getValue(ps.getName());
+					if (ps.getMin() instanceof Boolean) {
+						boolean d = (Boolean) currentValue;
 						int he = 10;
 						int off = -4;
 						total += 12;
 						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, d ? 0xFF2ECC71 : 0xFF2C3E50);
 						drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 2 * 0.5F) - 1, 0xFFFFFFFF);
+					} else {
+						double min = ValueUtil.toDouble(ps.getMin());
+						double max = ValueUtil.toDouble(ps.getMax());
+						total += FontUtil.getFontHeight() * 0.5;
+						drawStringWithShadow(ps.getName() + ": " + currentValue.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF, 0.7F);
+						total += FontUtil.getFontHeight() * 0.5 + 1;
+						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, 0xFF2C3E50);
+						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)), posY + 5 + total, 0xFF2ECC71);
+						drawRect(posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)) - (ValueUtil.toDouble(currentValue) <= min + 0.1 ? 0 : 0.5), posY + total, posX
+								+ getWidth(width, min, max, ValueUtil.toDouble(currentValue)) + (ValueUtil.toDouble(currentValue) >= max - 0.1 ? 0 : 0.5), posY + 5 + total, 0xFF00FF7F);
 					}
 				}
 				yHeight += total;
@@ -221,47 +199,24 @@ public class ClickPanelItemFactory {
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
-					Object ob = hep.getValue(ps.getName());
-					if (ps.getMin() instanceof Integer) {
-						int min = (Integer) ps.getMin();
-						int max = (Integer) ps.getMax();
-						int d = (int) (x - posX);
-						int value = MathHelper.ceiling_double_int(getWidth(max - min, 0, width, d));
-						total += FontUtil.getFontHeight() * 0.5;
-						total += FontUtil.getFontHeight() * 0.5 + 1;
-						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value + min);
-							return true;
-						}
-					} else if (ps.getMin() instanceof Double) {
-						double min = (Double) ps.getMin();
-						double max = (Double) ps.getMax();
-						double d = x - posX;
-						double value = getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5;
-						total += FontUtil.getFontHeight() * 0.5 + 1;
-						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value + min);
-							return true;
-						}
-					} else if (ps.getMin() instanceof Float) {
-						float min = (Float) ps.getMin();
-						float max = (Float) ps.getMax();
-						float d = (float) (x - posX);
-						float value = (float) getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5;
-						total += FontUtil.getFontHeight() * 0.5 + 1;
-						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value + min);
-							return true;
-						}
-					} else if (ps.getMin() instanceof Boolean) {
-						boolean d = (Boolean) ob;
+					Object currentValue = hep.getValue(ps.getName());
+					if (ps.getMin() instanceof Boolean) {
+						boolean value = (Boolean) currentValue;
 						int he = 10;
 						int off = -4;
 						total += 12;
 						if (x >= posX + 1.5 && y >= posY + total + off && x <= posX + width && y <= posY + off + total + he) {
-							hep.setValue(ps.getName(), !d);
+							hep.setValue(ps.getName(), !value);
+							return true;
+						}
+					} else {
+						double min = ValueUtil.toDouble(ps.getMin());
+						double max =  ValueUtil.toDouble(ps.getMax());
+						double newValue = x - posX;
+						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
+						total += FontUtil.getFontHeight() + 1;
+						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
+							hep.setValue(ps.getName(), value);
 							return true;
 						}
 					}
@@ -311,8 +266,7 @@ public class ClickPanelItemFactory {
 						int max = (Integer) ps.getMax();
 						int d = (int) (x - posX);
 						int value = MathHelper.ceiling_double_int(getWidth(max - min, 0, width, d));
-						total += FontUtil.getFontHeight() * 0.5;
-						total += FontUtil.getFontHeight() * 0.5 + 1;
+						total += FontUtil.getFontHeight() + 1;
 						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
@@ -322,9 +276,7 @@ public class ClickPanelItemFactory {
 						double max = (Double) ps.getMax();
 						double d = x - posX;
 						double value = getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5;
-						total += FontUtil.getFontHeight() * 0.5 + 1;
-
+						total += FontUtil.getFontHeight() + 1;
 						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
@@ -334,8 +286,7 @@ public class ClickPanelItemFactory {
 						float max = (Float) ps.getMax();
 						float d = (float) (x - posX);
 						float value = (float) getWidth(max - min, 0, width, d);
-						total += FontUtil.getFontHeight() * 0.5;
-						total += FontUtil.getFontHeight() * 0.5 + 1;
+						total += FontUtil.getFontHeight() + 1;
 						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value + min);
 							return true;
