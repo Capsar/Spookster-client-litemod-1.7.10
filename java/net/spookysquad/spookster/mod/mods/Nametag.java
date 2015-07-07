@@ -131,7 +131,7 @@ public class Nametag extends Module implements HasValues {
 		else if (n.equals(FRIENDS)) friends = Boolean.parseBoolean(v.toString());
 		else if (n.equals(HEALTH)) health = Boolean.parseBoolean(v.toString());
 		else if (n.equals(INVISIBLE)) invisibles = Boolean.parseBoolean(v.toString());
-		else if (n.equals(SCALEFACTOR)) scaleFactor = (Double) v;
+		else if (n.equals(SCALEFACTOR)) scaleFactor = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(SCALEDISTANCE)) scaleDistance = (Integer) v;
 	}
 }
