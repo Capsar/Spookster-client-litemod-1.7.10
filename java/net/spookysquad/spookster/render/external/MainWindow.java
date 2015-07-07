@@ -45,10 +45,11 @@ public class MainWindow extends JFrame {
 	private JPanel mainPanel;
 
 	public MainWindow() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(new ResourceLocation("spookster", "textures/icon_editable.png").getResourcePath())));
+//		setIconImage(Toolkit.getDefaultToolkit().getImage(MainWindow.class.getResource(new ResourceLocation("spookster", "textures/icon_editable.png").getResourcePath())));
 		setTitle("Spookster " + Spookster.instance.getVersion() + " " + Spookster.instance.clientAuthor);
 		setBounds(100, 100, 600, 590);
 		setResizable(false);
+		setAlwaysOnTop(true);
 
 		mainPanel = new JPanel();
 		mainPanel.setBackground(Color.DARK_GRAY);

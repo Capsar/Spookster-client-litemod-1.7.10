@@ -46,8 +46,8 @@ public class Spookster {
 	public static final File ASSETS_LOCATION = new File(SAVE_LOCATION, "assets");
 	public static final File INDEXES_LOCATION = new File(ASSETS_LOCATION, "indexes");
 	public static final File CONFIG_LOCATION = new File(INDEXES_LOCATION, "mojang.json");
-	public static final MainWindow FRAME = new MainWindow();
-	
+	public static MainWindow FRAME;
+
 	private ArrayList<Manager> managers = new ArrayList<Manager>();
 	public static Spookster instance;
 	public EventManager eventManager;
@@ -71,6 +71,7 @@ public class Spookster {
 			}
 
 			instance = this;
+			FRAME = new MainWindow();
 			managers.add(eventManager = new EventManager());
 			managers.add(moduleManager = new ModuleManager());
 			for (Manager manager : managers) {
@@ -139,8 +140,7 @@ public class Spookster {
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
 		EventGameTick tick = new EventGameTick();
 		tick.call();
-		
-		
+
 		if (inGame && minecraft.inGameHasFocus) {
 			for (int i = 0; i < 256 + 15; i++) {
 				if (i < 256) {

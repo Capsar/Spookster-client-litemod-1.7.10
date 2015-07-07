@@ -14,4 +14,12 @@ public enum Type {
 		return typeName;
 	}
 
+	public static Type getValueOf(String upperCase) {
+		try {
+			return valueOf(upperCase);
+		} catch (Exception e) {
+			return CORE;
+		}
+	}
+
 }

@@ -165,7 +165,7 @@ public class ModuleManager extends Manager implements Listener {
 							} else if (setting.getKey().equals("DESC")) {
 								mod.setDesc(setting.getValue().getAsString());
 							} else if (setting.getKey().equals("TYPE")) {
-								mod.setType(Type.valueOf(setting.getValue().getAsString().toUpperCase()));
+								mod.setType(Type.getValueOf(setting.getValue().getAsString().toUpperCase()));
 							} else if (setting.getKey().equals("VALUES")) {
 								if (mod instanceof HasValues) {
 									HasValues hep = (HasValues) mod;

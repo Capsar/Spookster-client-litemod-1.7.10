@@ -27,6 +27,7 @@ public class ExternalGUI extends Module {
 	
 	@Override
 	public void onEvent(Event event) {
+		this.setEnabled(Spookster.FRAME.isVisible());
 	}
 
 }
