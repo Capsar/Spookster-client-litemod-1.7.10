@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.lwjgl.input.Keyboard;
-
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.Listener;
@@ -24,9 +22,12 @@ import net.spookysquad.spookster.mod.mods.Nametag;
 import net.spookysquad.spookster.mod.mods.NoFall;
 import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.Speed;
+import net.spookysquad.spookster.mod.mods.Step;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.utils.ValueUtil;
+
+import org.lwjgl.input.Keyboard;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -41,8 +42,20 @@ public class ModuleManager extends Manager implements Listener {
 	public void init(Spookster spookster) {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
-		this.modules.addAll(Arrays.asList(new Fullbright(), new GangsterWalk(), new HUD(), new Nametag(), new NoFall(),
-				new Phase(), new Speed(), new Triggerbot(), new XRay(), new ClickGUI(), new ExternalGUI()));
+		this.modules.addAll(Arrays.asList(
+				new ClickGUI(),
+				new ExternalGUI(),
+				new Fullbright(), 
+				new GangsterWalk(),
+				new HUD(),
+				new Nametag(),
+				new NoFall(),
+				new Phase(),
+				new Speed(),
+				new Step(),
+				new Triggerbot(),
+				new XRay()
+				));
 	}
 
 	public void deinit(Spookster spookster) {
