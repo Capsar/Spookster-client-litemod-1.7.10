@@ -49,7 +49,7 @@ public class Triggerbot extends Module implements HasValues {
 					boolean shouldAim = AngleUtil.shouldAim(5, entityTarget);
 					if (canAttack && shouldAim) AngleUtil.smoothAim(entityTarget, aimSpeed, false);
 					if (aps != 0 && canAttack && time.hasDelayRun((1000 / aps))) {
-						time.resetAndAdd(new Random().nextInt(150) - 75);
+						time.resetAndAdd(new Random().nextInt(150));
 						boolean wasBlock = false;
 						if (blockHit && getPlayer().isBlocking())  {
 							wasBlock = true;

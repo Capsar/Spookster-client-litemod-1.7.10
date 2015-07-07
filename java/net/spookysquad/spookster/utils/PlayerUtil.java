@@ -1,6 +1,7 @@
 package net.spookysquad.spookster.utils;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -104,7 +105,7 @@ public class PlayerUtil extends Wrapper {
 					if (var5) {
 						getPlayer().onCriticalHit(livingbase);
 					}
-					if (damageInt > 0.0F) {
+					if (damageInt > 0.0F && new Random().nextInt(3) == 2) {
 						getPlayer().onEnchantmentCritical(livingbase);
 					}
 					if (livingbase instanceof EntityLivingBase) {
