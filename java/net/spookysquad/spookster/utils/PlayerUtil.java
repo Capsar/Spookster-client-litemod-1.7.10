@@ -114,18 +114,20 @@ public class PlayerUtil extends Wrapper {
 		}
 	}
 
-	public static boolean canAttack(EntityPlayer targetplayer, double range, boolean swordOnly) {
+	public static boolean canAttack(EntityPlayer targetplayer, double range, boolean swordOnly, boolean blockHit) {
+		boolean hasSword = getPlayer().getHeldItem() != null && getPlayer().getHeldItem().getItem() instanceof ItemSword;
+		
 		if (range == 0) {
 			return targetplayer != null && targetplayer.getUniqueID() != null && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
-					&& (swordOnly ? getPlayer().getHeldItem() != null : true) && (swordOnly ? getPlayer().getHeldItem().getItem() instanceof ItemSword : true)
-					&& !getPlayer().isUsingItem() && getMinecraft().inGameHasFocus;
+					&& (swordOnly ? hasSword : true) && (blockHit ? true : !getPlayer().isUsingItem())
+					&& getMinecraft().inGameHasFocus;
 		} else {
 			return targetplayer != null && getEntityOnMouseCurser(range) != null && targetplayer.getUniqueID() != null
 					&& getEntityOnMouseCurser(range).equals(targetplayer) && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
-					&& (swordOnly ? getPlayer().getHeldItem() != null : true) && (swordOnly ? getPlayer().getHeldItem().getItem() instanceof ItemSword : true)
-					&& !getPlayer().isUsingItem() && getMinecraft().inGameHasFocus;
+					&& (swordOnly ? hasSword : true) && (blockHit ? true : !getPlayer().isUsingItem())
+					&& getMinecraft().inGameHasFocus;
 		}
 	}
 
@@ -139,23 +141,26 @@ public class PlayerUtil extends Wrapper {
 	public static Block getBlock(double offset) {
 		return BlockUtil.getBlock(getPlayer().boundingBox.copy().offset(0.0D, offset, 0.0D));
 	}
-	
+
 	public static boolean isInsideBlock() {
 		AxisAlignedBB bb = getPlayer().boundingBox.copy();
-		
-		for(int x = MathHelper.floor_double(bb.minX); x < MathHelper.floor_double(bb.maxX) + 1; x++) {
-			for(int y = MathHelper.floor_double(bb.minY); y < MathHelper.floor_double(bb.maxY) + 1; y++) {
-				for(int z = MathHelper.floor_double(bb.minZ); z < MathHelper.floor_double(bb.maxZ) + 1; z++) {
+
+		for (int x = MathHelper.floor_double(bb.minX); x < MathHelper.floor_double(bb.maxX) + 1; x++) {
+			for (int y = MathHelper.floor_double(bb.minY); y < MathHelper.floor_double(bb.maxY) + 1; y++) {
+				for (int z = MathHelper.floor_double(bb.minZ); z < MathHelper.floor_double(bb.maxZ) + 1; z++) {
 					Block block = getWorld().getBlock(x, y, z);
-					if(block != null) {
+					if (block != null) {
 						AxisAlignedBB boundingBox = block.getCollisionBoundingBoxFromPool(getWorld(), x, y, z);
-						if(boundingBox != null && bb.intersectsWith(boundingBox)) {
-							return true;
-						}
+						if (boundingBox != null && bb.intersectsWith(boundingBox)) { return true; }
 					}
 				}
 			}
 		}
 		return false;
+	}
+
+	public static boolean canSprint() {
+		return getPlayer().moveForward > 0 && !getPlayer().isSneaking() && !getPlayer().isCollidedHorizontally
+				&& !getPlayer().isUsingItem();
 	}
 }

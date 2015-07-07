@@ -53,6 +53,9 @@ public class Speed extends Module implements HasValues {
 		if (e instanceof EventPreMotion) {
 			EventPreMotion event = (EventPreMotion) e;
 
+			if(autoSprint && PlayerUtil.canSprint())
+				getPlayer().setSprinting(true);
+			
 			double speed = this.speed;
 			double slow = 1.462;
 			double offset = 4.9F;
@@ -151,7 +154,7 @@ public class Speed extends Module implements HasValues {
 					case 4:
 						GameUtil.setGameSpeed(1.0F);
 
-						if (shouldOffset) {
+						if (shouldOffset && boundingBoxOffset) {
 							getPlayer().setPosition(getPlayer().posX + getPlayer().motionX / offset, getPlayer().posY,
 									getPlayer().posZ + getPlayer().motionZ / offset);
 						}

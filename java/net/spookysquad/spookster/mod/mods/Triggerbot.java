@@ -34,6 +34,7 @@ public class Triggerbot extends Module implements HasValues {
 	public double smoothRange = 4.4;
 	public boolean swordOnly = true;
 	public boolean smoothAssist = true;
+	public boolean blockHit = true;
 	private EntityPlayer entityTarget;
 	TimeUtil time = new TimeUtil();
 
@@ -44,30 +45,38 @@ public class Triggerbot extends Module implements HasValues {
 				Entity entity = PlayerUtil.getEntityOnMouseCurser(attackRange);
 				if (entity instanceof EntityPlayer) {
 					entityTarget = (EntityPlayer) entity;
-					if (entityTarget == null) return;
-					boolean canAttack = PlayerUtil.canAttack(entityTarget, attackRange, swordOnly);
+					boolean canAttack = PlayerUtil.canAttack(entityTarget, attackRange, swordOnly, blockHit);
 					boolean shouldAim = AngleUtil.shouldAim(5, entityTarget);
 					if (canAttack && shouldAim) AngleUtil.smoothAim(entityTarget, aimSpeed, false);
 					if (aps != 0 && canAttack && time.hasDelayRun((1000 / aps))) {
-						time.setReset(time.getCurrentTime() + (new Random()).nextInt(150));
+						time.resetAndAdd(new Random().nextInt(150) - 75);
+						boolean wasBlock = false;
+						if (blockHit && getPlayer().isBlocking())  {
+							wasBlock = true;
+							getController().onStoppedUsingItem(getPlayer());
+						}
 						getPlayer().swingItem();
 						PacketUtil.addPacket(new C02PacketUseEntity(entityTarget, Action.ATTACK));
 						PlayerUtil.attackEffectOnEntity(entityTarget);
+						if(wasBlock) {
+							getController().sendUseItem(getPlayer(), getWorld(), getPlayer().getHeldItem());
+						}
 					}
 				}
 			} else if (entityTarget != null) {
-				if(smoothAssist) {
-					boolean canAttack = PlayerUtil.canAttack(entityTarget, 0, swordOnly)
-							&& getPlayer().getDistanceToEntity(entityTarget) <= smoothRange && getPlayer().canEntityBeSeen(entityTarget);
-					boolean shouldStopToAim = AngleUtil.shouldAim(60, entityTarget);
-					if (!canAttack || aimAssistSpeed == 0) {
+				boolean canAttack = PlayerUtil.canAttack(entityTarget, 0, swordOnly, blockHit)
+						&& getPlayer().getDistanceToEntity(entityTarget) <= smoothRange
+						&& getPlayer().canEntityBeSeen(entityTarget);
+				boolean shouldStopToAim = AngleUtil.shouldAim(60, entityTarget);
+				if (!canAttack || aimAssistSpeed == 0) {
+					entityTarget = null;
+					return;
+				} else if (canAttack) {
+					if (shouldStopToAim) {
 						entityTarget = null;
 						return;
-					} else if (canAttack) {
-						if (shouldStopToAim) {
-							entityTarget = null;
-							return;
-						}
+					}
+					if (smoothAssist) {
 						AngleUtil.smoothAim(entityTarget, aimAssistSpeed, false);
 					}
 				}
@@ -75,9 +84,13 @@ public class Triggerbot extends Module implements HasValues {
 		}
 	}
 
-	private String APS = "Attacks per second", AIMSPEED = "Aim Speed", AIMASSISTSPEED = "Aim Assist Speed", ATTACKRANGE = "Attack Range", SMOOTHRANGE = "Smooth Range", SWORDONLY = "Swords only", SMOOTHAIM = "Smooth aim assist";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(APS, 0, 20, 1), new Value(ATTACKRANGE, 3.0, 6.0, 0.1F), new Value(SMOOTHRANGE, 3.0, 6.0, 0.1F), new Value(AIMSPEED, 0, 30, 1), new Value(AIMASSISTSPEED, 0, 30, 1),
-			new Value(SMOOTHAIM, false, true), new Value(SWORDONLY, false, true) });
+	private String APS = "Attacks per second", AIMSPEED = "Aim Speed", AIMASSISTSPEED = "Aim Assist Speed",
+			ATTACKRANGE = "Attack Range", SMOOTHRANGE = "Smooth Range", SWORDONLY = "Swords only",
+			SMOOTHAIM = "Smooth aim assist", BLOCKHIT = "Block hit";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(APS, 0, 20, 1),
+			new Value(ATTACKRANGE, 3.0, 6.0, 0.1F), new Value(SMOOTHRANGE, 3.0, 6.0, 0.1F), new Value(AIMSPEED, 0, 30, 1),
+			new Value(AIMASSISTSPEED, 0, 30, 1), new Value(SMOOTHAIM, false, true), new Value(SWORDONLY, false, true),
+			new Value(BLOCKHIT, false, true) });
 
 	@Override
 	public List<Value> getValues() {
@@ -93,6 +106,7 @@ public class Triggerbot extends Module implements HasValues {
 		else if (n.equals(SMOOTHRANGE)) return smoothRange;
 		else if (n.equals(SWORDONLY)) return swordOnly;
 		else if (n.equals(SMOOTHAIM)) return smoothAssist;
+		else if (n.equals(BLOCKHIT)) return blockHit;
 		return null;
 	}
 
@@ -103,7 +117,8 @@ public class Triggerbot extends Module implements HasValues {
 		else if (n.equals(AIMASSISTSPEED)) aimAssistSpeed = (Integer) v;
 		else if (n.equals(ATTACKRANGE)) attackRange = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(SMOOTHRANGE)) smoothRange = (Math.round((Double) v * 10) / 10.0D);
-		else if (n.equals(SWORDONLY)) swordOnly = Boolean.parseBoolean(v.toString());
-		else if (n.equals(SMOOTHAIM)) smoothAssist = Boolean.parseBoolean(v.toString());
+		else if (n.equals(SWORDONLY)) swordOnly = (Boolean) v;
+		else if (n.equals(SMOOTHAIM)) smoothAssist = (Boolean) v;
+		else if (n.equals(BLOCKHIT)) blockHit = (Boolean) v;
 	}
 }
