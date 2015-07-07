@@ -212,7 +212,7 @@ public class ClickPanelItemFactory {
 						double min = ValueUtil.toDouble(ps.getMin());
 						double max =  ValueUtil.toDouble(ps.getMax());
 						double newValue = x - posX;
-						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
+						Object value = ValueUtil.getValueForClickGUI(max - min, 0, width, newValue, ps.getVClass());
 						total += FontUtil.getFontHeight() * 1.6 + 1;
 						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
 							hep.setValue(ps.getName(), value);

@@ -47,18 +47,16 @@ public class ValueUtil extends Wrapper {
 	}
 
 	public static Object getValueForClickGUI(double width, double min, double max, double newValue, Class objectClass) {
-		min -= min;
 		if (newValue >= max) {
 			newValue = max;
-		} else if (newValue <= min) {
-			newValue = min;
+		} else if (newValue <= 0) {
+			newValue = 0;
 		}
-		double w = width * (newValue - min);
-		double f = w / (max - min);
+		double f = (width * newValue) / max;
 
-		if (Integer.class.isAssignableFrom(objectClass)) { return MathHelper.floor_double(f); }
-		if (Float.class.isAssignableFrom(objectClass)) { return (float) (Math.round((Double) f * 100000) / 100000.0D); }
-		return f;
+		if (Integer.class.isAssignableFrom(objectClass)) { return MathHelper.floor_double(f + min); }
+		if (Float.class.isAssignableFrom(objectClass)) { return (float) (Math.round((Double) (f + min) * 100000) / 100000.0D); }
+		return f + min;
 	}
 
 }
