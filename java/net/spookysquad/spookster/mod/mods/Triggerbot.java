@@ -28,7 +28,8 @@ public class Triggerbot extends Module implements HasValues {
 	}
 
 	public int aps = 5;
-	public int aimspeed = 2;
+	public int aimSpeed = 2;
+	public int aimAssistSpeed = 2;
 	public double attackRange = 4.2;
 	public double smoothRange = 4.4;
 	public boolean swordOnly = true;
@@ -46,7 +47,7 @@ public class Triggerbot extends Module implements HasValues {
 					if (entityTarget == null) return;
 					boolean canAttack = PlayerUtil.canAttack(entityTarget, attackRange, swordOnly);
 					boolean shouldAim = AngleUtil.shouldAim(5, entityTarget);
-					if (canAttack && shouldAim) AngleUtil.smoothAim(entityTarget, aimspeed, false);
+					if (canAttack && shouldAim) AngleUtil.smoothAim(entityTarget, aimSpeed, false);
 					if (aps != 0 && canAttack && time.hasDelayRun((1000 / aps))) {
 						time.setReset(time.getCurrentTime() + (new Random()).nextInt(150));
 						getPlayer().swingItem();
@@ -59,7 +60,7 @@ public class Triggerbot extends Module implements HasValues {
 					boolean canAttack = PlayerUtil.canAttack(entityTarget, 0, swordOnly)
 							&& getPlayer().getDistanceToEntity(entityTarget) <= smoothRange && getPlayer().canEntityBeSeen(entityTarget);
 					boolean shouldStopToAim = AngleUtil.shouldAim(60, entityTarget);
-					if (!canAttack || aimspeed == 0) {
+					if (!canAttack || aimAssistSpeed == 0) {
 						entityTarget = null;
 						return;
 					} else if (canAttack) {
@@ -67,15 +68,15 @@ public class Triggerbot extends Module implements HasValues {
 							entityTarget = null;
 							return;
 						}
-						AngleUtil.smoothAim(entityTarget, aimspeed, false);
+						AngleUtil.smoothAim(entityTarget, aimAssistSpeed, false);
 					}
 				}
 			}
 		}
 	}
 
-	private String APS = "Attacks per second", AIMSPEED = "Aim Speed", ATTACKRANGE = "Attack Range", SMOOTHRANGE = "Smooth Range", SWORDONLY = "Swords only", SMOOTHAIM = "Smooth aim assist";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(APS, 0, 20, 1), new Value(AIMSPEED, 0, 30, 1),
+	private String APS = "Attacks per second", AIMSPEED = "Aim Speed", AIMASSISTSPEED = "Aim Assist Speed", ATTACKRANGE = "Attack Range", SMOOTHRANGE = "Smooth Range", SWORDONLY = "Swords only", SMOOTHAIM = "Smooth aim assist";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(APS, 0, 20, 1), new Value(AIMSPEED, 0, 30, 1), new Value(AIMASSISTSPEED, 0, 30, 1),
 			new Value(ATTACKRANGE, 3.0, 6.0, 0.1F), new Value(SMOOTHRANGE, 3.0, 6.0, 0.1F), new Value(SWORDONLY, false, true), new Value(SMOOTHAIM, false, true) });
 
 	@Override
@@ -86,7 +87,8 @@ public class Triggerbot extends Module implements HasValues {
 	@Override
 	public Object getValue(String n) {
 		if (n.equals(APS)) return aps;
-		else if (n.equals(AIMSPEED)) return aimspeed;
+		else if (n.equals(AIMSPEED)) return aimSpeed;
+		else if (n.equals(AIMASSISTSPEED)) return aimAssistSpeed;
 		else if (n.equals(ATTACKRANGE)) return attackRange;
 		else if (n.equals(SMOOTHRANGE)) return smoothRange;
 		else if (n.equals(SWORDONLY)) return swordOnly;
@@ -97,7 +99,8 @@ public class Triggerbot extends Module implements HasValues {
 	@Override
 	public void setValue(String n, Object v) {
 		if (n.equals(APS)) aps = (Integer) v;
-		else if (n.equals(AIMSPEED)) aimspeed = (Integer) v;
+		else if (n.equals(AIMSPEED)) aimSpeed = (Integer) v;
+		else if (n.equals(AIMASSISTSPEED)) aimAssistSpeed = (Integer) v;
 		else if (n.equals(ATTACKRANGE)) attackRange = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(SMOOTHRANGE)) smoothRange = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(SWORDONLY)) swordOnly = Boolean.parseBoolean(v.toString());
