@@ -108,7 +108,7 @@ public class Friends extends Module implements HasValues {
 				}
 			}
 		} else {
-			getFriend(n).setAttackable(!getFriend(n).isAttackable());
+			getFriend(n).setAttackable((Boolean) v);
 		}
 	}
 
@@ -116,7 +116,7 @@ public class Friends extends Module implements HasValues {
 
 		private String name;
 		private String alias;
-		private boolean attackable = true;
+		private boolean attackable = false;
 
 		public Friend(String name, String alias) {
 			this.name = name;
