@@ -99,6 +99,6 @@ public class FontUtil extends Wrapper {
     }
 
 	public static double getFontHeight() {
-		return 9;
+		return 18;
 	}
 }
