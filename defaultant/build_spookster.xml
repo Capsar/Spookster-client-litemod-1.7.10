@@ -29,7 +29,7 @@
     <property name="author"         value="Mumfrey" />
 
     <!-- The name of the eclipse project to build, for upstream dependencies see the targets below -->
-    <property name="project"        value="Spookster 1.7.10" />
+    <property name="project"        value="Spookster" />
         
     <!-- The upstream MD5 set to use when outputting your mod classes, usually liteloader -->
     <property name="md5set"         value="liteloader" />
