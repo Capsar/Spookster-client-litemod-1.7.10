@@ -71,7 +71,7 @@ public class MainWindow extends JFrame {
 			public void run() {
 				if (mainConsole.getList().isEmpty()) {
 					mainConsole.addMessage("Welcome to Spookster made by " + Spookster.instance.clientAuthor + ".", MessageType.NOTIFCATION);
-					mainConsole.addMessage("Current version: " + Spookster.instance.getVersion(), MessageType.NOTIFCATION);
+					mainConsole.addMessage("Current version: " + Spookster.clientVersion, MessageType.NOTIFCATION);
 				}
 				if (!mainConsole.getList().isEmpty()) {
 					main_console_table.validate();
