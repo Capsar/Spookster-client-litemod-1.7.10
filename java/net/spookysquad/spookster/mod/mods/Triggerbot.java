@@ -76,8 +76,8 @@ public class Triggerbot extends Module implements HasValues {
 	}
 
 	private String APS = "Attacks per second", AIMSPEED = "Aim Speed", AIMASSISTSPEED = "Aim Assist Speed", ATTACKRANGE = "Attack Range", SMOOTHRANGE = "Smooth Range", SWORDONLY = "Swords only", SMOOTHAIM = "Smooth aim assist";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(APS, 0, 20, 1), new Value(AIMSPEED, 0, 30, 1), new Value(AIMASSISTSPEED, 0, 30, 1),
-			new Value(ATTACKRANGE, 3.0, 6.0, 0.1F), new Value(SMOOTHRANGE, 3.0, 6.0, 0.1F), new Value(SWORDONLY, false, true), new Value(SMOOTHAIM, false, true) });
+	private List<Value> values = Arrays.asList(new Value[] { new Value(APS, 0, 20, 1), new Value(ATTACKRANGE, 3.0, 6.0, 0.1F), new Value(SMOOTHRANGE, 3.0, 6.0, 0.1F), new Value(AIMSPEED, 0, 30, 1), new Value(AIMASSISTSPEED, 0, 30, 1),
+			new Value(SMOOTHAIM, false, true), new Value(SWORDONLY, false, true) });
 
 	@Override
 	public List<Value> getValues() {
