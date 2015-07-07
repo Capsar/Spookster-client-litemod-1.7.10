@@ -5,7 +5,7 @@ import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventPostHudRender;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.utils.FontUtil;
+import net.spookysquad.spookster.render.FontUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;

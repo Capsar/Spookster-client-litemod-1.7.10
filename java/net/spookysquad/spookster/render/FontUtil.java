@@ -1,6 +1,8 @@
-package net.spookysquad.spookster.utils;
+package net.spookysquad.spookster.render;
 
 import java.util.regex.Pattern;
+
+import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.opengl.GL11;
 
@@ -95,4 +97,8 @@ public class FontUtil extends Wrapper {
     private static String stripControlCodes(String text) {
         return patternControlCode.matcher(text).replaceAll("");
     }
+
+	public static double getFontHeight() {
+		return 9;
+	}
 }
