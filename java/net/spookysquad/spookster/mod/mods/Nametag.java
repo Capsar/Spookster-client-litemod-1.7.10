@@ -47,10 +47,11 @@ public class Nametag extends Module implements HasValues {
 	public int scaleDistance = 16;
 
 	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
-		/*
-		 * if (spooked.friendHandler.isFriendWithEntity(entity) && friends) {
-		 * name = "\247b[FR]\247r | " + name; }
-		 */
+		
+		if (Friends.isFriend(name) && friends) {
+			 name = "\247b[FR]\247r | " + name; 
+		}
+		 
 		if (entity.isSneaking() && sneak) {
 			name = "\247c[S]\247r | " + name;
 		}
