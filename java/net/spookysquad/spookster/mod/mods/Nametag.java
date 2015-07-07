@@ -44,8 +44,8 @@ public class Nametag extends Module implements HasValues {
 	public boolean health = true;
 	public boolean friends = true;
 	public boolean invisibles = true;
-	public double scaleFactor = 1.6d;
-	public int scaleDistance = 16;
+	public double scaleFactor = 2.0D;
+	public int scaleDistance = 10;
 
 	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
 
@@ -97,14 +97,14 @@ public class Nametag extends Module implements HasValues {
 		var15.addVertex((double) (var17 + 1), (double) (-1 + var16), 0.0D);
 		var15.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		FontUtil.drawStringWithShadow(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff, 0.65F);
+		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff);
 		if (health)
-			FontUtil.drawStringWithShadow(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity), 0.65F);
+			FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity));
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
-		FontUtil.drawStringWithShadow(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff, 0.65F);
+		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff);
 		if (health)
-			FontUtil.drawStringWithShadow(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity), 0.65F);
+			FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity));
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
