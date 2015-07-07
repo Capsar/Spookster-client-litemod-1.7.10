@@ -19,7 +19,7 @@ import org.lwjgl.opengl.Display;
 public class Title extends Module {
 
 	public Title() {
-		super(new String[] { "Title" }, "Shows active hacks in the title of the window", Type.MISC, Keyboard.KEY_GRAVE, 0xFFAB1D8A);
+		super(new String[] { "Title" }, "Shows active hacks in the title of the window", Type.MISC, Keyboard.KEY_GRAVE, -1);
 	}
 
 	public void onEvent(Event event) {
