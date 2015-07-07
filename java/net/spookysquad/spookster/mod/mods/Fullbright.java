@@ -48,7 +48,7 @@ public class Fullbright extends Module implements HasValues {
 	public float brightness = 0.7F;
 	
 	private String BRIGHTNESS = "Brightness";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(BRIGHTNESS, 0.0, 2.5, 0.01F) });
+	private List<Value> values = Arrays.asList(new Value[] { new Value(BRIGHTNESS, 0.0, 1, 0.01F) });
 
 	@Override
 	public List<Value> getValues() {
@@ -63,7 +63,7 @@ public class Fullbright extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(BRIGHTNESS)) brightness = (float) (Math.round((Double) v * 10) / 10.0D);
+		if (n.equals(BRIGHTNESS)) brightness = (float) (Math.round((Double) v * 100) / 100.0D);
 	}
 
 }
