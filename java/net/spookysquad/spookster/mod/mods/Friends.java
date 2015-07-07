@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
+import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
@@ -16,14 +17,16 @@ import net.spookysquad.spookster.utils.Wrapper;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
-public class Teams extends Module {
+public class Friends extends Module {
 
-	public Teams() {
-		super(new String[] { "Teams" }, "Allows Triggerbot to not attack teammates", Type.MISC, Keyboard.KEY_NONE, -1);
+	public Friends() {
+		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.MISC, Keyboard.KEY_NONE, -1);
 	}
 
+	
+	
 	public void onEvent(Event event) {
-		if(event instanceof EventPreMotion) {
+		if(event instanceof EventMouseClicked) {
 			
 		}
 	}
