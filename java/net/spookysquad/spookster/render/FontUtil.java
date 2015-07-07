@@ -48,6 +48,13 @@ public class FontUtil extends Wrapper {
     	return drawStringWithShadow(text, x, y, color, width, (color & 16579836) >> 2 | color & -16777216);
     }
     
+    public static float drawStringWithShadow(String text, float x, float y, int color, float width, float scale) {
+    	GL11.glScalef(scale, scale, 0);
+    	float thingy = drawStringWithShadow(text, x * (1.0F / scale), y * (1.0F / scale), color, width, (color & 16579836) >> 2 | color & -16777216);
+    	GL11.glScalef(1.0F / scale, 1.0F / scale, 0);
+    	return thingy;
+    }
+    
     public static float drawCenteredStringWithShadow(String text, float x, float y, int color) {
     	return drawStringWithShadow(text, x - (getFont().getStringWidth(text) / 2), y, color);
     }
@@ -99,6 +106,6 @@ public class FontUtil extends Wrapper {
     }
 
 	public static double getFontHeight() {
-		return 18;
+		return 9;
 	}
 }
