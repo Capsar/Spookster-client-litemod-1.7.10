@@ -18,7 +18,7 @@ import org.lwjgl.opengl.GL11;
 public class Nametag extends Module {
 
 	public Nametag() {
-		super(new String[] { "Nametag" }, "NAMETAGS kdshfgjkdtraw7uei56348758sdf", Type.RENDER, Keyboard.KEY_M, -1);
+		super(new String[] { "Nametag" }, "NAMETAGS kdshfgjkdtraw7uei56348758sdf", Type.RENDER, Keyboard.KEY_M, 0xFFCD00CD);
 	}
 
 	public void onEvent(Event event) {
