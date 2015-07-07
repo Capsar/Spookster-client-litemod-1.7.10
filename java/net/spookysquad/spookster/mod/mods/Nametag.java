@@ -129,10 +129,10 @@ public class Nametag extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(SNEAK)) sneak = Boolean.parseBoolean(v.toString());
-		else if (n.equals(FRIENDS)) friends = Boolean.parseBoolean(v.toString());
-		else if (n.equals(HEALTH)) health = Boolean.parseBoolean(v.toString());
-		else if (n.equals(INVISIBLE)) invisibles = Boolean.parseBoolean(v.toString());
+		if (n.equals(SNEAK)) sneak = (Boolean) v;
+		else if (n.equals(FRIENDS)) friends = (Boolean) v;
+		else if (n.equals(HEALTH)) health = (Boolean) v;
+		else if (n.equals(INVISIBLE)) invisibles = (Boolean) v;
 		else if (n.equals(SCALEFACTOR)) scaleFactor = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(SCALEDISTANCE)) scaleDistance = (Integer) v;
 	}

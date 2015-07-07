@@ -90,7 +90,7 @@ public class XRay extends Module implements HasValues {
 	}
 
 	public void setValue(String n, Object v) {
-		if (n.equals(XRAY_RENDERER)) rerenderLag = Boolean.parseBoolean(v.toString());
+		if (n.equals(XRAY_RENDERER)) rerenderLag = (Boolean) v;
 	}
 
 }
