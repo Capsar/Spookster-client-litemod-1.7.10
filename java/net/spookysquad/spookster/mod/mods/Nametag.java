@@ -56,11 +56,12 @@ public class Nametag extends Module {
 		}
 		
 
-		FontRenderer fontRenderer = Wrapper.getFont();
+		float theScale = scaleFactor;
+		FontRenderer fontRenderer = Wrapper.getMinecraft().fontRendererObj;
 		if(entity.getDistanceToEntity(Wrapper.getPlayer()) > scaleDistance) {
-			scaleFactor *= entity.getDistanceToEntity(Wrapper.getPlayer()) / scaleDistance;
+			theScale *= entity.getDistanceToEntity(Wrapper.getPlayer()) / scaleDistance;
 		}
-		float currentScale = 0.016666668F * scaleFactor;
+		float currentScale = 0.016666668F * theScale;
 		GL11.glPushMatrix();
 		GL11.glTranslatef((float) posX + 0.0F, (float) posY + entity.height
 				+ 0.5F, (float) posZ);
