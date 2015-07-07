@@ -15,6 +15,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.HasValues.Value;
+import net.spookysquad.spookster.render.FontUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -47,18 +48,19 @@ public class Nametag extends Module implements HasValues {
 	public int scaleDistance = 16;
 
 	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
-		
+
 		if (Friends.isFriend(entity.getCommandSenderName()) && friends) {
-			 name = "\247b[FR]\247r | " + name; 
+			name = "\247b[FR]\247r | " + name;
 		}
-		 
+
 		if (entity.isSneaking() && sneak) {
 			name = "\247c[S]\247r | " + name;
 		}
 
-		if (health) {
-			name = name + " \247a" + (int) (entity.getHealth() + entity.getAbsorptionAmount());
-		}
+		// if (health) {
+		// name = name + " \247a" + (int) (entity.getHealth() +
+		// entity.getAbsorptionAmount());
+		// }
 
 		double theScale = scaleFactor;
 		FontRenderer fontRenderer = Wrapper.getMinecraft().fontRendererObj;
@@ -82,7 +84,7 @@ public class Nametag extends Module implements HasValues {
 
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		var15.startDrawingQuads();
-		int var17 = fontRenderer.getStringWidth(name) / 2;
+		int var17 = (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2);
 		var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.6F);
 
 		if (entity.isInvisible() && invisibles) {
@@ -95,14 +97,34 @@ public class Nametag extends Module implements HasValues {
 		var15.addVertex((double) (var17 + 1), (double) (-1 + var16), 0.0D);
 		var15.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		fontRenderer.drawString(name, -fontRenderer.getStringWidth(name) / 2, var16, 0xffffff);
+		FontUtil.drawStringWithShadow(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff, 0.65F);
+		if (health)
+			FontUtil.drawStringWithShadow(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity), 0.65F);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
-		fontRenderer.drawString(name, -fontRenderer.getStringWidth(name) / 2, var16, 0xffffff);
+		FontUtil.drawStringWithShadow(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff, 0.65F);
+		if (health)
+			FontUtil.drawStringWithShadow(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity), 0.65F);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glPopMatrix();
+	}
+
+	private int getHealthColor(EntityLivingBase entity) {
+		int var8 = (int) Math.round(255.0D - (Double.valueOf(getHealth(entity)) * 2.0) * 255.0D
+				/ (double) entity.getMaxHealth());
+		int var10 = 255 - var8 << 8 | var8 << 16;
+		return var10;
+	}
+
+	private static String getHealth(EntityLivingBase entity) {
+		int health = (int) Math.ceil(entity.getHealth());
+		float maxHealth = entity.getMaxHealth();
+		int nrhealth = (int) (health + 0.5F);
+		float rhealth = (float) nrhealth / 2;
+		String ihealth = String.valueOf(rhealth).replace(".0", "");
+		return ihealth;
 	}
 
 	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible",

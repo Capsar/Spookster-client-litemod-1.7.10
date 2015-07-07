@@ -38,9 +38,9 @@ public class FontUtil extends Wrapper {
     
     public static float drawStringWithShadow(String text, float x, float y, int color, float width, int shadowColor) {
     	text = filterText(text);
-    	GL11.glTranslatef(width, width, 0);
+    	GL11.glTranslatef(width, width, -0.001F);
     	drawString(stripColorCodes(text), x, y, shadowColor);
-    	GL11.glTranslatef(-width, -width, 0);
+    	GL11.glTranslatef(-width, -width, -0.001F);
     	return drawString(text, x, y, color);
     }
 
