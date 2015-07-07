@@ -94,10 +94,10 @@ public class ClickPanel extends FontUtil {
 	public void drawPanel(int x, int y) {
 		int width = Wrapper.getFont().getStringWidth(name) + 10;
 		GuiUtil.drawSexyRect(posX, posY, posX + panelWidth, posY + panelHeight - 1, 0xaa808080, 0x00000000);
-		GuiUtil.drawRect(posX, posY + topHeight, posX + panelWidth, posY + panelHeight - 1, 0xFF34495E);
-		GuiUtil.drawRect(posX, posY, posX + panelWidth, posY + topHeight, 0xFF34495E);
-		GuiUtil.drawRect(posX + panelWidth - topHeight, posY, posX + panelWidth, posY + topHeight, this.getState() ? 0xFF2ECC71 : 0xFF2C3E50);
-		FontUtil.drawStringWithShadow(name, (float) posX + 1, (float) posY + 2F, 0xFFFFFF, 0.70F, 1.15F);
+		GuiUtil.drawRect(posX, posY + topHeight, posX + panelWidth, posY + panelHeight - 1, ClickScreen.colors[0]);
+		GuiUtil.drawRect(posX, posY, posX + panelWidth, posY + topHeight, ClickScreen.colors[0]);
+		GuiUtil.drawRect(posX + panelWidth - topHeight, posY, posX + panelWidth, posY + topHeight, this.getState() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
+		FontUtil.drawStringWithShadow(name, (float) posX + 1, (float) posY + 2F, 0xFFFFFFFF, 0.70F, 1.15F);
 
 		if (this.getState()) {
 			int h = topHeight + 4;
