@@ -1,14 +1,19 @@
 package net.spookysquad.spookster.mod.mods;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventPostMotion;
+import net.spookysquad.spookster.mod.HasValues;
+import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 
-public class Fullbright extends Module {
+public class Fullbright extends Module implements HasValues {
 
 	private final float[] tempBrightnessTable = new float[16];
 	
@@ -35,9 +40,30 @@ public class Fullbright extends Module {
 	public void onEvent(Event event) {
 		if(event instanceof EventPostMotion) {
 			for(int i = 0; i < 16; i++) {
-				Wrapper.getWorld().provider.lightBrightnessTable[i] = 0.7F;
+				Wrapper.getWorld().provider.lightBrightnessTable[i] = brightness;
 			}
 		}
+	}
+	
+	public float brightness = 0.7F;
+	
+	private String BRIGHTNESS = "Brightness";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(BRIGHTNESS, 0.0F, 2.5F, 0.01F) });
+
+	@Override
+	public List<Value> getValues() {
+		return values;
+	}
+
+	@Override
+	public Object getValue(String n) {
+		if (n.equals(BRIGHTNESS)) return brightness;
+		return null;
+	}
+
+	@Override
+	public void setValue(String n, Object v) {
+		if (n.equals(BRIGHTNESS)) brightness = (float) (Math.round((Float) v * 10) / 10.0D);
 	}
 
 }
