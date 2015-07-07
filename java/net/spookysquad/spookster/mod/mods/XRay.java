@@ -15,16 +15,16 @@ import net.minecraft.block.BlockSign;
 import net.minecraft.block.BlockTripWire;
 import net.minecraft.block.BlockTripWireHook;
 import net.minecraft.init.Blocks;
-import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
+import net.spookysquad.spookster.mod.HasValues;
+import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 
-public class XRay extends Module {
+public class XRay extends Module implements HasValues {
 
 	public static ArrayList<Block> blocks = new ArrayList<Block>();
 	private int smoothLighting;
