@@ -35,7 +35,7 @@ public class HUD extends Module implements HasValues {
 				fontRenderer.drawStringWithShadow(Spookster.clientName.substring(1, Spookster.clientName.length()), 10, 5, 0xFFFFFFFF, 0.7F);
 				GL11.glPushMatrix();
 				GL11.glScalef(0.5F, 0.5F, 0.5F);
-				fontRenderer.drawStringWithShadow("(§aWeed§f)", 21, 3, 0xFFFFFFFF, 1.4F);
+				fontRenderer.drawStringWithShadow("(§a" + Spookster.clientVersion + "§f)", 21, 3, 0xFFFFFFFF, 1.4F);
 				GL11.glPopMatrix();
 				
 				if(!arrayRight) {
