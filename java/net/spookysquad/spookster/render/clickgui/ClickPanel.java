@@ -100,9 +100,8 @@ public class ClickPanel extends FontUtil {
 		GuiUtil.drawSexyRect(posX, posY, posX + panelWidth, posY + panelHeight - 1, 0xaa808080, 0x00000000);
 		GuiUtil.drawRect(posX, posY + topHeight, posX + panelWidth, posY + panelHeight - 1, 0xFF34495E);
 		GuiUtil.drawRect(posX, posY, posX + panelWidth, posY + topHeight, 0xFF34495E);
-		GuiUtil.drawRect(posX + panelWidth - topHeight, posY, posX + panelWidth, posY + topHeight,
-				this.getState() ? 0xFF2ECC71 : 0xFF2C3E50);
-		FontUtil.drawStringWithShadow(this.getName(), (float) posX + 1, (float) posY + 1.5F, 0xFFFFFF);
+		GuiUtil.drawRect(posX + panelWidth - topHeight, posY, posX + panelWidth, posY + topHeight, this.getState() ? 0xFF2ECC71 : 0xFF2C3E50);
+		FontUtil.drawStringWithShadow(this.getName(), (float) posX + 1, (float) posY + 1.5F, 0xFFFFFF, 0.70F);
 
 		if (this.getState()) {
 			int h = topHeight + 4;
@@ -224,8 +223,8 @@ public class ClickPanel extends FontUtil {
 	}
 
 	public static int getWidth() {
-		double posX = Wrapper.getScaledResolution().getScaledWidth() / 4;
-		double posX2 = Wrapper.getScaledResolution().getScaledWidth() / 4 * 3;
+		double posX = Wrapper.getSRes().getScaledWidth() / 4;
+		double posX2 = Wrapper.getSRes().getScaledWidth() / 4 * 3;
 		int width = MathHelper.floor_double(posX2 - posX) / 2;
 		return width - 5;
 	}

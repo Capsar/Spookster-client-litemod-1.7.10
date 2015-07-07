@@ -44,7 +44,7 @@ public class Wrapper {
 		return mc.fontRendererObj;
 	}
 
-	public static ScaledResolution getScaledResolution() {
+	public static ScaledResolution getSRes() {
 		return new ScaledResolution(getMinecraft(), getMinecraft().displayWidth, getMinecraft().displayHeight);
 	}
 

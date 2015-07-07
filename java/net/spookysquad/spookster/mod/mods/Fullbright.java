@@ -63,7 +63,7 @@ public class Fullbright extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(BRIGHTNESS)) brightness = (float) (Math.round((Float) v * 10) / 10.0D);
+		if (n.equals(BRIGHTNESS)) brightness = (float) (Math.round((Double) v * 10) / 10.0D);
 	}
 
 }

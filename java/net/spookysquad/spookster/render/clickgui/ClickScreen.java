@@ -53,13 +53,11 @@ public class ClickScreen extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		ScaledResolution sc = new ScaledResolution(Wrapper.getMinecraft(), width, height);
-		int x = 2;
-		int x2 = 2;
+		int x = 2, x2 = 2;
 		if (getPanels().isEmpty()) {
 			for (Type type : Type.values()) {
 				if (!type.getName().equals("") && !Spookster.instance.moduleManager.getModulesWithType(type).isEmpty()) {
-					if (sc.getScaledWidth() - x < 0) {
+					if (Wrapper.getSRes().getScaledWidth() - x < 0) {
 						ClickPanel panel = new ClickPanel(this, type, x2, 100);
 						addPanel(panel);
 						x2 += panel.panelWidth + 10;
