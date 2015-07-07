@@ -147,16 +147,19 @@ public class ClickPanelItemFactory {
 				int total = 2;
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
+					if(!ps.isEditable())
+						continue;
+
 					double width = getWidth(posX + xOffset + 1.5, posX + xWidth + xOffset - 1.5);
 					Object currentValue = hep.getValue(ps.getName());
-					if (ps.getMin() instanceof Boolean) {
+					if (currentValue instanceof Boolean) {
 						boolean d = (Boolean) currentValue;
 						int he = 10;
 						int off = -4;
 						total += 12;
 						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, d ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 						drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
-					} else {
+					} else if(currentValue != null) {
 						double min = ValueUtil.toDouble(ps.getMin());
 						double max = ValueUtil.toDouble(ps.getMax());
 						total += FontUtil.getFontHeight() * 0.8;
@@ -196,9 +199,12 @@ public class ClickPanelItemFactory {
 				int total = 2;
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
+					if(!ps.isEditable())
+						continue;
+
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
 					Object currentValue = hep.getValue(ps.getName());
-					if (ps.getMin() instanceof Boolean) {
+					if (currentValue instanceof Boolean) {
 						boolean value = (Boolean) currentValue;
 						int he = 10;
 						int off = -4;
@@ -207,7 +213,7 @@ public class ClickPanelItemFactory {
 							hep.setValue(ps.getName(), !value);
 							return true;
 						}
-					} else {
+					} else if(currentValue != null) {
 						double min = ValueUtil.toDouble(ps.getMin());
 						double max =  ValueUtil.toDouble(ps.getMax());
 						double newValue = x - posX;
@@ -256,11 +262,14 @@ public class ClickPanelItemFactory {
 				int total = 2;
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
+					if(!ps.isEditable())
+						continue;
+
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
-					Object ob = hep.getValue(ps.getName());
-					if (ps.getMin() instanceof Boolean) {
+					Object currentValue = hep.getValue(ps.getName());
+					if (currentValue instanceof Boolean) {
 						total += 12;
-					} else {
+					} else if(currentValue != null) {
 						double min = ValueUtil.toDouble(ps.getMin());
 						double max =  ValueUtil.toDouble(ps.getMax());
 						double newValue = x - posX;

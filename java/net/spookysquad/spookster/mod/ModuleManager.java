@@ -58,8 +58,7 @@ public class ModuleManager extends Manager implements Listener {
 				new Friends(),
 				new Title(),
 				new Triggerbot(),
-				new XRay()
-				));
+				new XRay()));
 	}
 
 	public void deinit(Spookster spookster) {

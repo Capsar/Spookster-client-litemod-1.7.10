@@ -10,7 +10,7 @@ import net.spookysquad.spookster.mod.Type;
 public class ExternalGUI extends Module {
 
 	public ExternalGUI() {
-		super(new String[] {"ExternalGUI"}, "Opens an external GUI", Type.MISC, Keyboard.KEY_NONE, -1);
+		super(new String[] {"ExternalGUI"}, "Opens an external GUI", Type.MISC, -1, -1);
 	}
 
 	@Override

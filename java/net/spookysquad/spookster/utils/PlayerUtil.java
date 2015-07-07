@@ -16,6 +16,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.spookysquad.spookster.mod.mods.Friends;
 
 public class PlayerUtil extends Wrapper {
 
@@ -121,13 +122,13 @@ public class PlayerUtil extends Wrapper {
 			return targetplayer != null && targetplayer.getUniqueID() != null && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
 					&& (swordOnly ? hasSword : true) && (blockHit ? true : !getPlayer().isUsingItem())
-					&& getMinecraft().inGameHasFocus;
+					&& getMinecraft().inGameHasFocus && !Friends.isFriend(targetplayer.getCommandSenderName());
 		} else {
 			return targetplayer != null && getEntityOnMouseCurser(range) != null && targetplayer.getUniqueID() != null
 					&& getEntityOnMouseCurser(range).equals(targetplayer) && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
 					&& (swordOnly ? hasSword : true) && (blockHit ? true : !getPlayer().isUsingItem())
-					&& getMinecraft().inGameHasFocus;
+					&& getMinecraft().inGameHasFocus && !Friends.isFriend(targetplayer.getCommandSenderName());
 		}
 	}
 

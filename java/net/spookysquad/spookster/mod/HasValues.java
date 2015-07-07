@@ -1,5 +1,7 @@
 package net.spookysquad.spookster.mod;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public interface HasValues {
@@ -23,8 +25,8 @@ public interface HasValues {
 			this.min = min;
 			this.max = max;
 		}
-
-		public Value(String name, List list, Object type) {
+		
+		public Value(String name, Collection list, Object type) {
 			super();
 			this.name = name;
 			this.list = list;
@@ -37,7 +39,7 @@ public interface HasValues {
 
 		private float increasement = 0.1F;
 
-		private List list;
+		private Collection list;
 
 		private Object type, min, max;
 
@@ -65,7 +67,7 @@ public interface HasValues {
 			return max.getClass();
 		}
 	}
-	
+
 	List<Value> getValues();
 
 	Object getValue(String n);

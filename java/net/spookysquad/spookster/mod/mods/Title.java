@@ -24,9 +24,9 @@ public class Title extends Module {
 
 	public void onEvent(Event event) {
 		if(event instanceof EventPreMotion) {
-			String theTitle = "";
+			String theTitle = "Minecraft 1.7.10 | ";
 			for(Module mod: Spookster.instance.moduleManager.getModules()) {
-				if(mod.isEnabled() && mod != this) {
+				if(mod.isEnabled() && mod != this && mod.getColor() != -1 && mod.isVisible()) {
 					theTitle = theTitle + mod.getDisplay() + ", ";
 				}
 			}
