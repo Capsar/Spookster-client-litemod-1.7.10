@@ -3,6 +3,7 @@ package net.spookysquad.spookster.mod;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
@@ -39,32 +40,13 @@ public class ModuleManager extends Manager implements Listener {
 
 	public void init(Spookster spookster) {
 		this.spookster = spookster;
-
 		spookster.eventManager.registerListener(this);
-
-		registerModule(new Fullbright());
-		registerModule(new GangsterWalk());
-		registerModule(new HUD());
-		registerModule(new Nametag());
-		registerModule(new NoFall());
-		registerModule(new Phase());
-		registerModule(new Speed());
-		registerModule(new Triggerbot());
-		registerModule(new XRay());
-		registerModule(new ClickGUI());
-		registerModule(new ExternalGUI());
+		this.modules.addAll(Arrays.asList(new Fullbright(), new GangsterWalk(), new HUD(), new Nametag(), new NoFall(),
+				new Phase(), new Speed(), new Triggerbot(), new XRay(), new ClickGUI(), new ExternalGUI()));
 	}
 
 	public void deinit(Spookster spookster) {
 		spookster.eventManager.unregisterListener(this);
-	}
-
-	public void registerModule(Module module) {
-		modules.add(module);
-	}
-
-	public void unregisterModule(Module module) {
-		modules.remove(module);
 	}
 
 	/**
@@ -102,30 +84,26 @@ public class ModuleManager extends Manager implements Listener {
 	public void onEvent(Event event) {
 		if (event instanceof EventKeyPressed) {
 			EventKeyPressed pressed = (EventKeyPressed) event;
-			if(!Spookster.clientDisabled) {
+			if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) && pressed.getKey() == Keyboard.KEY_UP) {
+				Spookster.clientEnabled = !Spookster.clientEnabled;
+				if (Spookster.clientEnabled) {
+					Spookster.instance.loadClientFromFile();
+				} else {
+					Spookster.instance.disableAndSafeClient();
+				}
+			}
+
+			if (Spookster.clientEnabled) {
 				for (Module m : getModules()) {
 					if (m.getKeyCode() == pressed.getKey()) {
 						m.toggle(true);
 					}
 				}
-				if(pressed.getKey() == Keyboard.KEY_UP && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-					Spookster.clientDisabled = true;
-					for(Module m: getModules()) {
-						if(m.isEnabled()) {
-							m.toggle(true);
-						}
-					}
-				}
-			} else {
-				if(pressed.getKey() == Keyboard.KEY_UP && Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-					Spookster.clientDisabled = false;
-				}
 			}
-			
-			
+
 		} else if (event instanceof EventMouseClicked) {
 			EventMouseClicked pressed = (EventMouseClicked) event;
-			if(!Spookster.clientDisabled) {
+			if (Spookster.clientEnabled) {
 				for (Module m : getModules()) {
 					if (m.getKeyCode() + 256 == pressed.getButton()) {
 						m.toggle(true);

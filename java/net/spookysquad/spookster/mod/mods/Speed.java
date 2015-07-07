@@ -187,7 +187,7 @@ public class Speed extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(SPEED)) speed = (Math.round((Double) v * 10) / 10.0D);
+		if (n.equals(SPEED)) speed = (Math.round((Double) v * 100) / 100.0D);
 		else if (n.equals(AUTOSPRINT)) autoSprint = (Boolean) v;
 		else if (n.equals(BOUNDINGBOXOFFSET)) boundingBoxOffset = (Boolean) v;
 	}

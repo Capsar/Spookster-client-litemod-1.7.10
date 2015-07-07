@@ -165,10 +165,8 @@ public class ClickPanel extends FontUtil {
 				if (p instanceof EditablePanelItem) {
 					if (p instanceof EditablePanelItem) {
 						EditablePanelItem se = (EditablePanelItem) p;
-
 						if (p.handleDrag(posX - 2, posY + total, x, y))
 							return true;
-
 					}
 				}
 				total += p.yHeight;

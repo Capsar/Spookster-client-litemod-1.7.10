@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -41,7 +42,7 @@ public class Spookster {
 	public static final String clientName = "Spookster";
 	public static final String clientAuthor = "Capsar, TehNeon & Rederpz";
 	public static String clientPrefix = "..";
-	public static boolean clientDisabled = true;
+	public static boolean clientEnabled = false;
 	public static final File SAVE_LOCATION = Wrapper.getMinecraft().mcDataDir;
 	public static final File ASSETS_LOCATION = new File(SAVE_LOCATION, "assets");
 	public static final File INDEXES_LOCATION = new File(ASSETS_LOCATION, "indexes");
@@ -61,7 +62,7 @@ public class Spookster {
 		return "LiteAPI";
 	}
 
-	public void init(File configPath) {
+	public Spookster() {
 		try {
 			if (!INDEXES_LOCATION.exists()) {
 				INDEXES_LOCATION.mkdirs();
@@ -77,7 +78,9 @@ public class Spookster {
 			for (Manager manager : managers) {
 				manager.init(this);
 			}
-			loadClientFromFile();
+
+			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) clientEnabled = true;
+			if (clientEnabled) loadClientFromFile();
 			Runtime.getRuntime().addShutdownHook(new Thread("Shutdown Thread") {
 				@Override
 				public void run() {
@@ -91,6 +94,8 @@ public class Spookster {
 			e.printStackTrace();
 		}
 	}
+
+	public void init(File configPath) {}
 
 	public void loadClientFromFile() {
 		try {
@@ -138,8 +143,8 @@ public class Spookster {
 	private boolean[] keys = new boolean[256 + 15];
 
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
-		EventGameTick tick = new EventGameTick();
-		tick.call();
+		// EventGameTick tick = new EventGameTick();
+		// tick.call();
 
 		if (inGame && minecraft.inGameHasFocus) {
 			for (int i = 0; i < 256 + 15; i++) {
