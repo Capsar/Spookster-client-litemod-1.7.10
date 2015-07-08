@@ -48,7 +48,7 @@ public class Step extends Module implements HasValues {
 	public boolean BypassStep = false;
 	public double stepHeight = 0.5;
 	
-	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Legit step", BYPASS = "Bypass step", STEPMODE = "Step Mode";
+	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Legit step", BYPASS = "Bypass step (NOT IMPLEMENTED)", STEPMODE = "Step Mode";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(STEPHEIGHT, 0.5D, 10D, 0.1F),
 			new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(LEGIT, false, true), new Value(BYPASS, false, true))) });
 
