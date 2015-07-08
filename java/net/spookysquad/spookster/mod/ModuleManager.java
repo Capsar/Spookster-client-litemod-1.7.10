@@ -13,8 +13,11 @@ import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.HasValues.Value;
+import net.spookysquad.spookster.mod.mods.Blink;
 import net.spookysquad.spookster.mod.mods.ClickGUI;
 import net.spookysquad.spookster.mod.mods.ExternalGUI;
+import net.spookysquad.spookster.mod.mods.Freecam;
+import net.spookysquad.spookster.mod.mods.Friends;
 import net.spookysquad.spookster.mod.mods.Fullbright;
 import net.spookysquad.spookster.mod.mods.GangsterWalk;
 import net.spookysquad.spookster.mod.mods.HUD;
@@ -23,7 +26,6 @@ import net.spookysquad.spookster.mod.mods.NoFall;
 import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.Speed;
 import net.spookysquad.spookster.mod.mods.Step;
-import net.spookysquad.spookster.mod.mods.Friends;
 import net.spookysquad.spookster.mod.mods.Title;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 import net.spookysquad.spookster.mod.mods.XRay;
@@ -45,8 +47,11 @@ public class ModuleManager extends Manager implements Listener {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
 		this.modules.addAll(Arrays.asList(
+				new Blink(),
 				new ClickGUI(),
 				new ExternalGUI(),
+				new Freecam(),
+				new Friends(),
 				new Fullbright(), 
 				new GangsterWalk(),
 				new HUD(),
@@ -55,7 +60,6 @@ public class ModuleManager extends Manager implements Listener {
 				new Phase(),
 				new Speed(),
 				new Step(),
-				new Friends(),
 				new Title(),
 				new Triggerbot(),
 				new XRay()));

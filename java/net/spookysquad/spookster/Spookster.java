@@ -144,8 +144,8 @@ public class Spookster {
 	private boolean[] keys = new boolean[256 + 15];
 
 	public void onTick(Minecraft minecraft, float partialTicks, boolean inGame, boolean clock) {
-		// EventGameTick tick = new EventGameTick();
-		// tick.call();
+		EventGameTick tick = new EventGameTick();
+		tick.call();
 
 		if (inGame && minecraft.inGameHasFocus) {
 			for (int i = 0; i < 256 + 15; i++) {
