@@ -24,14 +24,14 @@ public class Freecam extends Module {
 	}
 	
 	public boolean onEnable() {
-		this.posX = PlayerUtil.getPlayer().posX;
-		this.posY = PlayerUtil.getPlayer().posY;
-		this.posZ = PlayerUtil.getPlayer().posZ;
-		this.rotationYaw = PlayerUtil.getPlayer().rotationYaw;
-		this.rotationPitch = PlayerUtil.getPlayer().rotationPitch;
-		this.wasSneaking = PlayerUtil.getPlayer().isSneaking();
+		this.posX = getPlayer().posX;
+		this.posY = getPlayer().posY;
+		this.posZ = getPlayer().posZ;
+		this.rotationYaw = getPlayer().rotationYaw;
+		this.rotationPitch = getPlayer().rotationPitch;
+		this.wasSneaking = getPlayer().isSneaking();
 		
-		this.freecamPlayer = new EntityOtherPlayerMP(Wrapper.getWorld(), PlayerUtil.getPlayer().getGameProfile());
+		this.freecamPlayer = new EntityOtherPlayerMP(getWorld(), getPlayer().getGameProfile());
 		this.freecamPlayer.setPositionAndRotation(posX, posY - 1.5, posZ, rotationYaw, rotationPitch);
 		this.freecamPlayer.rotationYaw = rotationYaw;
 		this.freecamPlayer.rotationYawHead = rotationYaw;
@@ -39,33 +39,33 @@ public class Freecam extends Module {
 		
 		updateFreecam();
 		
-		Wrapper.getWorld().addEntityToWorld(-11333337, freecamPlayer);
+		getWorld().addEntityToWorld(-11333337, freecamPlayer);
 		
 		return super.onEnable();
 	}
 	
 	public void updateFreecam() {
 		freecamPlayer.setSneaking(wasSneaking);
-		freecamPlayer.inventory = PlayerUtil.getPlayer().inventory;
-		freecamPlayer.setHealth(PlayerUtil.getPlayer().getHealth());
+		freecamPlayer.inventory = getPlayer().inventory;
+		freecamPlayer.setHealth(getPlayer().getHealth());
 	}
 	
 	public boolean onDisable() {
-		PlayerUtil.getPlayer().capabilities.isFlying = false;
-		PlayerUtil.getPlayer().noClip = false;
+		getPlayer().capabilities.isFlying = false;
+		getPlayer().noClip = false;
 		this.freecamPlayer.setDead();
 		this.freecamPlayer = null;
-		PlayerUtil.getWorld().removeEntityFromWorld(-1333337);
-		PlayerUtil.getPlayer().noClip = false;
-		PlayerUtil.getPlayer().setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
+		getWorld().removeEntityFromWorld(-1333337);
+		getPlayer().noClip = false;
+		getPlayer().setPositionAndRotation(posX, posY, posZ, rotationYaw, rotationPitch);
 		return super.onDisable();
 	}
 
 	public void onEvent(Event event) {
 		if(event instanceof EventPreMotion) {
 			updateFreecam();
-			PlayerUtil.getPlayer().capabilities.isFlying = true;
-			PlayerUtil.getPlayer().noClip = true;
+			getPlayer().capabilities.isFlying = true;
+			getPlayer().noClip = true;
 			
 				
 			event.cancel();
