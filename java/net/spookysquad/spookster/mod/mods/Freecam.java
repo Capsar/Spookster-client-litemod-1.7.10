@@ -51,6 +51,8 @@ public class Freecam extends Module {
 	}
 	
 	public boolean onDisable() {
+		PlayerUtil.getPlayer().capabilities.isFlying = false;
+		PlayerUtil.getPlayer().noClip = false;
 		this.freecamPlayer.setDead();
 		this.freecamPlayer = null;
 		PlayerUtil.getWorld().removeEntityFromWorld(-1333337);
