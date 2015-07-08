@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.spookysquad.spookster.event.Event;
-import net.spookysquad.spookster.event.events.EventPostMotion;
+import net.spookysquad.spookster.event.events.EventGameTick;
 import net.spookysquad.spookster.mod.HasValues;
-import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.utils.Wrapper;
@@ -38,7 +37,7 @@ public class Fullbright extends Module implements HasValues {
 	}
 
 	public void onEvent(Event event) {
-		if(event instanceof EventPostMotion) {
+		if(event instanceof EventGameTick) {
 			for(int i = 0; i < 16; i++) {
 				Wrapper.getWorld().provider.lightBrightnessTable[i] = brightness;
 			}

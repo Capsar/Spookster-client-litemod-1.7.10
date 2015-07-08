@@ -16,6 +16,7 @@ import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.mods.Blink;
 import net.spookysquad.spookster.mod.mods.ClickGUI;
 import net.spookysquad.spookster.mod.mods.ExternalGUI;
+import net.spookysquad.spookster.mod.mods.Freecam;
 import net.spookysquad.spookster.mod.mods.Friends;
 import net.spookysquad.spookster.mod.mods.Fullbright;
 import net.spookysquad.spookster.mod.mods.GangsterWalk;
@@ -49,6 +50,8 @@ public class ModuleManager extends Manager implements Listener {
 				new Blink(),
 				new ClickGUI(),
 				new ExternalGUI(),
+				new Freecam(),
+				new Friends(),
 				new Fullbright(), 
 				new GangsterWalk(),
 				new HUD(),
@@ -57,7 +60,6 @@ public class ModuleManager extends Manager implements Listener {
 				new Phase(),
 				new Speed(),
 				new Step(),
-				new Friends(),
 				new Title(),
 				new Triggerbot(),
 				new XRay()));
