@@ -3,13 +3,13 @@ package net.spookysquad.spookster.command;
 public class Command {
 
 	private String[] names;
-	private String highassfuck;
+	private String description;
 	private String name;
 
-	public Command(String[] names, String highassfuck) {
+	public Command(String[] names, String description) {
 		this.name = names[0];
 		this.names = names;
-		this.highassfuck = highassfuck;
+		this.description = description;
 	}
 	
 	public String getName() {
@@ -21,7 +21,7 @@ public class Command {
 	}
 	
 	private String getDesc() {
-		return highassfuck;
+		return description;
 	}
 	
 	public boolean onCommand(String text) {
