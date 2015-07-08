@@ -1,16 +1,16 @@
 package net.spookysquad.spookster.mod;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 public interface HasValues {
 
 	public class Value {
+
 		public Value(String name, Object min, Object max, float increasement) {
-			super();
 			assert min.getClass().equals(max.getClass());
-			isEditable = true;
+			isSimpleValue = true;
 			this.increasement = increasement;
 			this.name = name;
 			this.min = min;
@@ -18,33 +18,55 @@ public interface HasValues {
 		}
 
 		public Value(String name, Object min, Object max) {
-			super();
 			assert min.getClass().equals(max.getClass());
-			isEditable = true;
+			isSimpleValue = true;
 			this.name = name;
 			this.min = min;
 			this.max = max;
 		}
-		
+
 		public Value(String name, Collection list, Object type) {
-			super();
 			this.name = name;
 			this.list = list;
 			this.type = type;
 		}
 
+		public Value(String name, boolean shown, List<Value> values) {
+			this.shown = shown;
+			hasExtraValues = true;
+			this.name = name;
+//			this.otherValues = (ArrayList<Value>) values;
+			this.otherValues.clear();
+			for(Value value : values) {
+				this.otherValues.add(value);
+			}
+		}
+
 		private final String name;
-
-		private boolean isEditable = false;
-
+		private boolean isSimpleValue = false;
 		private float increasement = 0.1F;
+		private Object type, min, max;
 
 		private Collection list;
 
-		private Object type, min, max;
+		private ArrayList<Value> otherValues = new ArrayList<Value>();
+		private boolean hasExtraValues = false;
+		private boolean shown = false;
 
-		public boolean isEditable() {
-			return isEditable;
+		public boolean isShown() {
+			return shown;
+		}
+		
+		public void setShown(boolean shown) {
+			this.shown = shown;
+		}
+		
+		public boolean hasExtraValues() {
+			return hasExtraValues;
+		}
+
+		public boolean isSimpleValue() {
+			return isSimpleValue;
 		}
 
 		public float getIncreasement() {
@@ -65,6 +87,10 @@ public interface HasValues {
 
 		public Class getVClass() {
 			return max.getClass();
+		}
+
+		public ArrayList<Value> getOtherValues() {
+			return otherValues;
 		}
 	}
 

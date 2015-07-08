@@ -1,5 +1,7 @@
 package net.spookysquad.spookster.render.clickgui;
 
+import java.util.List;
+
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.spookysquad.spookster.mod.HasValues;
@@ -43,8 +45,7 @@ public class ClickPanelItemFactory {
 		@Override
 		public void drawPanelItem(double posX, double posY, int x, int y) {
 			drawNormalPanelItem(posX, posY);
-			if (y >= (posY + yOffset) && y <= (posY + yHeight + yOffset)
-					&& (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset))) {
+			if (y >= (posY + yOffset) && y <= (posY + yHeight + yOffset) && (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset))) {
 				drawPanelItemHover(posX, posY, x, y);
 				if (timer < 5) {
 					if (timer == 0) {
@@ -54,8 +55,7 @@ public class ClickPanelItemFactory {
 					}
 					timer++;
 				}
-			} else if (x < xClickw + xOffset || x > xClickw + xWidth + xOffset || y > yClickw + yHeight + yOffset
-					|| y < yClickw + yOffset) {
+			} else if (x < xClickw + xOffset || x > xClickw + xWidth + xOffset || y > yClickw + yHeight + yOffset || y < yClickw + yOffset) {
 				timer = 0;
 			}
 			if (x < posX + xOffset || x > posX + xWidth + xOffset || y > posY + yHeight + yOffset || y < posY + yOffset) {
@@ -69,22 +69,19 @@ public class ClickPanelItemFactory {
 
 		public void drawNormalPanelItem(double posX, double posY) {
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, getModule().isEnabled() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
-			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-"
-									: getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256)
-											: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF, 0.70F);
+			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]",
+					(float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFF, 0.70F);
 		}
 
 		public void drawPanelItemHover(double posX, double posY, int x, int y) {
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, getModule().isEnabled() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
-			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-"
-					: getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256)
-							: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFFFF, 0.70F);
+			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]",
+					(float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFFFF, 0.70F);
 		}
 
 		@Override
 		public boolean handleClick(double posX, double posY, int x, int y, boolean distBelow2) {
-			if (y >= (posY + yOffset - 1) && y <= (posY + yHeight + yOffset + 1)
-					&& (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset)) && distBelow2) {
+			if (y >= (posY + yOffset - 1) && y <= (posY + yHeight + yOffset + 1) && (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset)) && distBelow2) {
 				module.toggle(true);
 				return true;
 			}
@@ -92,8 +89,7 @@ public class ClickPanelItemFactory {
 		}
 
 		public boolean setListingKey(double posX, double posY, int x, int y) {
-			if (y >= (posY + yOffset - 1) && y <= (posY + yHeight + yOffset + 1)
-					&& (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset))) {
+			if (y >= (posY + yOffset - 1) && y <= (posY + yHeight + yOffset + 1) && (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset))) {
 				ClickScreen.getInstance().setModuleToChangeKey(this.module);
 				return true;
 			}
@@ -139,36 +135,55 @@ public class ClickPanelItemFactory {
 			yHeight = 12;
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset - 12, posY + yHeight + yOffset, getModule().isEnabled() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 			drawRect(posX + xOffset + xWidth - 15, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, ClickScreen.colors[2]);
-			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-"
-					: getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256)
-							: Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFFFF, 0.70F);
-		
+			drawStringWithShadow(getModule().getDisplay() + " [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]",
+					(float) posX + xOffset + 1, (float) posY - 1.5F, 0xFFFFFFFF, 0.70F);
+
 			if (this.editProperties) {
 				int total = 2;
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
-					if(!ps.isEditable())
-						continue;
-
 					double width = getWidth(posX + xOffset + 1.5, posX + xWidth + xOffset - 1.5);
-					Object currentValue = hep.getValue(ps.getName());
-					if (currentValue instanceof Boolean) {
-						boolean d = (Boolean) currentValue;
+					if (ps.hasExtraValues()) {
 						int he = 10;
 						int off = -4;
 						total += 12;
-						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, d ? ClickScreen.colors[1] : ClickScreen.colors[2]);
-						drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
-					} else if(currentValue != null) {
-						double min = ValueUtil.toDouble(ps.getMin());
-						double max = ValueUtil.toDouble(ps.getMax());
-						total += FontUtil.getFontHeight() * 0.8;
-						drawStringWithShadow(ps.getName() + ": " + currentValue.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF, 0.7F, 0.8F);
-						total += FontUtil.getFontHeight() * 0.8 + 1;
-						drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, ClickScreen.colors[2]);
-						drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)), posY + 5 + total, ClickScreen.colors[1]);
-						drawRect(posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)) - (ValueUtil.toDouble(currentValue) <= min + 0.1 ? 0 : 0.5), posY + total, posX
-								+ getWidth(width, min, max, ValueUtil.toDouble(currentValue)) + (ValueUtil.toDouble(currentValue) >= max - 0.1 ? 0 : 0.5), posY + 5 + total, 0xFF00FF7F);
+						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, ps.isShown() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
+						drawRect(posX + width - 10, posY + total + off, posX + width, posY + off + total + he, ps.isShown() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
+						drawStringWithShadow(ps.getOtherValues().get(0).getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
+						if (ps.isShown()) {
+							for (Value v : ps.getOtherValues()) {
+								if (v == ps.getOtherValues().get(0)) continue;
+								Object currentValue = hep.getValue(v.getName());
+								if (currentValue instanceof Boolean && v.isSimpleValue()) {
+									boolean d = (Boolean) currentValue;
+									int newBool = 8;
+									int otherOffset = -2;
+									total += 10;
+									drawRect(posX + 2, posY + total + otherOffset, posX + width - 0.5, posY + otherOffset + total + newBool, ClickScreen.colors[2]);
+									drawStringWithShadow(v.getName(), (float) posX + 3, (float) posY + otherOffset + total + (newBool / 4) - 1F, 0xFFFFFFFF, 0.75F, 0.75F);
+								}
+							}
+						}
+					} else {
+						Object currentValue = hep.getValue(ps.getName());
+						if (currentValue instanceof Boolean && ps.isSimpleValue()) {
+							boolean d = (Boolean) currentValue;
+							int he = 10;
+							int off = -4;
+							total += 12;
+							drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, d ? ClickScreen.colors[1] : ClickScreen.colors[2]);
+							drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
+						} else if (currentValue != null && ps.isSimpleValue()) {
+							double min = ValueUtil.toDouble(ps.getMin());
+							double max = ValueUtil.toDouble(ps.getMax());
+							total += FontUtil.getFontHeight() * 0.8;
+							drawStringWithShadow(ps.getName() + ": " + currentValue.toString(), (float) posX + 1, (float) posY + total, 0xFFFFFFFF, 0.7F, 0.8F);
+							total += FontUtil.getFontHeight() * 0.8 + 1;
+							drawRect(posX + 0.5, posY + total - 0.5, posX + width + 0.5, posY + 5 + total + 0.5, ClickScreen.colors[2]);
+							drawRect(posX + 1.5, posY + total, posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)), posY + 5 + total, ClickScreen.colors[1]);
+							drawRect(posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue)) - (ValueUtil.toDouble(currentValue) <= min + 0.1 ? 0 : 0.5), posY + total, posX + getWidth(width, min, max, ValueUtil.toDouble(currentValue))
+									+ (ValueUtil.toDouble(currentValue) >= max - 0.1 ? 0 : 0.5), posY + 5 + total, 0xFF00FF7F);
+						}
 					}
 				}
 				yHeight += total;
@@ -195,55 +210,79 @@ public class ClickPanelItemFactory {
 			}
 			if (!distBelow2) return false;
 
-			if (editProperties) {
-				int total = 2;
-				HasValues hep = (HasValues) getModule();
-				for (Value ps : hep.getValues()) {
-					if(!ps.isEditable())
-						continue;
-
-					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
-					Object currentValue = hep.getValue(ps.getName());
-					if (currentValue instanceof Boolean) {
-						boolean value = (Boolean) currentValue;
-						int he = 10;
-						int off = -4;
-						total += 12;
-						if (x >= posX + 1.5 && y >= posY + total + off && x <= posX + width && y <= posY + off + total + he) {
-							hep.setValue(ps.getName(), !value);
-							return true;
-						}
-					} else if(currentValue != null) {
-						double min = ValueUtil.toDouble(ps.getMin());
-						double max =  ValueUtil.toDouble(ps.getMax());
-						double newValue = x - posX;
-						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
-						total += FontUtil.getFontHeight() * 1.6 + 1;
-						if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value);
-							return true;
-						}
-					}
-				}
-			}
-
-			if (y >= (posY + yOffset) && y <= (posY + yHeight + yOffset)
-					&& (x >= posX + xOffset + xWidth - 15 && x <= posX + xWidth + xOffset)) {
+			if (y >= (posY + yOffset) && y <= (posY + 10 + yOffset) && (x >= posX + xOffset + xWidth - 15 && x <= posX + xWidth + xOffset)) {
 				editProperties = !editProperties;
 				for (NormalPanelItem e : this.panel.getPanelItems()) {
 					if (e instanceof EditablePanelItem) {
 						EditablePanelItem ed = (EditablePanelItem) e;
-						if (!e.getModule().getDisplay().equalsIgnoreCase(this.getModule().getDisplay()))
-							ed.editProperties = false;
+						if (!e.getModule().getDisplay().equalsIgnoreCase(this.getModule().getDisplay())) ed.editProperties = false;
 					}
 				}
 				return true;
 			}
 
-			if (y >= (posY + yOffset - 1) && y <= (posY + 10 + yOffset + 1)
-					&& (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset))) {
+			if (y >= (posY + yOffset - 1) && y <= (posY + 10 + yOffset + 1) && (x >= (posX + xOffset) && x <= (posX + xWidth + xOffset))) {
 				getModule().toggle(true);
 				return true;
+			}
+			if (editProperties) {
+				int total = 2;
+				HasValues hep = (HasValues) getModule();
+				for (Value ps : hep.getValues()) {
+					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
+					if (ps.hasExtraValues()) {
+						int he = 10;
+						int off = -4;
+						total += 12;
+						if (x >= posX + 1.5 && y >= posY + total + off && x <= posX + width && y <= posY + off + total + he) {
+							ps.setShown(!ps.isShown());
+							return true;
+						}
+						if (ps.isShown()) {
+							for (int i = 0; i < ps.getOtherValues().size(); i++) {
+								if (i == 0) continue;
+								Value v = ps.getOtherValues().get(i);
+								Object currentValue = hep.getValue(v.getName());
+								if (currentValue instanceof Boolean && v.isSimpleValue()) {
+									int newBool = 8;
+									int otherOffset = -2;
+									total += 10;
+									if (x >= posX + 2 && y >= posY + total + otherOffset && x <= posX + width - 0.5 && y <= posY + otherOffset + total + newBool) {
+										ps.getOtherValues().add(0, v);
+										ps.getOtherValues().remove(i + 1);
+										for(Value vz : ps.getOtherValues()) {
+											hep.setValue(vz.getName(), (Boolean) (ps.getOtherValues().get(0) == vz));
+										}
+										ps.setShown(false);
+										return true;
+									}
+								}
+							}
+						}
+					} else {
+						Object currentValue = hep.getValue(ps.getName());
+						if (currentValue instanceof Boolean && ps.isSimpleValue()) {
+							boolean value = (Boolean) currentValue;
+							int he = 10;
+							int off = -4;
+							total += 12;
+							if (x >= posX + 1.5 && y >= posY + total + off && x <= posX + width && y <= posY + off + total + he) {
+								hep.setValue(ps.getName(), !value);
+								return true;
+							}
+						} else if (currentValue != null && ps.isSimpleValue()) {
+							double min = ValueUtil.toDouble(ps.getMin());
+							double max = ValueUtil.toDouble(ps.getMax());
+							double newValue = x - posX;
+							Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
+							total += FontUtil.getFontHeight() * 1.6 + 1;
+							if (x >= posX + 1.5 && x <= posX + width && y >= posY + total && y <= posY + 5 + total) {
+								hep.setValue(ps.getName(), value);
+								return true;
+							}
+						}
+					}
+				}
 			}
 			return false;
 		}
@@ -262,16 +301,13 @@ public class ClickPanelItemFactory {
 				int total = 2;
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
-					if(!ps.isEditable())
-						continue;
-
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
 					Object currentValue = hep.getValue(ps.getName());
-					if (currentValue instanceof Boolean) {
+					if (currentValue instanceof Boolean && ps.isSimpleValue()) {
 						total += 12;
-					} else if(currentValue != null) {
+					} else if (currentValue != null && ps.isSimpleValue()) {
 						double min = ValueUtil.toDouble(ps.getMin());
-						double max =  ValueUtil.toDouble(ps.getMax());
+						double max = ValueUtil.toDouble(ps.getMax());
 						double newValue = x - posX;
 						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
 						total += FontUtil.getFontHeight() * 1.6 + 1;
