@@ -45,11 +45,12 @@ public class Step extends Module implements HasValues {
 
 	public boolean VanillaStep = true;
 	public boolean LegitStep = false;
+	public boolean BypassStep = false;
 	public double stepHeight = 0.5;
 	
-	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Legit step", STEPMODE = "Step Mode";
+	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Legit step", BYPASS = "Bypass step", STEPMODE = "Step Mode";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(STEPHEIGHT, 0.5D, 10D, 0.1F),
-			new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(LEGIT, false, true))) });
+			new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(LEGIT, false, true), new Value(BYPASS, false, true))) });
 
 	@Override
 	public List<Value> getValues() {
@@ -61,6 +62,7 @@ public class Step extends Module implements HasValues {
 		if (n.equals(STEPHEIGHT)) return stepHeight;
 		else if (n.equals(VANILLA)) return VanillaStep;
 		else if (n.equals(LEGIT)) return LegitStep;
+		else if (n.equals(BYPASS)) return BypassStep;
 		return null;
 	}
 
@@ -69,6 +71,7 @@ public class Step extends Module implements HasValues {
 		if (n.equals(STEPHEIGHT)) stepHeight = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(VANILLA)) VanillaStep = (Boolean) v;
 		else if (n.equals(LEGIT)) LegitStep = (Boolean) v;
+		else if (n.equals(BYPASS)) BypassStep = (Boolean) v;
 	}
 
 }
