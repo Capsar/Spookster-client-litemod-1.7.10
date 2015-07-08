@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventPacketSend;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.utils.PacketUtil;
 
 import org.lwjgl.input.Keyboard;
 
 public class Blink extends Module implements HasValues {
 
-	private ArrayList<C03PacketPlayer> packets = new ArrayList<C03PacketPlayer>();
+	private ArrayList<Packet> packets = new ArrayList<Packet>();
 	
 	public Blink() {
 		super(new String[] { "Blink" }, "POOF! You're gone", Type.MOVEMENT, Keyboard.KEY_LBRACKET, 0xFFaa676a);
@@ -37,7 +38,7 @@ public class Blink extends Module implements HasValues {
 	}
 	
 	public boolean onDisable() {
-		for(C03PacketPlayer packet: packets) {
+		for(Packet packet: packets) {
 			PacketUtil.sendPacket(packet);
 		}
 		
@@ -56,8 +57,8 @@ public class Blink extends Module implements HasValues {
 	public void onEvent(Event event) {
 		if(event instanceof EventPacketSend) {
 			EventPacketSend packetSend = (EventPacketSend) event;
-			if(packetSend.getPacket() instanceof C03PacketPlayer) {
-				packets.add((C03PacketPlayer) packetSend.getPacket());
+			if(packetSend.getPacket() instanceof C03PacketPlayer || packetSend.getPacket() instanceof C0BPacketEntityAction) {
+				packets.add(packetSend.getPacket());
 				event.cancel();
 			}
 		}
