@@ -13,6 +13,7 @@ import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.HasValues.Value;
+import net.spookysquad.spookster.mod.mods.ArmorSwitch;
 import net.spookysquad.spookster.mod.mods.Blink;
 import net.spookysquad.spookster.mod.mods.ClickGUI;
 import net.spookysquad.spookster.mod.mods.ExternalGUI;
@@ -62,7 +63,7 @@ public class ModuleManager extends Manager implements Listener {
 				new Step(),
 				new Title(),
 				new Triggerbot(),
-				new XRay()));
+				new XRay(), new ArmorSwitch()));
 	}
 
 	public void deinit(Spookster spookster) {

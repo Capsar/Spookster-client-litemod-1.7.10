@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.spookysquad.spookster.command.CommandManager;
 import net.spookysquad.spookster.event.EventManager;
 import net.spookysquad.spookster.event.events.EventGameTick;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
@@ -54,6 +55,7 @@ public class Spookster {
 	public static Spookster instance;
 	public EventManager eventManager;
 	public ModuleManager moduleManager;
+	public CommandManager commandManager;
 
 	public String getVersion() {
 		return "v0.0";
@@ -76,6 +78,7 @@ public class Spookster {
 			FRAME = new MainWindow();
 			managers.add(eventManager = new EventManager());
 			managers.add(moduleManager = new ModuleManager());
+			managers.add(commandManager = new CommandManager());
 			for (Manager manager : managers) {
 				manager.init(this);
 			}
@@ -96,7 +99,8 @@ public class Spookster {
 		}
 	}
 
-	public void init(File configPath) {}
+	public void init(File configPath) {
+	}
 
 	public void loadClientFromFile() {
 		try {
@@ -189,5 +193,10 @@ public class Spookster {
 
 	public void onPostRenderHUD(int screenWidth, int screenHeight) {
 		eventManager.callEvent(new EventPostHudRender(screenWidth, screenHeight));
+	}
+
+	public boolean onSendChatMessage(String message) {
+		if (this.clientEnabled) return commandManager.onCommand(message);
+		return true;
 	}
 }

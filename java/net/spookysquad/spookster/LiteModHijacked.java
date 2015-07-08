@@ -6,8 +6,12 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S02PacketChat;
+import net.minecraft.util.IChatComponent;
 
+import com.mumfrey.liteloader.ChatFilter;
 import com.mumfrey.liteloader.HUDRenderListener;
+import com.mumfrey.liteloader.OutboundChatFilter;
 import com.mumfrey.liteloader.PacketHandler;
 import com.mumfrey.liteloader.Tickable;
 
@@ -17,7 +21,7 @@ import com.mumfrey.liteloader.Tickable;
  * 
  * @author TehNeon
  */
-public class LiteModHijacked implements Tickable, PacketHandler, HUDRenderListener {
+public class LiteModHijacked implements Tickable, PacketHandler, HUDRenderListener, OutboundChatFilter {
 
 	private Spookster spookster = new Spookster();
 
@@ -54,5 +58,11 @@ public class LiteModHijacked implements Tickable, PacketHandler, HUDRenderListen
 	public void onPostRenderHUD(int screenWidth, int screenHeight) {
 		spookster.onPostRenderHUD(screenWidth, screenHeight);
 	}
+
+	@Override
+	public boolean onSendChatMessage(String message) {
+		return spookster.onSendChatMessage(message);
+	}
+
 
 }
