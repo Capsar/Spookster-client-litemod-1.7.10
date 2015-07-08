@@ -30,9 +30,10 @@ public class Blink extends Module {
 
 	@Override
 	public void onEvent(Event event) {
-		if(event instanceof EventPacketGet) {
+		if(event instanceof EventPacketSend) {
 			EventPacketSend packetSend = (EventPacketSend) event;
 			if(packetSend.getPacket() instanceof C03PacketPlayer) {
+				packets.add((C03PacketPlayer) packetSend.getPacket());
 				event.cancel();
 			}
 		}
