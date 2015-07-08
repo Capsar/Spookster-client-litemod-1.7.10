@@ -8,6 +8,7 @@ import net.spookysquad.spookster.event.events.EventPacketGet;
 import net.spookysquad.spookster.event.events.EventPacketSend;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.utils.PacketUtil;
 
 import org.lwjgl.input.Keyboard;
 
@@ -21,7 +22,7 @@ public class Blink extends Module {
 	
 	public boolean onDisable() {
 		for(C03PacketPlayer packet: packets) {
-			// TODO: Not sure how to send this with the EventPacket stuffs
+			PacketUtil.sendPacket(packet);
 		}
 		
 		packets.clear();
