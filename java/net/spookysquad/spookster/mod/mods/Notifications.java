@@ -34,7 +34,7 @@ public class Notifications extends Module {
 			
 			ArrayList<Entry<String, Long>> notifications = new ArrayList<Entry<String, Long>>();
 			
-			for(Entry<String, Long> notification: notifications) {
+			for(Entry<String, Long> notification: this.notifications) {
 				notifications.add(notification);
 			}
 			
