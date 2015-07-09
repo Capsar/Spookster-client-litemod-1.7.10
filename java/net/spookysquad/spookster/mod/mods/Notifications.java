@@ -14,7 +14,7 @@ import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.render.GuiUtil;
 
-public class Notifications extends Module implements HasValues {
+public class Notifications extends Module {
 
 	public static CopyOnWriteArrayList<Entry<String, Long>> notifications = new CopyOnWriteArrayList<Entry<String, Long>>();
 
@@ -47,20 +47,5 @@ public class Notifications extends Module implements HasValues {
 				count -= 14;
 			}
 		}
-	}
-
-	@Override
-	public List<Value> getValues() {
-		return null;
-	}
-
-	@Override
-	public Object getValue(String n) {
-		return null;
-	}
-
-	@Override
-	public void setValue(String n, Object v) {
-		
 	}
 }
