@@ -14,7 +14,7 @@ import net.spookysquad.spookster.event.events.EventRenderNameTag;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.mod.HasValues.Value;
+import net.spookysquad.spookster.mod.mods.Friends.Friend;
 import net.spookysquad.spookster.render.FontUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
@@ -49,7 +49,10 @@ public class Nametag extends Module implements HasValues {
 
 	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
 
-		if (Friends.isFriend(entity.getCommandSenderName()) && friends) {
+		Friend fr = Friends.getFriend(entity.getCommandSenderName());
+		
+		if (fr != null && friends) {
+			name = name.replaceAll(fr.getName(), fr.getAlias());
 			name = "\247b[FR]\247r | " + name;
 		}
 

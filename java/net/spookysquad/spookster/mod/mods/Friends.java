@@ -8,6 +8,7 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.spookysquad.spookster.Spookster;
+import net.spookysquad.spookster.command.Command;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.event.events.EventPreMotion;
@@ -15,6 +16,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.HasValues.Value;
+import net.spookysquad.spookster.render.external.console.MessageType;
 import net.spookysquad.spookster.utils.PlayerUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
@@ -26,13 +28,64 @@ public class Friends extends Module implements HasValues {
 	public Friends() {
 		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.MISC, -1, -1);
 		this.toggle(false);
+		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "addfriend", "addfr", "af", "friendadd", "fadd", "fa" }, "Add friends") {
+			@Override
+			public boolean onCommand(String text, String cmd, String[] args) {
+				for(String name: getNames()) {
+					if(cmd.equalsIgnoreCase(name)) {
+						if(args.length > 1) {
+							String username = args[1];
+							String alias = (args.length > 2 ? args[2] : username);
+							Friend isFriend = getFriend(username);
+							if(isFriend != null) {
+								friends.remove(isFriend);
+								friends.add(new Friend(username, alias));
+								Wrapper.logChat(MessageType.NOTIFCATION, "Changed friend " + username + ", with alias " + alias + "!");
+							} else {
+								friends.add(new Friend(username, alias));
+								Wrapper.logChat(MessageType.NOTIFCATION, "Added friend " + username + ", with alias " + alias + "!");
+							}
+						} else {
+							Wrapper.logChat(MessageType.NOTIFCATION, "Invalid syntax! Use:");
+							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username>");
+						}
+						return true;
+					}
+				}
+				return super.onCommand(text, cmd, args);
+			}
+		});
+		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "delfriend", "delfr", "df", "frienddel", "fdel", "fd", "fr", "frem", "friendremove", "rf", "removefr", "removefriend" }, "Delete friends") {
+			@Override
+			public boolean onCommand(String text, String cmd, String[] args) {
+				for(String name: getNames()) {
+					if(cmd.equalsIgnoreCase(name)) {
+						if(args.length > 1) {
+							String username = args[1];
+							Friend isFriend = getFriend(username);
+							if(isFriend != null) {
+								friends.remove(isFriend);
+								Wrapper.logChat(MessageType.NOTIFCATION, "Removed friend " + username + "!");
+							} else {
+								Wrapper.logChat(MessageType.NOTIFCATION, "You're not friends with " + username + "!");
+							}
+						} else {
+							Wrapper.logChat(MessageType.NOTIFCATION, "Invalid syntax! Use:");
+							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username>");
+						}
+						return true;
+					}
+				}
+				return super.onCommand(text, cmd, args);
+			}
+		});
 	}
 
 	public boolean onDisable() {
 		return false;
 	};
 
-	private static HashSet<Friend> friends = new HashSet<Friend>();
+	public static HashSet<Friend> friends = new HashSet<Friend>();
 
 	public void onEvent(Event event) {
 		if (event instanceof EventMouseClicked) {
