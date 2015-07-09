@@ -3,6 +3,7 @@ package net.spookysquad.spookster.command;
 import java.util.ArrayList;
 
 import net.spookysquad.spookster.Spookster;
+import net.spookysquad.spookster.command.commands.VClip;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.render.external.console.MessageType;
 import net.spookysquad.spookster.utils.Wrapper;
@@ -13,6 +14,7 @@ public class CommandManager extends Manager {
 
 	@Override
 	public void init(Spookster spookster) {
+		commands.add(new VClip());
 	}
 
 	@Override
@@ -20,11 +22,20 @@ public class CommandManager extends Manager {
 	}
 
 	public boolean onCommand(String message) {
-		for (Command command : commands) {
-			if (command.onCommand(message)) {
-				Wrapper.logChat(MessageType.NOTIFCATION, "Im high af right now, but you did a command with the name: " + command.getName());
-				return false;
+		if(message.startsWith(Spookster.clientPrefix)) {
+			message = message.replaceFirst(Spookster.clientPrefix, "");
+			String[] args = message.split(" ");
+			
+			for (Command command : commands) {
+				if (command.onCommand(message, args[0], args)) {
+					Wrapper.logChat(MessageType.NOTIFCATION, "Command Executed: " + command.getName());
+					return false;
+				}
 			}
+			
+			Wrapper.logChat(MessageType.NOTIFCATION, "Invalid Command: " + message);
+			
+			return false;
 		}
 		return true;
 	}

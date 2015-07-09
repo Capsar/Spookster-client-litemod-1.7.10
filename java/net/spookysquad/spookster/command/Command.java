@@ -24,7 +24,7 @@ public class Command {
 		return description;
 	}
 	
-	public boolean onCommand(String text) {
+	public boolean onCommand(String text, String cmd, String[] args) {
 		return false;
 	}
 

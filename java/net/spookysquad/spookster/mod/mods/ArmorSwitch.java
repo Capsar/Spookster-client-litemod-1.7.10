@@ -16,14 +16,14 @@ public class ArmorSwitch extends Module {
 		super(new String[] { "Armor Switch", "switch", "as" }, "Switch your armor with a different set.", Type.COMBAT, -1, -1);
 		Spookster.instance.commandManager.getCommands().add(new Command(this.getName(), this.getDesc()) {
 			@Override
-			public boolean onCommand(String text) {
+			public boolean onCommand(String text, String cmd, String[] args) {
 				for (String name : this.getNames()) {
-					if (text.startsWith(Spookster.clientPrefix + name)) {
+					if (cmd.equalsIgnoreCase(name)) {
 						Spookster.instance.moduleManager.getModule(ArmorSwitch.class).toggle(true);
 						return true;
 					}
 				}
-				return super.onCommand(text);
+				return super.onCommand(text, cmd, args);
 			}
 		});
 		this.setVisible(false);
