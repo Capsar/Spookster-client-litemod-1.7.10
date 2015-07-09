@@ -24,6 +24,7 @@ import net.spookysquad.spookster.mod.mods.GangsterWalk;
 import net.spookysquad.spookster.mod.mods.HUD;
 import net.spookysquad.spookster.mod.mods.Nametag;
 import net.spookysquad.spookster.mod.mods.NoFall;
+import net.spookysquad.spookster.mod.mods.Notifications;
 import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.Speed;
 import net.spookysquad.spookster.mod.mods.Step;
@@ -57,6 +58,7 @@ public class ModuleManager extends Manager implements Listener {
 				new GangsterWalk(),
 				new HUD(),
 				new Nametag(),
+				new Notifications(),
 				new NoFall(),
 				new Phase(),
 				new Speed(),

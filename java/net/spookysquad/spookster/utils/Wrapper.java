@@ -1,5 +1,8 @@
 package net.spookysquad.spookster.utils;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Map.Entry;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -7,8 +10,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.network.Packet;
-import net.spookysquad.spookster.render.external.MainWindow;
+import net.spookysquad.spookster.mod.mods.Notifications;
 import net.spookysquad.spookster.render.external.console.MessageType;
 
 public class Wrapper {
@@ -49,6 +51,12 @@ public class Wrapper {
 	}
 
 	public static void logChat(MessageType type, String text) {
-		MainWindow.mainConsole.addMessage(text, type);
+//		MainWindow.mainConsole.addMessage(text, type);
+		Notifications.notifications.add((Entry<String, Long>) getEntry(text, (long) (System.nanoTime() / 1E6)));
+	}
+
+	public static Entry getEntry(Object o, Object o2) {
+		SimpleEntry entry = new SimpleEntry(o, o2);
+		return entry;
 	}
 }
