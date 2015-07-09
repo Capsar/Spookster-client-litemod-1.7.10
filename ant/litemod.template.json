@@ -3,7 +3,7 @@
     "mcversion": "${litemodversion}",
     "revision": "${build.number}",
     "author": "${author}",
-    "description": "API used for other mods!\n - WorldEditWrapper\n - TabbyChat",
+    "description": "API used for LiteMods!",
     "classTransformerClasses" : [
         "net.spookysquad.spookster.injection.Transformer"
     ]
