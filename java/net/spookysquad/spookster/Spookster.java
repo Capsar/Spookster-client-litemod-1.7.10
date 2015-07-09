@@ -58,7 +58,7 @@ public class Spookster {
 	public CommandManager commandManager;
 
 	public String getVersion() {
-		return "v0.0";
+		return "1.7.10_04";
 	}
 
 	public String getName() {
