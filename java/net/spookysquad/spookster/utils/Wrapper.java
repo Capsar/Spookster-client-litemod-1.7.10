@@ -11,6 +11,7 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.settings.GameSettings;
 import net.spookysquad.spookster.mod.mods.Notifications;
+import net.spookysquad.spookster.render.external.MainWindow;
 import net.spookysquad.spookster.render.external.console.MessageType;
 
 public class Wrapper {
@@ -51,7 +52,7 @@ public class Wrapper {
 	}
 
 	public static void logChat(MessageType type, String text) {
-//		MainWindow.mainConsole.addMessage(text, type);
+		MainWindow.mainConsole.addMessage(text, type);
 		Notifications.notifications.add((Entry<String, Long>) getEntry(text, (long) (System.nanoTime() / 1E6)));
 	}
 
