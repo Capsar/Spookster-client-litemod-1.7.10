@@ -47,7 +47,7 @@ public class Friends extends Module implements HasValues {
 							}
 						} else {
 							Wrapper.logChat(MessageType.NOTIFCATION, "Invalid syntax! Use:");
-							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username>");
+							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username> [alias] - Adds friend");
 						}
 						return true;
 					}
@@ -71,7 +71,7 @@ public class Friends extends Module implements HasValues {
 							}
 						} else {
 							Wrapper.logChat(MessageType.NOTIFCATION, "Invalid syntax! Use:");
-							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username>");
+							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username> - Removes friend");
 						}
 						return true;
 					}
