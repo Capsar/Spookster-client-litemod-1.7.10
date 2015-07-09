@@ -8,7 +8,9 @@ import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.render.external.console.MessageType;
 import net.spookysquad.spookster.utils.TimeUtil;
+import net.spookysquad.spookster.utils.Wrapper;
 
 public class ArmorSwitch extends Module {
 
@@ -19,6 +21,7 @@ public class ArmorSwitch extends Module {
 			public boolean onCommand(String text, String cmd, String[] args) {
 				for (String name : this.getNames()) {
 					if (cmd.equalsIgnoreCase(name)) {
+						Wrapper.logChat(MessageType.NOTIFCATION, "Switching your armor!");
 						Spookster.instance.moduleManager.getModule(ArmorSwitch.class).toggle(true);
 						return true;
 					}

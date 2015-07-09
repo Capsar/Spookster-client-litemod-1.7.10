@@ -1,6 +1,7 @@
 package net.spookysquad.spookster.mod.mods;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
@@ -12,9 +13,10 @@ import net.spookysquad.spookster.event.events.EventPostHudRender;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.render.GuiUtil;
 
-public class Notifications extends Module {
+public class Notifications extends Module implements HasValues {
 
 	public static CopyOnWriteArrayList<Entry<String, Long>> notifications = new CopyOnWriteArrayList<Entry<String, Long>>();
 
@@ -25,7 +27,7 @@ public class Notifications extends Module {
 	public void onEvent(Event e) {
 		if (e instanceof EventGameTick) {
 			for(Entry<String, Long> notification: notifications) {
-				if(System.nanoTime() / 1E6 - notification.getValue() >= 5000L) {
+				if(System.nanoTime() / 1E6 - notification.getValue() >= delay) {
 					notifications.remove(notification);
 				}
 			}
@@ -47,5 +49,26 @@ public class Notifications extends Module {
 				count -= 14;
 			}
 		}
+	}
+	
+	public int delay = 5000;
+	
+	private String DELAY = "Delay";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(DELAY, 1d, 10000d, 500), });
+
+	@Override
+	public List<Value> getValues() {
+		return values;
+	}
+
+	@Override
+	public Object getValue(String n) {
+		if (n.equals(DELAY)) return delay;
+		return null;
+	}
+
+	@Override
+	public void setValue(String n, Object v) {
+		if (n.equals(DELAY)) delay = (int) Math.round((Double) v);
 	}
 }
