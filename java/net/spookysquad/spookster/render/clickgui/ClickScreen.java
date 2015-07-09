@@ -76,7 +76,7 @@ public class ClickScreen extends GuiScreen {
 	@Override
 	protected void keyTyped(final char c, final int i) {
 		if (keyChangeModule != null) {
-			Wrapper.logChat(MessageType.NOTIFCATION, "Changed binding off " + keyChangeModule.getDisplay() + " to " + (i == 1 ? "NONE" : Keyboard.getKeyName(i)));
+			Wrapper.logChat(MessageType.NOTIFCATION, "Changed binding of " + keyChangeModule.getDisplay() + " to " + (i == 1 ? "NONE" : Keyboard.getKeyName(i)));
 			keyChangeModule.setKeyCode(i == 1 ? -1 : i);
 			keyChangeModule = null;
 			if (i == 1) return;
@@ -91,7 +91,7 @@ public class ClickScreen extends GuiScreen {
 	@Override
 	protected void mouseClicked(int posX, int posY, int type) {
 		if (keyChangeModule != null) {
-			Wrapper.logChat(MessageType.NOTIFCATION, "Changed binding off " + keyChangeModule.getDisplay() + " to " + (type == 0 ? "NONE" : Mouse.getButtonName(type)));
+			Wrapper.logChat(MessageType.NOTIFCATION, "Changed binding of " + keyChangeModule.getDisplay() + " to " + (type == 0 ? "NONE" : Mouse.getButtonName(type)));
 			keyChangeModule.setKeyCode(type == 0 ? -1 : type + 256);
 			keyChangeModule = null;
 		}
