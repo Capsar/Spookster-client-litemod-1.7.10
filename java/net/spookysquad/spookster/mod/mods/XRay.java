@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockGlowstone;
+import net.minecraft.block.BlockMobSpawner;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.BlockPistonExtension;
@@ -17,7 +18,6 @@ import net.minecraft.block.BlockTripWireHook;
 import net.minecraft.init.Blocks;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.mod.HasValues;
-import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.utils.Wrapper;
@@ -35,57 +35,53 @@ public class XRay extends Module implements HasValues {
 		Iterator<Block> list = Block.blockRegistry.iterator();
 		while (list.hasNext()) {
 			Block b = list.next();
-			if (b instanceof BlockOre || b instanceof BlockRedstoneOre || b instanceof BlockGlowstone
-					|| b instanceof BlockSign || b instanceof BlockPistonBase || b instanceof BlockPistonExtension
-					|| b == Blocks.iron_door || b instanceof BlockTripWire || b instanceof BlockTripWireHook) {
+			if (b instanceof BlockOre || b instanceof BlockRedstoneOre || b instanceof BlockGlowstone || b instanceof BlockSign || b instanceof BlockPistonBase || b instanceof BlockPistonExtension || b == Blocks.iron_door
+					|| b instanceof BlockTripWire || b instanceof BlockTripWireHook || b instanceof BlockMobSpawner) {
 				blocks.add(b);
 			}
 		}
 		this.smoothLighting = 2;
 	}
 
-	public void onEvent(Event event) {}
+	public void onEvent(Event event) {
+	}
 
 	public boolean onEnable() {
 		this.smoothLighting = Wrapper.getGameSettings().ambientOcclusion;
 		this.brightness = getGameSettings().gammaSetting;
 		Wrapper.getGameSettings().ambientOcclusion = 0;
 		getGameSettings().gammaSetting = 100;
-		if(!rerenderLag) {
-			getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200,
-					(int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200,
-					(int) getPlayer().posZ + 200);
+		if (!rerenderLag) {
+			getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200, (int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200, (int) getPlayer().posZ + 200);
 		} else {
 			Wrapper.getMinecraft().renderGlobal.loadRenderers();
 		}
-		
+
 		return super.onEnable();
 	}
 
 	public boolean onDisable() {
 		Wrapper.getGameSettings().ambientOcclusion = this.smoothLighting;
 		getGameSettings().gammaSetting = this.brightness;
-		if(!rerenderLag) {
-			getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200,
-					(int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200,
-					(int) getPlayer().posZ + 200);
+		if (!rerenderLag) {
+			getWorld().markBlockRangeForRenderUpdate((int) getPlayer().posX - 200, (int) getPlayer().posY - 200, (int) getPlayer().posZ - 200, (int) getPlayer().posX + 200, (int) getPlayer().posY + 200, (int) getPlayer().posZ + 200);
 		} else {
 			Wrapper.getMinecraft().renderGlobal.loadRenderers();
 		}
-		
+
 		return super.onDisable();
 	}
-	
+
 	public boolean rerenderLag = false;
 	private String XRAY_RENDERER = "Rerender Lag";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(XRAY_RENDERER, false, true) });
-	
+
 	public List<Value> getValues() {
 		return values;
 	}
 
 	public Object getValue(String n) {
-		if(n.equals(XRAY_RENDERER)) return rerenderLag;
+		if (n.equals(XRAY_RENDERER)) return rerenderLag;
 		return null;
 	}
 
