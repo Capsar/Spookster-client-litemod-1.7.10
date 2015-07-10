@@ -33,13 +33,13 @@ public class Step extends Module implements HasValues {
 			if(VanillaStep) {
 				Wrapper.getPlayer().stepHeight = (float) stepHeight;
 			} else {
-				Wrapper.getPlayer().stepHeight = 0.6F;
+				Wrapper.getPlayer().stepHeight = 0.5F;
 			}
 		}
 	}
 	
 	public boolean onDisable() {
-		Wrapper.getPlayer().stepHeight = 1.0F;
+		Wrapper.getPlayer().stepHeight = 0.5F;
 		return super.onDisable();
 	}
 
