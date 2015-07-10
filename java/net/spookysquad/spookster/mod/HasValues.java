@@ -35,7 +35,6 @@ public interface HasValues {
 			this.shown = shown;
 			hasExtraValues = true;
 			this.name = name;
-//			this.otherValues = (ArrayList<Value>) values;
 			this.otherValues.clear();
 			for(Value value : values) {
 				this.otherValues.add(value);

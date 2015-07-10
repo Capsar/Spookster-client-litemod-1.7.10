@@ -48,24 +48,8 @@ public class ModuleManager extends Manager implements Listener {
 	public void init(Spookster spookster) {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
-		this.modules.addAll(Arrays.asList(
-				new Blink(),
-				new ClickGUI(),
-				new ExternalGUI(),
-				new Freecam(),
-				new Friends(),
-				new Fullbright(), 
-				new GangsterWalk(),
-				new HUD(),
-				new Nametag(),
-				new Notifications(),
-				new NoFall(),
-				new Phase(),
-				new Speed(),
-				new Step(),
-				new Title(),
-				new Triggerbot(),
-				new XRay(), new ArmorSwitch()));
+		this.modules.addAll(Arrays.asList(new Blink(), new ClickGUI(), new ExternalGUI(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new Nametag(), new Notifications(), new NoFall(), new Phase(), new Speed(),
+				new Step(), new Title(), new Triggerbot(), new XRay(), new ArmorSwitch()));
 	}
 
 	public void deinit(Spookster spookster) {
@@ -156,6 +140,7 @@ public class ModuleManager extends Manager implements Listener {
 					if (mod != null) {
 						JsonObject settings = entry.getValue().getAsJsonObject();
 						for (Map.Entry<String, JsonElement> setting : settings.entrySet()) {
+							try {
 							if (setting.getKey().equals("KEY")) {
 								mod.setKeyCode(Integer.valueOf(setting.getValue().getAsString()));
 							} else if (setting.getKey().equals("STATE")) {
@@ -177,6 +162,7 @@ public class ModuleManager extends Manager implements Listener {
 									}
 								}
 							}
+							} catch(Exception e) {e.printStackTrace();}
 						}
 					}
 				}
@@ -202,7 +188,7 @@ public class ModuleManager extends Manager implements Listener {
 				HasValues hep = (HasValues) m;
 				JsonObject newDataObject = new JsonObject();
 				for (Value v : hep.getValues()) {
-					newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
+					if (!v.hasExtraValues()) newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
 				}
 				dataObject.add("VALUES", newDataObject);
 			}

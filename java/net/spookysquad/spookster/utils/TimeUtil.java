@@ -24,7 +24,15 @@ public class TimeUtil {
 		return getCurrentTime() >= resetMS + miliseconds;
 	}
 
-	public long getCurrentTime() {
+	public static long getCurrentTime() {
 		return (long) (System.nanoTime() / 1E6);
+	}
+
+	public static boolean hasDelayRun(long resetMS, int delay) {
+		return getCurrentTime() >= resetMS + delay;
+	}
+
+	public static TimeUtil getTime() {
+		return new TimeUtil();
 	}
 }

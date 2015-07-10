@@ -24,7 +24,7 @@ import org.lwjgl.opengl.GL11;
 public class Nametag extends Module implements HasValues {
 
 	public Nametag() {
-		super(new String[] { "Nametag" }, "NAMETAGS kdshfgjkdtraw7uei56348758sdf", Type.RENDER, Keyboard.KEY_M, 0xFFCD00CD);
+		super(new String[] { "Nametag" }, "Enlarge nametags and other options.", Type.RENDER, Keyboard.KEY_M, 0xFFCD00CD);
 	}
 
 	public void onEvent(Event event) {

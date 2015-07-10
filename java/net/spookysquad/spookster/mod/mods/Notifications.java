@@ -10,11 +10,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventGameTick;
 import net.spookysquad.spookster.event.events.EventPostHudRender;
+import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.render.GuiUtil;
+import net.spookysquad.spookster.utils.TimeUtil;
 
 public class Notifications extends Module implements HasValues {
 
@@ -25,36 +27,32 @@ public class Notifications extends Module implements HasValues {
 	}
 
 	public void onEvent(Event e) {
-		if (e instanceof EventGameTick) {
-			for(Entry<String, Long> notification: notifications) {
-				if(System.nanoTime() / 1E6 - notification.getValue() >= delay) {
+		if (e instanceof EventPreMotion) {
+			for (Entry<String, Long> notification : notifications) {
+				if (TimeUtil.hasDelayRun(notification.getValue(), delay)) {
 					notifications.remove(notification);
 				}
 			}
 		} else if (e instanceof EventPostHudRender) {
 			EventPostHudRender event = (EventPostHudRender) e;
-			
-			ArrayList<Entry<String, Long>> notifications = new ArrayList<Entry<String, Long>>();
-			
-			for(Entry<String, Long> notification: this.notifications) {
-				notifications.add(notification);
-			}
-			
+
 			Collections.reverse(notifications);
-			
+
 			int count = 0;
-			for(Entry<String, Long> notification: notifications) {
+			for (Entry<String, Long> notification : notifications) {
 				GuiUtil.drawBorderedRect(event.getScreenWidth() - getFont().getStringWidth(notification.getKey()) - 4, event.getScreenHeight() - 52 + count + 10, event.getScreenWidth() + 2, event.getScreenHeight() - 54 + count, 0.3F, 0xFF000000, 0x55000000);
 				GuiUtil.drawStringWithShadow(notification.getKey(), event.getScreenWidth() - getFont().getStringWidth(notification.getKey()) - 2, event.getScreenHeight() - 52 + count, 0xFFFFFFFF, 0.7F);
 				count -= 14;
 			}
+
+			Collections.reverse(notifications);
 		}
 	}
-	
+
 	public int delay = 5000;
-	
+
 	private String DELAY = "Delay";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(DELAY, 1d, 10000d, 500), });
+	private List<Value> values = Arrays.asList(new Value[] { new Value(DELAY, 1, 10000, 500), });
 
 	@Override
 	public List<Value> getValues() {
@@ -69,6 +67,6 @@ public class Notifications extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(DELAY)) delay = (int) Math.round((Double) v);
+		if (n.equals(DELAY)) delay = (Integer) v;
 	}
 }
