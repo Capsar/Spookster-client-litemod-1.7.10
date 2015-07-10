@@ -33,6 +33,7 @@ public class Step extends Module implements HasValues {
 			if(VanillaStep) {
 				Wrapper.getPlayer().stepHeight = (float) stepHeight;
 			} else {
+				//default step height on 1.8 = 0.6F;
 				Wrapper.getPlayer().stepHeight = 0.5F;
 			}
 		}
