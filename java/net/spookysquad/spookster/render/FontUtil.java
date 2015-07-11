@@ -105,7 +105,7 @@ public class FontUtil extends Wrapper {
         return patternControlCode.matcher(text).replaceAll("");
     }
 
-	public static double getFontHeight() {
+	public static int getFontHeight() {
 		return 9;
 	}
 }

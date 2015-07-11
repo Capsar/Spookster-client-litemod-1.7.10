@@ -22,8 +22,16 @@ public abstract class Module extends Wrapper implements Listener {
 		this.name = name;
 		this.desc = desc;
 		this.type = type;
-		this.color = color;
 		this.keyCode = keybind;
+		this.color = color;
+	}
+
+	public Module(String name, String desc, Type type, int keybind, int color) {
+		this.name = new String[] {name};
+		this.desc = desc;
+		this.type = type;
+		this.keyCode = keybind;
+		this.color = color;
 	}
 
 	public boolean isEnabled() {

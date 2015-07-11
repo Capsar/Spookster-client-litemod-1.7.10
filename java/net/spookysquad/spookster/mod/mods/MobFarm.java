@@ -41,7 +41,7 @@ public class MobFarm extends Module {
 				}
 			} else {
 				for (EntityLivingBase mob : mobs) {
-					if(isMobAttackable(mob) && time.hasDelayRun(10))
+					if(isMobAttackable(mob) && time.hasDelayRun(100))
 						if(attack(mob))
 							break;
 						
@@ -61,13 +61,13 @@ public class MobFarm extends Module {
 		getPlayer().swingItem();
 		getController().attackEntity(getPlayer(), mob);
 		mobs.remove(mob);
-		time.resetAndAdd(new Random().nextInt(30));
+		time.resetAndAdd(new Random().nextInt(50));
 		return true;
 	}
 
 	private boolean isMobAttackable(EntityLivingBase mob) {
 
-		if (getPlayer().getDistanceToEntity(mob) < 4.0 && mob.hurtResistantTime == 0 && mob.getHealth() > 0 && !mob.isDead) {
+		if (getPlayer().getDistanceToEntity(mob) < 4.0 && mob.hurtResistantTime <= 8 && mob.getHealth() > 0 && !mob.isDead) {
 			float[] angles = AngleUtil.getAngles(mob, getPlayer());
 			float yaw = AngleUtil.getDistanceBetweenAngle(getPlayer().rotationYaw, angles[0]);
 			float pitch = AngleUtil.getDistanceBetweenAngle(getPlayer().rotationPitch, angles[1]);
