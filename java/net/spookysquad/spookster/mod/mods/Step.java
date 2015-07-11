@@ -22,15 +22,12 @@ public class Step extends Module implements HasValues {
 
 	public void onEvent(Event event) {
 		if(event instanceof EventPreMotion) {
-			if(LegitStep) {
-				if(PlayerUtil.getPlayer().isCollidedHorizontally) {
-					if(PlayerUtil.getPlayer().onGround) {
-						PlayerUtil.getPlayer().jump();
-					}
-				}
+			if(jumpStep) {
+				double blockX = getPlayer().posX + (getPlayer().motionX * 10);
+				double blockZ = getPlayer().posZ + (getPlayer().motionZ * 10);
 			}
 			
-			if(VanillaStep) {
+			if(vanillaStep) {
 				Wrapper.getPlayer().stepHeight = (float) stepHeight;
 			} else {
 				Wrapper.getPlayer().stepHeight = 0.6F;
@@ -43,12 +40,12 @@ public class Step extends Module implements HasValues {
 		return super.onDisable();
 	}
 
-	public boolean VanillaStep = true;
-	public boolean LegitStep = false;
-	public boolean BypassStep = false;
+	public boolean vanillaStep = true;
+	public boolean jumpStep = false;
+	public boolean bypassStep = false;
 	public double stepHeight = 0.5;
 	
-	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Legit step", BYPASS = "Bypass step (NOT IMPLEMENTED)", STEPMODE = "Step Mode";
+	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Jump step", BYPASS = "Bypass step", STEPMODE = "Step Mode";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(STEPHEIGHT, 0.5D, 10D, 0.1F),
 			new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(LEGIT, false, true), new Value(BYPASS, false, true))) });
 
@@ -60,18 +57,18 @@ public class Step extends Module implements HasValues {
 	@Override
 	public Object getValue(String n) {
 		if (n.equals(STEPHEIGHT)) return stepHeight;
-		else if (n.equals(VANILLA)) return VanillaStep;
-		else if (n.equals(LEGIT)) return LegitStep;
-		else if (n.equals(BYPASS)) return BypassStep;
+		else if (n.equals(VANILLA)) return vanillaStep;
+		else if (n.equals(LEGIT)) return jumpStep;
+		else if (n.equals(BYPASS)) return bypassStep;
 		return null;
 	}
 
 	@Override
 	public void setValue(String n, Object v) {
 		if (n.equals(STEPHEIGHT)) stepHeight = (Math.round((Double) v * 10) / 10.0D);
-		else if (n.equals(VANILLA)) VanillaStep = (Boolean) v;
-		else if (n.equals(LEGIT)) LegitStep = (Boolean) v;
-		else if (n.equals(BYPASS)) BypassStep = (Boolean) v;
+		else if (n.equals(VANILLA)) vanillaStep = (Boolean) v;
+		else if (n.equals(LEGIT)) jumpStep = (Boolean) v;
+		else if (n.equals(BYPASS)) bypassStep = (Boolean) v;
 	}
 
 }

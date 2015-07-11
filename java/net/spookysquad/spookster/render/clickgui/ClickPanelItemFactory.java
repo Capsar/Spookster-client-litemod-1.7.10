@@ -70,17 +70,17 @@ public class ClickPanelItemFactory {
 		public void drawNormalPanelItem(double posX, double posY) {
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, getModule().isEnabled() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 			String name = getModule().getDisplay();
-			drawStringWithShadow( name , (float) posX + xOffset + 1, (float) posY, 0xFFFFFFFF, 0.70F, 0.85F);
-			drawStringWithShadow(" [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]",
-					(float) posX + xOffset + 1 + (getFont().getStringWidth(name) * 0.85F), (float) posY + 1.05F, 0xFFFFFFFF, 0.70F, 0.75F);
+			drawStringWithShadow(name, (float) posX + xOffset + 1, (float) posY, 0xFFFFFFFF, 0.70F, 0.85F);
+			drawStringWithShadow(" [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1
+					+ (getFont().getStringWidth(name) * 0.85F), (float) posY + 1.05F, 0xFFFFFFFF, 0.70F, 0.75F);
 		}
 
 		public void drawPanelItemHover(double posX, double posY, int x, int y) {
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, getModule().isEnabled() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 			String name = getModule().getDisplay();
-			drawStringWithShadow( name , (float) posX + xOffset + 1, (float) posY, 0xFFFFFFFF, 0.70F, 0.85F);
-			drawStringWithShadow(" [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]",
-					(float) posX + xOffset + 1 + (getFont().getStringWidth(name) * 0.85F), (float) posY + 1.05F, 0xFFFFFFFF, 0.70F, 0.75F);
+			drawStringWithShadow(name, (float) posX + xOffset + 1, (float) posY, 0xFFFFFFFF, 0.70F, 0.85F);
+			drawStringWithShadow(" [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1
+					+ (getFont().getStringWidth(name) * 0.85F), (float) posY + 1.05F, 0xFFFFFFFF, 0.70F, 0.75F);
 		}
 
 		@Override
@@ -140,9 +140,9 @@ public class ClickPanelItemFactory {
 			drawRect(posX + xOffset, posY + yOffset, posX + xWidth + xOffset - 12, posY + yHeight + yOffset, getModule().isEnabled() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 			drawRect(posX + xOffset + xWidth - 15, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, ClickScreen.colors[2]);
 			String name = getModule().getDisplay();
-			drawStringWithShadow( name , (float) posX + xOffset + 1, (float) posY, 0xFFFFFFFF, 0.70F, 0.85F);
-			drawStringWithShadow(" [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]",
-					(float) posX + xOffset + 1 + (getFont().getStringWidth(name) * 0.85F), (float) posY + 1.05F, 0xFFFFFFFF, 0.70F, 0.75F);
+			drawStringWithShadow(name, (float) posX + xOffset + 1, (float) posY, 0xFFFFFFFF, 0.70F, 0.85F);
+			drawStringWithShadow(" [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1
+					+ (getFont().getStringWidth(name) * 0.85F), (float) posY + 1.05F, 0xFFFFFFFF, 0.70F, 0.75F);
 			if (this.editProperties) {
 				int total = 2;
 				HasValues hep = (HasValues) getModule();
@@ -154,13 +154,21 @@ public class ClickPanelItemFactory {
 						total += 12;
 						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, ps.isShown() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 						drawRect(posX + width - 10, posY + total + off, posX + width, posY + off + total + he, ps.isShown() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
-						drawStringWithShadow(ps.getOtherValues().get(0).getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
+						String Vname = ps.getOtherValues().get(0).getName();
+						for(Value v : ps.getOtherValues()) {
+							Object currentValue = hep.getValue(v.getName());
+							if (currentValue instanceof Boolean && v.isSimpleValue()) {
+								boolean currentBoolean = (Boolean) currentValue;
+								if(currentBoolean) Vname = v.getName();
+							}
+						}
+						drawStringWithShadow(Vname, (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
 						if (ps.isShown()) {
 							for (Value v : ps.getOtherValues()) {
-								if (v == ps.getOtherValues().get(0)) continue;
 								Object currentValue = hep.getValue(v.getName());
 								if (currentValue instanceof Boolean && v.isSimpleValue()) {
-									boolean d = (Boolean) currentValue;
+									boolean currentBoolean = (Boolean) currentValue;
+									if(currentBoolean) continue;
 									int newBool = 8;
 									int otherOffset = -2;
 									total += 10;
@@ -255,7 +263,7 @@ public class ClickPanelItemFactory {
 									if (x >= posX + 2 && y >= posY + total + otherOffset && x <= posX + width - 0.5 && y <= posY + otherOffset + total + newBool) {
 										ps.getOtherValues().add(0, v);
 										ps.getOtherValues().remove(i + 1);
-										for(Value vz : ps.getOtherValues()) {
+										for (Value vz : ps.getOtherValues()) {
 											hep.setValue(vz.getName(), (Boolean) (ps.getOtherValues().get(0) == vz));
 										}
 										ps.setShown(false);
@@ -307,18 +315,32 @@ public class ClickPanelItemFactory {
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
-					Object currentValue = hep.getValue(ps.getName());
-					if (currentValue instanceof Boolean && ps.isSimpleValue()) {
+					if (ps.hasExtraValues()) {
 						total += 12;
-					} else if (currentValue != null && ps.isSimpleValue()) {
-						double min = ValueUtil.toDouble(ps.getMin());
-						double max = ValueUtil.toDouble(ps.getMax());
-						double newValue = x - posX;
-						Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
-						total += FontUtil.getFontHeight() * 1.6 + 1;
-						if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
-							hep.setValue(ps.getName(), value);
-							return true;
+						if (ps.isShown()) {
+							for (int i = 0; i < ps.getOtherValues().size(); i++) {
+								if (i == 0) continue;
+								Value v = ps.getOtherValues().get(i);
+								Object currentValue = hep.getValue(v.getName());
+								if (currentValue instanceof Boolean && v.isSimpleValue()) {
+									total += 10;
+								}
+							}
+						}
+					} else {
+						Object currentValue = hep.getValue(ps.getName());
+						if (currentValue instanceof Boolean && ps.isSimpleValue()) {
+							total += 12;
+						} else if (currentValue != null && ps.isSimpleValue()) {
+							double min = ValueUtil.toDouble(ps.getMin());
+							double max = ValueUtil.toDouble(ps.getMax());
+							double newValue = x - posX;
+							Object value = ValueUtil.getValueForClickGUI(max - min, min, width, newValue, ps.getVClass());
+							total += FontUtil.getFontHeight() * 1.6 + 1;
+							if (fX >= posX + 1.5 && fX <= posX + width && fY >= posY + total && fY <= posY + 5 + total) {
+								hep.setValue(ps.getName(), value);
+								return true;
+							}
 						}
 					}
 				}

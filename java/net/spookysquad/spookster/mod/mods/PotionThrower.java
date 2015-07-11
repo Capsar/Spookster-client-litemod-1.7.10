@@ -29,6 +29,7 @@ public class PotionThrower extends Module implements HasValues {
 	private boolean enemyinsight = false, triggerbot = false;
 	private ArrayList<Integer> usedPots = new ArrayList<Integer>();
 	private int potionDelay = 60;
+	private int healthIncrease = 8;
 
 	@Override
 	public boolean onEnable() {
@@ -81,7 +82,7 @@ public class PotionThrower extends Module implements HasValues {
 			ItemPotion potion = (ItemPotion) getPlayer().getHeldItem().getItem();
 			for (PotionEffect pe : (List<PotionEffect>) potion.getEffects(getPlayer().getHeldItem())) {
 				if (pe.getPotionID() == Potion.heal.getId() && pe.toString().contains(", Splash: true")) {
-					health += 7 * (pe.getAmplifier() == 0 ? 1 : pe.getAmplifier());
+					health += healthIncrease * (pe.getAmplifier() == 0 ? 1 : pe.getAmplifier());
 				}
 			}
 			getController().sendUseItem(getPlayer(), getWorld(), getPlayer().getHeldItem());
@@ -110,7 +111,8 @@ public class PotionThrower extends Module implements HasValues {
 	}
 
 	private String DELAY = "Throwing potion (ms)";
-	List<Value> values = Arrays.asList(new Value[] { new Value(DELAY, 0, 300) });
+	private String HEALTHINCREASE = "Health increasement";
+	List<Value> values = Arrays.asList(new Value[] { new Value(DELAY, 0, 300), new Value(HEALTHINCREASE, 0, 20)});
 
 	@Override
 	public List<Value> getValues() {
@@ -120,13 +122,14 @@ public class PotionThrower extends Module implements HasValues {
 	@Override
 	public Object getValue(String n) {
 		if (n.equals(DELAY)) return potionDelay;
+		if(n.equals(HEALTHINCREASE)) return healthIncrease;
 		return null;
 	}
 
 	@Override
 	public void setValue(String n, Object v) {
 		if (n.equals(DELAY)) potionDelay = (Integer) v;
-
+		if(n.equals(HEALTHINCREASE)) healthIncrease = (Integer) v;
 	}
 
 }

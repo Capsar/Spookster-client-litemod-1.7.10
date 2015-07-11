@@ -115,7 +115,7 @@ public class ModuleManager extends Manager implements Listener {
 			EventMouseClicked pressed = (EventMouseClicked) event;
 			if (Spookster.clientEnabled) {
 				for (Module m : getModules()) {
-					if (m.getKeyCode() + 256 == pressed.getButton()) {
+					if (m.getKeyCode() - 256 == pressed.getButton()) {
 						m.toggle(true);
 					}
 				}
@@ -190,7 +190,13 @@ public class ModuleManager extends Manager implements Listener {
 				HasValues hep = (HasValues) m;
 				JsonObject newDataObject = new JsonObject();
 				for (Value v : hep.getValues()) {
-					if (!v.hasExtraValues()) newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
+					if (!v.hasExtraValues()) {
+						newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
+					} else {
+						for(Value extraV : v.getOtherValues()) {
+							newDataObject.addProperty(extraV.getName(), String.valueOf(hep.getValue(extraV.getName())));
+						}
+					}
 				}
 				dataObject.add("VALUES", newDataObject);
 			}

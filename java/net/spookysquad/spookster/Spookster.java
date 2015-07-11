@@ -20,7 +20,7 @@ import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.event.events.EventPacketGet;
 import net.spookysquad.spookster.event.events.EventPostHudRender;
-import net.spookysquad.spookster.event.events.EventPreHudRender;
+import net.spookysquad.spookster.event.events.Event3DRender;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.ModuleManager;
@@ -187,8 +187,6 @@ public class Spookster {
 	}
 
 	public void onPreRenderHUD(int screenWidth, int screenHeight) {
-		eventManager.callEvent(new EventPreHudRender(screenWidth, screenHeight));
-
 	}
 
 	public void onPostRenderHUD(int screenWidth, int screenHeight) {
@@ -198,5 +196,9 @@ public class Spookster {
 	public boolean onSendChatMessage(String message) {
 		if (this.clientEnabled) return commandManager.onCommand(message);
 		return true;
+	}
+
+	public void onPostRenderEntities(float partialTicks) {
+		eventManager.callEvent(new Event3DRender(partialTicks));
 	}
 }

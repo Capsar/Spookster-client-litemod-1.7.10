@@ -13,6 +13,7 @@ import com.mumfrey.liteloader.ChatFilter;
 import com.mumfrey.liteloader.HUDRenderListener;
 import com.mumfrey.liteloader.OutboundChatFilter;
 import com.mumfrey.liteloader.PacketHandler;
+import com.mumfrey.liteloader.PostRenderListener;
 import com.mumfrey.liteloader.Tickable;
 
 /**
@@ -21,7 +22,7 @@ import com.mumfrey.liteloader.Tickable;
  * 
  * @author TehNeon
  */
-public class LiteModLiteAPI implements Tickable, PacketHandler, HUDRenderListener, OutboundChatFilter {
+public class LiteModLiteAPI implements Tickable, PacketHandler, HUDRenderListener, OutboundChatFilter, PostRenderListener {
 
 	private Spookster spookster = new Spookster();
 
@@ -63,6 +64,14 @@ public class LiteModLiteAPI implements Tickable, PacketHandler, HUDRenderListene
 	public boolean onSendChatMessage(String message) {
 		return spookster.onSendChatMessage(message);
 	}
+
+	@Override
+	public void onPostRenderEntities(float partialTicks) {
+		spookster.onPostRenderEntities(partialTicks);
+	}
+
+	@Override
+	public void onPostRender(float partialTicks) {}
 
 
 }

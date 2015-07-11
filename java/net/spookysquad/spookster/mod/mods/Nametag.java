@@ -5,11 +5,13 @@ import java.util.List;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.spookysquad.spookster.event.Event;
+import net.spookysquad.spookster.event.events.Event3DRender;
 import net.spookysquad.spookster.event.events.EventRenderNameTag;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
@@ -32,10 +34,19 @@ public class Nametag extends Module implements HasValues {
 			EventRenderNameTag ev = (EventRenderNameTag) event;
 			if (ev.getEntity() instanceof EntityPlayer) {
 				ev.cancel();
-
-				if (ev.getEntity() == Wrapper.getPlayer()) { return; }
-
-				drawTags(ev.getEntity(), ev.getEntity().func_145748_c_().getFormattedText(), ev.getX(), ev.getY(), ev.getZ());
+			}
+		} else if (event instanceof Event3DRender) {
+			Event3DRender render = (Event3DRender) event;
+			for (EntityPlayer player : (List<EntityPlayer>) getWorld().playerEntities) {
+				if (player.getHealth() > 0 && !player.isDead && !player.getCommandSenderName().equals(getPlayer().getCommandSenderName())) {
+					double eposX = player.lastTickPosX + (player.posX - player.lastTickPosX) * render.getPartialTicks();
+					double eposY = player.lastTickPosY + (player.posY - player.lastTickPosY) * render.getPartialTicks();
+					double eposZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * render.getPartialTicks();
+					double x = eposX - RenderManager.renderPosX;
+					double y = eposY - RenderManager.renderPosY;
+					double z = eposZ - RenderManager.renderPosZ;
+					drawTags(player, player.func_145748_c_().getFormattedText(), x, y, z);
+				}
 			}
 		}
 	}
@@ -47,10 +58,10 @@ public class Nametag extends Module implements HasValues {
 	public double scaleFactor = 2.0D;
 	public int scaleDistance = 10;
 
-	public void drawTags(EntityLivingBase entity, String name, double posX, double posY, double posZ) {
+	public void drawTags(EntityLivingBase entity, String name, double x, double y, double z) {
 
 		Friend fr = Friends.getFriend(entity.getCommandSenderName());
-		
+
 		if (fr != null && friends) {
 			name = name.replaceAll(fr.getName(), fr.getAlias());
 			name = "\247b[FR]\247r | " + name;
@@ -60,11 +71,6 @@ public class Nametag extends Module implements HasValues {
 			name = "\247c[S]\247r | " + name;
 		}
 
-		// if (health) {
-		// name = name + " \247a" + (int) (entity.getHealth() +
-		// entity.getAbsorptionAmount());
-		// }
-
 		double theScale = scaleFactor;
 		FontRenderer fontRenderer = Wrapper.getMinecraft().fontRendererObj;
 		if (entity.getDistanceToEntity(Wrapper.getPlayer()) > scaleDistance) {
@@ -72,42 +78,31 @@ public class Nametag extends Module implements HasValues {
 		}
 		double currentScale = 0.016666668F * theScale;
 		GL11.glPushMatrix();
-		GL11.glTranslatef((float) posX + 0.0F, (float) posY + entity.height + 0.5F, (float) posZ);
-		GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-		GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
-		GL11.glScaled(-currentScale, -currentScale, currentScale);
-		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glDepthMask(false);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
-		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-		Tessellator var15 = Tessellator.instance;
-		byte var16 = 0;
-
+		RenderHelper.enableStandardItemLighting();
+		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+		GL11.glTranslated(x, y + entity.height + 0.5F, z);
+		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+		GL11.glRotatef(getGameSettings().thirdPersonView == 2 ? -RenderManager.instance.playerViewX : RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+		GL11.glScaled(-currentScale, -currentScale, currentScale);
+		Tessellator var15 = Tessellator.instance;
+		int var17 = (fontRenderer.getStringWidth(name + (health ? " " + getHealth(entity) : "")) / 2);
 		var15.startDrawingQuads();
-		int var17 = (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2);
 		var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.6F);
-
-		if (entity.isInvisible() && invisibles) {
-			var15.setColorRGBA_F(0.0F, 0.4F, 1.0F, 0.6F);
-		}
-
-		var15.addVertex((double) (-var17 - 1), (double) (-1 + var16), 0.0D);
-		var15.addVertex((double) (-var17 - 1), (double) (8 + var16), 0.0D);
-		var15.addVertex((double) (var17 + 1), (double) (8 + var16), 0.0D);
-		var15.addVertex((double) (var17 + 1), (double) (-1 + var16), 0.0D);
+		if (entity.isInvisible() && invisibles) var15.setColorRGBA_F(0.5434F, 0.3379F, 0.1187F, 0.6F);
+		var15.addVertex((double) (-var17 - 1), (double) -1, 0.0D);
+		var15.addVertex((double) (-var17 - 1), (double) 8, 0.0D);
+		var15.addVertex((double) (var17 + 1), (double) 8, 0.0D);
+		var15.addVertex((double) (var17 + 1), (double) -1, 0.0D);
 		var15.draw();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff);
-		if (health)
-			FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity));
+		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + (health ? " " + getHealth(entity) : "")) / 2), 0, 0xffffff);
+		if (health) FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), 0, getHealthColor(entity));
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-		GL11.glDepthMask(true);
-		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2), var16, 0xffffff);
-		if (health)
-			FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), var16, getHealthColor(entity));
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -115,8 +110,7 @@ public class Nametag extends Module implements HasValues {
 	}
 
 	private int getHealthColor(EntityLivingBase entity) {
-		int var8 = (int) Math.round(255.0D - (Double.valueOf(getHealth(entity)) * 2.0) * 255.0D
-				/ (double) entity.getMaxHealth());
+		int var8 = (int) Math.round(255.0D - (Double.valueOf(getHealth(entity)) * 2.0) * 255.0D / (double) entity.getMaxHealth());
 		int var10 = 255 - var8 << 8 | var8 << 16;
 		return var10;
 	}
@@ -130,11 +124,9 @@ public class Nametag extends Module implements HasValues {
 		return ihealth;
 	}
 
-	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible",
-			SCALEFACTOR = "Scale Factor", SCALEDISTANCE = "Scale Distance";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(SCALEFACTOR, 0.1D, 4D, 0.1F),
-			new Value(SCALEDISTANCE, 0, 32, 1), new Value(SNEAK, false, true), new Value(FRIENDS, false, true),
-			new Value(HEALTH, false, true), new Value(INVISIBLE, false, true) });
+	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible", SCALEFACTOR = "Scale Factor", SCALEDISTANCE = "Scale Distance";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(SCALEFACTOR, 0.1D, 4D, 0.1F), new Value(SCALEDISTANCE, 0, 32, 1), new Value(SNEAK, false, true), new Value(FRIENDS, false, true), new Value(HEALTH, false, true),
+			new Value(INVISIBLE, false, true) });
 
 	@Override
 	public List<Value> getValues() {
