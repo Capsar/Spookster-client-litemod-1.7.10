@@ -118,10 +118,10 @@ public class Friends extends Module implements HasValues {
 
 	public static Friend getFriend(String name) {
 		for (Friend friend : friends) {
-			if (friend.getName().equals(name)) { return friend; }
+			if (friend.getName().equalsIgnoreCase(name)) { return friend; }
 		}
 		for (Friend friend : friends) {
-			if (friend.getAlias().equals(name)) { return friend; }
+			if (friend.getAlias().equalsIgnoreCase(name)) { return friend; }
 		}
 		return null;
 	}
