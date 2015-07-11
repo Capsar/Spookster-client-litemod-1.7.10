@@ -17,6 +17,7 @@ import net.spookysquad.spookster.mod.mods.ArmorSwitch;
 import net.spookysquad.spookster.mod.mods.Blink;
 import net.spookysquad.spookster.mod.mods.ClickGUI;
 import net.spookysquad.spookster.mod.mods.ExternalGUI;
+import net.spookysquad.spookster.mod.mods.Fly;
 import net.spookysquad.spookster.mod.mods.Freecam;
 import net.spookysquad.spookster.mod.mods.Friends;
 import net.spookysquad.spookster.mod.mods.Fullbright;
@@ -50,8 +51,8 @@ public class ModuleManager extends Manager implements Listener {
 	public void init(Spookster spookster) {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
-		this.modules.addAll(Arrays.asList(new Blink(), new ClickGUI(), new ExternalGUI(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new Nametag(), new Notifications(), new NoFall(), new Phase(), new Speed(),
-				new Step(), new Title(), new Triggerbot(), new XRay(), new ArmorSwitch(), new MobFarm(), new PotionThrower()));
+		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(), new Nametag(), new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new Speed(),
+				new Step(), new Title(), new Triggerbot(), new XRay()));
 	}
 
 	public void deinit(Spookster spookster) {

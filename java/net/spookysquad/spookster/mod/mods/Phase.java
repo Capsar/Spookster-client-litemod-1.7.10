@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.network.play.client.C03PacketPlayer;
+import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventBoundingBox;
 import net.spookysquad.spookster.event.events.EventInOpaqueBlock;
@@ -47,7 +48,11 @@ public class Phase extends Module implements HasValues {
 			}
 		} else if (e instanceof EventPreMotion) {
 			if(Noclip) {
-				PlayerUtil.getPlayer().noClip = true;
+				if(Spookster.instance.moduleManager.getModule(Fly.class).isEnabled()) {
+					PlayerUtil.getPlayer().noClip = true;
+				} else {
+					PlayerUtil.getPlayer().noClip = false;
+				}
 			}
 			if (Normal) {
 				if (getPlayer().isCollidedHorizontally && getPlayer().onGround && !PlayerUtil.isInsideBlock()) {
