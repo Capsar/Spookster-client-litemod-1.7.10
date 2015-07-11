@@ -32,6 +32,7 @@ import net.spookysquad.spookster.mod.mods.PotionThrower;
 import net.spookysquad.spookster.mod.mods.Speed;
 import net.spookysquad.spookster.mod.mods.Step;
 import net.spookysquad.spookster.mod.mods.Title;
+import net.spookysquad.spookster.mod.mods.Tracers;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.utils.ValueUtil;
@@ -51,8 +52,8 @@ public class ModuleManager extends Manager implements Listener {
 	public void init(Spookster spookster) {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
-		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(), new Nametag(), new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new Speed(),
-				new Step(), new Title(), new Triggerbot(), new XRay()));
+		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(), new Nametag(), new Notifications(),
+				new NoFall(), new Phase(), new PotionThrower(), new Speed(), new Step(), new Title(), new Tracers(), new Triggerbot(), new XRay()));
 	}
 
 	public void deinit(Spookster spookster) {
@@ -144,28 +145,30 @@ public class ModuleManager extends Manager implements Listener {
 						JsonObject settings = entry.getValue().getAsJsonObject();
 						for (Map.Entry<String, JsonElement> setting : settings.entrySet()) {
 							try {
-							if (setting.getKey().equals("KEY")) {
-								mod.setKeyCode(Integer.valueOf(setting.getValue().getAsString()));
-							} else if (setting.getKey().equals("STATE")) {
-								if (setting.getValue().getAsBoolean()) mod.toggle(true);
-							} else if (setting.getKey().equals("VISIBLE")) {
-								mod.setVisible(setting.getValue().getAsBoolean());
-							} else if (setting.getKey().equals("COLOR")) {
-								mod.setColor(setting.getValue().getAsInt());
-							} else if (setting.getKey().equals("DESC")) {
-								mod.setDesc(setting.getValue().getAsString());
-							} else if (setting.getKey().equals("TYPE")) {
-								mod.setType(Type.getValueOf(setting.getValue().getAsString().toUpperCase()));
-							} else if (setting.getKey().equals("VALUES")) {
-								if (mod instanceof HasValues) {
-									HasValues hep = (HasValues) mod;
-									JsonObject values = setting.getValue().getAsJsonObject();
-									for (Map.Entry<String, JsonElement> value : values.entrySet()) {
-										hep.setValue(value.getKey(), ValueUtil.getValue(value.getValue()));
+								if (setting.getKey().equals("KEY")) {
+									mod.setKeyCode(Integer.valueOf(setting.getValue().getAsString()));
+								} else if (setting.getKey().equals("STATE")) {
+									if (setting.getValue().getAsBoolean()) mod.toggle(true);
+								} else if (setting.getKey().equals("VISIBLE")) {
+									mod.setVisible(setting.getValue().getAsBoolean());
+								} else if (setting.getKey().equals("COLOR")) {
+									mod.setColor(setting.getValue().getAsInt());
+								} else if (setting.getKey().equals("DESC")) {
+									mod.setDesc(setting.getValue().getAsString());
+								} else if (setting.getKey().equals("TYPE")) {
+									mod.setType(Type.getValueOf(setting.getValue().getAsString().toUpperCase()));
+								} else if (setting.getKey().equals("VALUES")) {
+									if (mod instanceof HasValues) {
+										HasValues hep = (HasValues) mod;
+										JsonObject values = setting.getValue().getAsJsonObject();
+										for (Map.Entry<String, JsonElement> value : values.entrySet()) {
+											hep.setValue(value.getKey(), ValueUtil.getValue(value.getValue()));
+										}
 									}
 								}
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
-							} catch(Exception e) {e.printStackTrace();}
 						}
 					}
 				}
@@ -194,7 +197,7 @@ public class ModuleManager extends Manager implements Listener {
 					if (!v.hasExtraValues()) {
 						newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
 					} else {
-						for(Value extraV : v.getOtherValues()) {
+						for (Value extraV : v.getOtherValues()) {
 							newDataObject.addProperty(extraV.getName(), String.valueOf(hep.getValue(extraV.getName())));
 						}
 					}
