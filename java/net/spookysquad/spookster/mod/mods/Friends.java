@@ -36,6 +36,13 @@ public class Friends extends Module implements HasValues {
 						if(args.length > 1) {
 							String username = args[1];
 							String alias = (args.length > 2 ? args[2] : username);
+							if(args.length > 2) {
+								alias = "";
+								for(int i = 2; i < args.length; i++) {
+									alias += args[i] + " ";
+								}
+								alias = alias.substring(0, alias.length() - 1);
+							}
 							Friend isFriend = getFriend(username);
 							if(isFriend != null) {
 								friends.remove(isFriend);

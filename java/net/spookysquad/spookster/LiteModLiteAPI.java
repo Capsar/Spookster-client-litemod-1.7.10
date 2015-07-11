@@ -21,7 +21,7 @@ import com.mumfrey.liteloader.Tickable;
  * 
  * @author TehNeon
  */
-public class LiteModHijacked implements Tickable, PacketHandler, HUDRenderListener, OutboundChatFilter {
+public class LiteModLiteAPI implements Tickable, PacketHandler, HUDRenderListener, OutboundChatFilter {
 
 	private Spookster spookster = new Spookster();
 
