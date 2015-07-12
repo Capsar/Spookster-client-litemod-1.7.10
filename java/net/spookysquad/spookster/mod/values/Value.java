@@ -6,88 +6,87 @@ import java.util.List;
 
 public class Value {
 
-		public Value(String name, Object min, Object max, float increasement) {
-			assert min.getClass().equals(max.getClass());
-			isSimpleValue = true;
-			this.increasement = increasement;
-			this.name = name;
-			this.min = min;
-			this.max = max;
-		}
+	public Value(String name, Object min, Object max, float increasement) {
+		assert min.getClass().equals(max.getClass());
+		isSimpleValue = true;
+		this.increasement = increasement;
+		this.name = name;
+		this.min = min;
+		this.max = max;
+	}
 
-		public Value(String name, Object min, Object max) {
-			assert min.getClass().equals(max.getClass());
-			isSimpleValue = true;
-			this.name = name;
-			this.min = min;
-			this.max = max;
-		}
+	public Value(String name, Object min, Object max) {
+		assert min.getClass().equals(max.getClass());
+		isSimpleValue = true;
+		this.name = name;
+		this.min = min;
+		this.max = max;
+	}
 
-		public Value(String name, Collection list, Object type) {
-			this.name = name;
-			this.list = list;
-			this.type = type;
-		}
+	public Value(String name, Collection list, Object type) {
+		this.name = name;
+		this.list = list;
+		this.type = type;
+	}
 
-		public Value(String name, boolean shown, List<Value> values) {
-			hasExtraValues = true;
-			this.shown = shown;
-			this.name = name;
-			this.otherValues.clear();
-			for(Value value : values) {
-				this.otherValues.add(value);
-			}
+	public Value(String name, boolean shown, List<Value> values) {
+		this.hasExtraValues = true;
+		this.name = name;
+		this.shown = shown;
+		for (Value v : values) {
+			otherValues.add(v);
 		}
+	}
 
-		private final String name;
-		private boolean isSimpleValue = false;
-		private float increasement = 0.1F;
-		private Object type, min, max;
+	private final String name;
+	private boolean isSimpleValue = false;
+	private float increasement = 0.1F;
+	private Object type, min, max;
 
-		private Collection list;
+	private Collection list;
 
-		private ArrayList<Value> otherValues = new ArrayList<Value>();
-		private boolean hasExtraValues = false;
-		private boolean shown = false;
+	private ArrayList<Value> otherValues = new ArrayList<Value>();
+	private boolean hasExtraValues = false;
+	private boolean shown = false;
 
-		public boolean isShown() {
-			return shown;
-		}
-		
-		public void setShown(boolean shown) {
-			this.shown = shown;
-		}
-		
-		public boolean hasExtraValues() {
-			return hasExtraValues;
-		}
+	public boolean isShown() {
+		return shown;
+	}
 
-		public boolean isSimpleValue() {
-			return isSimpleValue;
-		}
+	public void setShown(boolean shown) {
+		this.shown = shown;
+	}
 
-		public float getIncreasement() {
-			return increasement;
-		}
+	public boolean hasExtraValues() {
+		return hasExtraValues;
+	}
 
-		public String getName() {
-			return name;
-		}
+	public boolean isSimpleValue() {
+		return isSimpleValue;
+	}
 
-		public Object getMin() {
-			return min;
-		}
+	public float getIncreasement() {
+		return increasement;
+	}
 
-		public Object getMax() {
-			return max;
-		}
+	public String getName() {
+		return name;
+	}
 
-		public Class getVClass() {
-			return max.getClass();
-		}
+	public Object getMin() {
+		return min;
+	}
 
-		public ArrayList<Value> getOtherValues() {
-			return otherValues;
-		}
+	public Object getMax() {
+		return max;
+	}
+
+	public Class getVClass() {
+		return max.getClass();
+	}
+
+	public ArrayList<Value> getOtherValues() {
+		return otherValues;
+	}
 
 }
