@@ -27,7 +27,7 @@ public class Friends extends Module implements HasValues {
 	public Friends() {
 		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.FRIENDS, -1, -1);
 		this.toggle(false);
-		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "friend", "f" }, "Manager friends") {
+		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "friend", "f", "friends" }, "Manager friends") {
 			@Override
 			public boolean onCommand(String text, String cmd, String[] args) {
 				for (String name : getNames()) {
@@ -40,10 +40,9 @@ public class Friends extends Module implements HasValues {
 							logChat(MessageType.NOTIFCATION, getCommand() + " rem <name/alias> | removes a friend from you friendlist.");
 							return true;
 						}
-						if(args[1].toLowerCase().equals("clear")) {
+						if (args[1].toLowerCase().equals("clear")) {
 							friends.clear();
 							logChat(MessageType.NOTIFCATION, "Poof, all yo friends gone now nigguh.");
-							
 						} else if (args[1].toLowerCase().equals("list")) {
 							if (!friends.isEmpty()) {
 								String names = "";
@@ -73,7 +72,9 @@ public class Friends extends Module implements HasValues {
 							}
 							if (getFriend(args[1]) == null) friends.add(new Friend(args[1], args[1]));
 							else friends.remove(getFriend(args[1]));
+							logChat(MessageType.NOTIFCATION, getFriend(args[1]) == null ? "Removed \'" + args[1] + "\' from your friendist" : "Added \'" + args[1] + "\' to your friendist");
 						}
+						return true;
 					}
 				}
 				return super.onCommand(text, cmd, args);

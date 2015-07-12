@@ -28,7 +28,6 @@ public class CommandManager extends Manager {
 			
 			for (Command command : commands) {
 				if (command.onCommand(message, args[0], args)) {
-					//Wrapper.logChat(MessageType.NOTIFCATION, "Command Executed: " + command.getName());
 					return false;
 				}
 			}
