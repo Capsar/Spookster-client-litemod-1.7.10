@@ -35,40 +35,41 @@ public class Tracers extends Module {
 			}
 		}
 	}
-	
+
 	public void drawLines(EntityLivingBase entity, double x, double y, double z) {
-		
+
 		GL11.glPushMatrix();
-		
+
 		GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        GL11.glDepthMask(false);
-		
-		
-		
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDepthMask(false);
+
 		GL11.glLineWidth(1f);
 		GL11.glColor4f(1, 1, 1, 1);
-		
-		
+
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-		
+
 		GL11.glBegin(GL11.GL_LINES);
-        GL11.glVertex2d(0.0D, 0);
-        GL11.glVertex3d(x, y, z);
-        GL11.glEnd();
-		
-		
-		
+		GL11.glVertex2d(0, 0);
+		GL11.glVertex3d(x, y, z);
+		GL11.glEnd();
+
+		GL11.glLineWidth(1.5F);
+		GL11.glBegin(GL11.GL_LINES);
+		GL11.glVertex3d(x, y, z);
+		GL11.glVertex3d(x, y + 2, z);
+		GL11.glEnd();
+
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-		
+
 		GL11.glDepthMask(true);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glDisable(GL11.GL_BLEND);
-		
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_BLEND);
+
 		GL11.glPopMatrix();
-		
+
 	}
 }

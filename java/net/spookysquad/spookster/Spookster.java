@@ -88,10 +88,10 @@ public class Spookster {
 			Runtime.getRuntime().addShutdownHook(new Thread("Shutdown Thread") {
 				@Override
 				public void run() {
+					safeClientToFile();
 					for (Manager manager : managers) {
 						manager.deinit(Spookster.this);
 					}
-					safeClientToFile();
 				}
 			});
 		} catch (Exception e) {

@@ -25,7 +25,7 @@ public class Friends extends Module implements HasValues {
 	private boolean middleMouseFriends;
 
 	public Friends() {
-		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.FRIENDS, -1, -1);
+		super(new String[] { "FriendManager" }, "Modules adapt to the fact there are team members.", Type.MISC, -1, -1);
 		this.toggle(false);
 		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "friend", "f", "friends" }, "Manager friends") {
 			@Override

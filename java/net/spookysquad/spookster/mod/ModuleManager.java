@@ -54,8 +54,8 @@ public class ModuleManager extends Manager implements Listener {
 	public void init(Spookster spookster) {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
-		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(),
-				new Nametag(), new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new Speed(), new Sprint(), new Step(), new Title(), new Tracers(), new Triggerbot(), new XRay()));
+		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(), new Nametag(), new Notifications(),
+				new NoFall(), new Phase(), new PotionThrower(), new Speed(), new Sprint(), new Step(), new Title(), new Tracers(), new Triggerbot(), new XRay()));
 	}
 
 	public void deinit(Spookster spookster) {
@@ -155,16 +155,16 @@ public class ModuleManager extends Manager implements Listener {
 									mod.setVisible(setting.getValue().getAsBoolean());
 								} else if (setting.getKey().equals("COLOR")) {
 									mod.setColor(setting.getValue().getAsInt());
-								} else if (setting.getKey().equals("DESC")) {
-									mod.setDesc(setting.getValue().getAsString());
-								} else if (setting.getKey().equals("TYPE")) {
-									mod.setType(Type.getValueOf(setting.getValue().getAsString().toUpperCase()));
 								} else if (setting.getKey().equals("VALUES")) {
 									if (mod instanceof HasValues) {
 										HasValues hep = (HasValues) mod;
 										JsonObject values = setting.getValue().getAsJsonObject();
 										for (Map.Entry<String, JsonElement> value : values.entrySet()) {
-											hep.setValue(value.getKey(), ValueUtil.getValue(value.getValue()));
+											try {
+												hep.setValue(value.getKey(), ValueUtil.getValue(value.getValue()));
+											} catch (Exception ez) {
+												ez.printStackTrace();
+											}
 										}
 									}
 								}
@@ -198,7 +198,7 @@ public class ModuleManager extends Manager implements Listener {
 				for (Value v : hep.getValues()) {
 					if (v.getType() == ValueType.NORMAL || v.getType() == ValueType.SAVING) {
 						newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
-					} else if(v.getType() == ValueType.MODE){
+					} else if (v.getType() == ValueType.MODE) {
 						for (Value extraV : v.getOtherValues()) {
 							newDataObject.addProperty(extraV.getName(), String.valueOf(hep.getValue(extraV.getName())));
 						}
