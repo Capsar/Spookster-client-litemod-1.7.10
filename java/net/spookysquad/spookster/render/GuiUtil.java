@@ -20,17 +20,16 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLineWidth;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glScaled;
 import static org.lwjgl.opengl.GL11.glShadeModel;
 import static org.lwjgl.opengl.GL11.glTexCoord2d;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 import static org.lwjgl.opengl.GL11.glVertex3d;
-
-import org.lwjgl.opengl.GL11;
-
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.util.ResourceLocation;
 import net.spookysquad.spookster.utils.Wrapper;
+
+import org.lwjgl.opengl.GL11;
 
 public class GuiUtil extends FontUtil {
 
@@ -164,4 +163,22 @@ public class GuiUtil extends FontUtil {
 		glEnd();
 	}
 
+    public static void enableScissoring() {
+        glEnable(GL11.GL_SCISSOR_TEST);
+    }
+
+    public static void scissor(final double x, final double y, final double w, final double h) {
+        final ScaledResolution sr = getSRes();
+        final int factor = sr.getScaleFactor();
+
+        final double x2 = x + w, y2 = y + h;
+
+        GL11.glScissor((int) (x * factor), (int) ((sr.getScaledHeight() - y2) * factor),
+                (int) ((x2 - x) * factor), (int) ((y2 - y) * factor));
+    }
+
+    public static void disableScissoring() {
+        glDisable(GL11.GL_SCISSOR_TEST);
+    }
+	
 }

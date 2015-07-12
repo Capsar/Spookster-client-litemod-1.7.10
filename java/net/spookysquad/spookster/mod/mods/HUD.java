@@ -59,6 +59,10 @@ public class HUD extends Module implements HasValues {
 						}
 					}
 				}
+				
+				
+				
+				fontRenderer.drawString("Sci Test!", 250, 100, 0xffffff);
 			}
 		}
 	}
