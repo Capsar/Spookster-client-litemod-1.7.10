@@ -25,6 +25,8 @@ import org.lwjgl.opengl.Display;
 
 public class Friends extends Module implements HasValues {
 
+	private boolean middleMouseFriends;
+
 	public Friends() {
 		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.FRIENDS, -1, -1);
 		this.toggle(false);
@@ -96,7 +98,7 @@ public class Friends extends Module implements HasValues {
 
 	public void onEvent(Event event) {
 		if (event instanceof EventMouseClicked) {
-			if (Spookster.instance.moduleManager.getModule(MiddleMouseFriends.class).isEnabled()) {
+			if (middleMouseFriends) {
 				EventMouseClicked clicked = (EventMouseClicked) event;
 				if (clicked.getButton() == 2) {
 					if (PlayerUtil.getEntityOnMouseCurser(5) != null) {
@@ -126,8 +128,8 @@ public class Friends extends Module implements HasValues {
 		return null;
 	}
 
-	private String FRIENDS = "Friends";
-	List<Value> values = Arrays.asList(new Value[] { new Value(FRIENDS, friends, Friend.class) });
+	private String FRIENDS = "Friends", MIDDLEMOUSE = "MiddleMouseFriends";
+	List<Value> values = Arrays.asList(new Value[] { new Value(MIDDLEMOUSE, false, true), new Value(FRIENDS, friends, Friend.class) });
 
 	@Override
 	public List<Value> getValues() {
@@ -141,7 +143,9 @@ public class Friends extends Module implements HasValues {
 
 	@Override
 	public Object getValue(String n) {
-		if (n.equals(FRIENDS)) {
+		if(n.equals(MIDDLEMOUSE)) {
+			return middleMouseFriends;
+		} else if (n.equals(FRIENDS)) {
 			String s = ",";
 			for (Friend friend : friends) {
 				String friendData = friend.getName() + ";" + friend.getAlias();
@@ -155,7 +159,9 @@ public class Friends extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(FRIENDS)) {
+		if(n.equals(MIDDLEMOUSE)) {
+			middleMouseFriends = (Boolean) v;
+		} else if (n.equals(FRIENDS)) {
 			friends.clear();
 			String[] obj = String.valueOf(v).split(",");
 			for (String s : obj) {
