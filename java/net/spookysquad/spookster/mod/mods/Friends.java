@@ -33,6 +33,7 @@ public class Friends extends Module implements HasValues {
 				for (String name : getNames()) {
 					if (cmd.equalsIgnoreCase(name)) {
 						if (args.length == 1) {
+							logChat(MessageType.NOTIFCATION, getCommand() + " clear | clear all yo friends.");
 							logChat(MessageType.NOTIFCATION, getCommand() + " list | lists all your friends.");
 							logChat(MessageType.NOTIFCATION, getCommand() + " <name> | to quickly toggle a friend.");
 							logChat(MessageType.NOTIFCATION, getCommand() + " add <name> <alias> | add a friend with a specific alias.");
