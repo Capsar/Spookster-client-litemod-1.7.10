@@ -10,6 +10,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.render.FontUtil;
+import net.spookysquad.spookster.render.GuiUtil;
 import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.utils.Wrapper;
 
@@ -60,9 +61,15 @@ public class HUD extends Module implements HasValues {
 					}
 				}
 				
+				GuiUtil.enableScissoring();
 				
-				
+				GuiUtil.scissor(250, 90, 50, 10);
+				fontRenderer.drawString("Sci Test!", 250, 90, 0xffffff);
 				fontRenderer.drawString("Sci Test!", 250, 100, 0xffffff);
+				fontRenderer.drawString("Sci Test!", 250, 110, 0xffffff);
+				fontRenderer.drawString("Sci Test!", 250, 120, 0xffffff);
+				
+				GuiUtil.disableScissoring();
 			}
 		}
 	}
