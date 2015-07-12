@@ -34,28 +34,29 @@ public class Step extends Module implements HasValues {
 	public void onEvent(Event event) {
 		double size = 8;
 		if (event instanceof Event3DRender) {
-			if (getPlayer().motionX != 0) mX = getPlayer().motionX;
-			if (getPlayer().motionZ != 0) mZ = getPlayer().motionZ;
-			double blockX = RenderManager.renderPosX + (mX * size);
-			double blockY = RenderManager.renderPosY;
-			double blockZ = RenderManager.renderPosZ + (mZ * size);
-			double x = blockX - RenderManager.renderPosX;
-			double y = blockY - RenderManager.renderPosY;
-			double z = blockZ - RenderManager.renderPosZ;
-			GL11.glPushMatrix();
-			GL11.glDisable(GL11.GL_LIGHTING);
-			RenderHelper.disableStandardItemLighting();
-			GL11.glDisable(GL11.GL_TEXTURE_2D);
-			GL11.glColor3d(0.3373, 0.0, 0.2);
-			GL11.glLineWidth(5.0F);
-			GL11.glBegin(GL11.GL_LINE_LOOP);
-			GL11.glVertex3d(0, -1.5, 0);
-			GL11.glVertex3d(x, y - 1, z);
-			GL11.glEnd();
-			GL11.glEnable(GL11.GL_TEXTURE_2D);
-			GL11.glEnable(GL11.GL_LIGHTING);
-			GL11.glPopMatrix();
-
+			if(jumpStep) {
+				if (getPlayer().motionX != 0) mX = getPlayer().motionX;
+				if (getPlayer().motionZ != 0) mZ = getPlayer().motionZ;
+				double blockX = RenderManager.renderPosX + (mX * size);
+				double blockY = RenderManager.renderPosY;
+				double blockZ = RenderManager.renderPosZ + (mZ * size);
+				double x = blockX - RenderManager.renderPosX;
+				double y = blockY - RenderManager.renderPosY;
+				double z = blockZ - RenderManager.renderPosZ;
+				GL11.glPushMatrix();
+				GL11.glDisable(GL11.GL_LIGHTING);
+				RenderHelper.disableStandardItemLighting();
+				GL11.glDisable(GL11.GL_TEXTURE_2D);
+				GL11.glColor3d(0.3373, 0.0, 0.2);
+				GL11.glLineWidth(5.0F);
+				GL11.glBegin(GL11.GL_LINE_LOOP);
+				GL11.glVertex3d(0, -1.5, 0);
+				GL11.glVertex3d(x, y - 1, z);
+				GL11.glEnd();
+				GL11.glEnable(GL11.GL_TEXTURE_2D);
+				GL11.glEnable(GL11.GL_LIGHTING);
+				GL11.glPopMatrix();
+			}
 		} else if (event instanceof EventPreMotion) {
 			if (jumpStep) {
 				if (getPlayer().motionX != 0) mX = getPlayer().motionX;
