@@ -36,7 +36,7 @@ public class ConsoleMessage {
 	public String getElement() {
 		Color col = MessageType.getColour(this.getType());
 		String color = "rgb(" + col.getRed() + "," + col.getGreen() + "," + col.getBlue() + ")";
-		return ("<html><font color=" + color + ">" + this.getMessage() + "</font></html>");
+		return ("<html><font color=" + color + ">" + this.getMessage().replace("<", "<>").replace(">", "<>") + "</font></html>");
 	}
 	
 	@Override
