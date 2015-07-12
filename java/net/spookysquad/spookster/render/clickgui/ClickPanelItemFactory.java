@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.mod.values.Value.ValueType;
 import net.spookysquad.spookster.render.FontUtil;
 import net.spookysquad.spookster.render.GuiUtil;
 import net.spookysquad.spookster.utils.ValueUtil;
@@ -144,25 +145,46 @@ public class ClickPanelItemFactory {
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
 					double width = getWidth(posX + xOffset + 1.5, posX + xWidth + xOffset - 1.5);
-					if (ps.hasExtraValues()) {
+					if(ps.getType() == ValueType.DISPLAYLIST) {
 						int he = 10;
 						int off = -4;
 						total += 12;
-						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, ps.isShown() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
-						drawRect(posX + width - 10, posY + total + off, posX + width, posY + off + total + he, ps.isShown() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
+						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, ClickScreen.colors[2]);
+						drawRect(posX + width - 10, posY + total + off, posX + width, posY + off + total + he, ps.isOpen() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
+						drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
+						if (ps.isOpen()) {
+							for (Value v : ps.getOtherValues()) {
+								Object currentValue = hep.getValue(v.getName());
+								if (currentValue instanceof Boolean && v.getType() == ValueType.NORMAL) {
+									boolean currentBoolean = (Boolean) currentValue;
+									if(currentBoolean) continue;
+									int newBool = 8;
+									int otherOffset = -2;
+									total += 10;
+									drawRect(posX + 2, posY + total + otherOffset, posX + width - 0.5, posY + otherOffset + total + newBool, ClickScreen.colors[2]);
+									drawStringWithShadow(v.getName(), (float) posX + 3, (float) posY + otherOffset + total + (newBool / 4) - 1F, 0xFFFFFFFF, 0.75F, 0.75F);
+								}
+							}
+						}
+					} else if (ps.getType() == ValueType.MODE) {
+						int he = 10;
+						int off = -4;
+						total += 12;
+						drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, ps.isOpen() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
+						drawRect(posX + width - 10, posY + total + off, posX + width, posY + off + total + he, ps.isOpen() ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 						String Vname = ps.getOtherValues().get(0).getName();
 						for(Value v : ps.getOtherValues()) {
 							Object currentValue = hep.getValue(v.getName());
-							if (currentValue instanceof Boolean && v.isSimpleValue()) {
+							if (currentValue instanceof Boolean && v.getType() == ValueType.NORMAL) {
 								boolean currentBoolean = (Boolean) currentValue;
 								if(currentBoolean) Vname = v.getName();
 							}
 						}
 						drawStringWithShadow(Vname, (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
-						if (ps.isShown()) {
+						if (ps.isOpen()) {
 							for (Value v : ps.getOtherValues()) {
 								Object currentValue = hep.getValue(v.getName());
-								if (currentValue instanceof Boolean && v.isSimpleValue()) {
+								if (currentValue instanceof Boolean && v.getType() == ValueType.NORMAL) {
 									boolean currentBoolean = (Boolean) currentValue;
 									if(currentBoolean) continue;
 									int newBool = 8;
@@ -175,14 +197,14 @@ public class ClickPanelItemFactory {
 						}
 					} else {
 						Object currentValue = hep.getValue(ps.getName());
-						if (currentValue instanceof Boolean && ps.isSimpleValue()) {
+						if (currentValue instanceof Boolean && ps.getType() == ValueType.NORMAL) {
 							boolean d = (Boolean) currentValue;
 							int he = 10;
 							int off = -4;
 							total += 12;
 							drawRect(posX + 1.5, posY + total + off, posX + width, posY + off + total + he, d ? ClickScreen.colors[1] : ClickScreen.colors[2]);
 							drawStringWithShadow(ps.getName(), (float) posX + 2, (float) posY + off + total + (he / 4), 0xFFFFFFFF, 0.75F, 0.85F);
-						} else if (currentValue != null && ps.isSimpleValue()) {
+						} else if (currentValue != null && ps.getType() == ValueType.NORMAL) {
 							double min = ValueUtil.toDouble(ps.getMin());
 							double max = ValueUtil.toDouble(ps.getMax());
 							total += FontUtil.getFontHeight() * 0.8;
@@ -239,20 +261,28 @@ public class ClickPanelItemFactory {
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
-					if (ps.hasExtraValues()) {
+					if(ps.getType() == ValueType.DISPLAYLIST) {
 						int he = 10;
 						int off = -4;
 						total += 12;
 						if (x >= posX + 1.5 && y >= posY + total + off && x <= posX + width && y <= posY + off + total + he) {
-							ps.setShown(!ps.isShown());
+							ps.setOpen(!ps.isOpen());
 							return true;
 						}
-						if (ps.isShown()) {
+					} else if (ps.getType() == ValueType.MODE) {
+						int he = 10;
+						int off = -4;
+						total += 12;
+						if (x >= posX + 1.5 && y >= posY + total + off && x <= posX + width && y <= posY + off + total + he) {
+							ps.setOpen(!ps.isOpen());
+							return true;
+						}
+						if (ps.isOpen()) {
 							for (int i = 0; i < ps.getOtherValues().size(); i++) {
 								if (i == 0) continue;
 								Value v = ps.getOtherValues().get(i);
 								Object currentValue = hep.getValue(v.getName());
-								if (currentValue instanceof Boolean && v.isSimpleValue()) {
+								if (currentValue instanceof Boolean && v.getType() == ValueType.NORMAL) {
 									int newBool = 8;
 									int otherOffset = -2;
 									total += 10;
@@ -262,7 +292,7 @@ public class ClickPanelItemFactory {
 										for (Value vz : ps.getOtherValues()) {
 											hep.setValue(vz.getName(), (Boolean) (ps.getOtherValues().get(0) == vz));
 										}
-										ps.setShown(false);
+										ps.setOpen(false);
 										return true;
 									}
 								}
@@ -270,7 +300,7 @@ public class ClickPanelItemFactory {
 						}
 					} else {
 						Object currentValue = hep.getValue(ps.getName());
-						if (currentValue instanceof Boolean && ps.isSimpleValue()) {
+						if (currentValue instanceof Boolean && ps.getType() == ValueType.NORMAL) {
 							boolean value = (Boolean) currentValue;
 							int he = 10;
 							int off = -4;
@@ -279,7 +309,7 @@ public class ClickPanelItemFactory {
 								hep.setValue(ps.getName(), !value);
 								return true;
 							}
-						} else if (currentValue != null && ps.isSimpleValue()) {
+						} else if (currentValue != null && ps.getType() == ValueType.NORMAL) {
 							double min = ValueUtil.toDouble(ps.getMin());
 							double max = ValueUtil.toDouble(ps.getMax());
 							double newValue = x - posX;
@@ -311,23 +341,25 @@ public class ClickPanelItemFactory {
 				HasValues hep = (HasValues) getModule();
 				for (Value ps : hep.getValues()) {
 					double width = getWidth(posX + xOffset, posX + xWidth + xOffset - 1.5);
-					if (ps.hasExtraValues()) {
+					if(ps.getType() == ValueType.DISPLAYLIST) {
 						total += 12;
-						if (ps.isShown()) {
+					} else if (ps.getType() == ValueType.MODE) {
+						total += 12;
+						if (ps.isOpen()) {
 							for (int i = 0; i < ps.getOtherValues().size(); i++) {
 								if (i == 0) continue;
 								Value v = ps.getOtherValues().get(i);
 								Object currentValue = hep.getValue(v.getName());
-								if (currentValue instanceof Boolean && v.isSimpleValue()) {
+								if (currentValue instanceof Boolean && v.getType() == ValueType.NORMAL) {
 									total += 10;
 								}
 							}
 						}
 					} else {
 						Object currentValue = hep.getValue(ps.getName());
-						if (currentValue instanceof Boolean && ps.isSimpleValue()) {
+						if (currentValue instanceof Boolean && ps.getType() == ValueType.NORMAL) {
 							total += 12;
-						} else if (currentValue != null && ps.isSimpleValue()) {
+						} else if (currentValue != null && ps.getType() == ValueType.NORMAL) {
 							double min = ValueUtil.toDouble(ps.getMin());
 							double max = ValueUtil.toDouble(ps.getMax());
 							double newValue = x - posX;

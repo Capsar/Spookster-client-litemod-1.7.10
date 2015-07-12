@@ -1,5 +1,7 @@
 package net.spookysquad.spookster.command;
 
+import net.spookysquad.spookster.Spookster;
+
 public class Command {
 
 	private String[] names;
@@ -20,7 +22,7 @@ public class Command {
 		return names;
 	}
 	
-	private String getDesc() {
+	public String getDesc() {
 		return description;
 	}
 	
@@ -28,4 +30,7 @@ public class Command {
 		return false;
 	}
 
+	public String getCommand() {
+		return Spookster.clientPrefix + this.getName();
+	}
 }

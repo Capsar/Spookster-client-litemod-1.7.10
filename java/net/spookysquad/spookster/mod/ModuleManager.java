@@ -36,6 +36,7 @@ import net.spookysquad.spookster.mod.mods.Tracers;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.mod.values.Value.ValueType;
 import net.spookysquad.spookster.utils.ValueUtil;
 
 import org.lwjgl.input.Keyboard;
@@ -195,9 +196,9 @@ public class ModuleManager extends Manager implements Listener {
 				HasValues hep = (HasValues) m;
 				JsonObject newDataObject = new JsonObject();
 				for (Value v : hep.getValues()) {
-					if (!v.hasExtraValues()) {
+					if (v.getType() == ValueType.NORMAL || v.getType() == ValueType.SAVING) {
 						newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
-					} else {
+					} else if(v.getType() == ValueType.MODE){
 						for (Value extraV : v.getOtherValues()) {
 							newDataObject.addProperty(extraV.getName(), String.valueOf(hep.getValue(extraV.getName())));
 						}

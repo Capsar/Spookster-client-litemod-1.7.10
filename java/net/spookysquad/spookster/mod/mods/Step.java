@@ -14,6 +14,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.mod.values.Value.ValueType;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -104,7 +105,7 @@ public class Step extends Module implements HasValues {
 	public double stepHeight = 0.5;
 
 	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Jump step", BYPASS = "Bypass step", STEPMODE = "Step Mode";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(STEPHEIGHT, 0.5D, 10D, 0.1F), new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(LEGIT, false, true), new Value(BYPASS, false, true))) });
+	private List<Value> values = Arrays.asList(new Value[] { new Value(STEPHEIGHT, 0.5D, 10D, 0.1F), new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(LEGIT, false, true), new Value(BYPASS, false, true)), ValueType.MODE) });
 
 	@Override
 	public List<Value> getValues() {

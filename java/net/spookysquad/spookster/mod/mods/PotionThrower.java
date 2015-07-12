@@ -113,7 +113,7 @@ public class PotionThrower extends Module implements HasValues {
 
 	private String DELAY = "Throwing potion (ms)";
 	private String HEALTHINCREASE = "Health increasement";
-	List<Value> values = Arrays.asList(new Value[] { new Value(DELAY, 0, 300), new Value(HEALTHINCREASE, 0, 20)});
+	List<Value> values = Arrays.asList(new Value[] { new Value(DELAY, 0, 300, 1.0F), new Value(HEALTHINCREASE, 0, 20, 1.0F)});
 
 	@Override
 	public List<Value> getValues() {

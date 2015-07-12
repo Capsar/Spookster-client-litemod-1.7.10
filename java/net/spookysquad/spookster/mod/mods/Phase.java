@@ -14,6 +14,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.mod.values.Value.ValueType;
 import net.spookysquad.spookster.utils.PacketUtil;
 import net.spookysquad.spookster.utils.PlayerUtil;
 
@@ -93,7 +94,7 @@ public class Phase extends Module implements HasValues {
 	public boolean Normal = true;
 	public boolean Noclip = false;
 	private String PHASEMODE = "Phase Mode", NOCLIP = "Noclip", NORMAL = "Normal";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(PHASEMODE, false, Arrays.asList(new Value(NORMAL, false, true), new Value(NOCLIP, false, true), new Value(NORMAL, false, true))) });
+	private List<Value> values = Arrays.asList(new Value[] { new Value(PHASEMODE, false, Arrays.asList(new Value(NORMAL, false, true), new Value(NOCLIP, false, true), new Value(NORMAL, false, true)), ValueType.MODE) });
 
 	public List<Value> getValues() {
 		return values;

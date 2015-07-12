@@ -6,65 +6,58 @@ import java.util.List;
 
 public class Value {
 
-	public Value(String name, Object min, Object max, float increasement) {
+	public Value(String name, Number min, Number max, float increasement) {
 		assert min.getClass().equals(max.getClass());
-		isSimpleValue = true;
 		this.increasement = increasement;
 		this.name = name;
 		this.min = min;
 		this.max = max;
 	}
 
-	public Value(String name, Object min, Object max) {
+	public Value(String name, Boolean min, Boolean max) {
 		assert min.getClass().equals(max.getClass());
-		isSimpleValue = true;
 		this.name = name;
 		this.min = min;
 		this.max = max;
 	}
 
-	public Value(String name, Collection list, Object type) {
+	public Value(String name, Collection list) {
 		this.name = name;
 		this.list = list;
-		this.type = type;
+		this.type = ValueType.SAVING;
 	}
 
-	public Value(String name, boolean shown, List<Value> values) {
-		this.hasExtraValues = true;
+	public Value(String name, boolean open, List<Value> values, ValueType type) {
 		this.name = name;
-		this.shown = shown;
+		this.isOpen = open;
+		this.type = type;
 		for (Value v : values) {
 			otherValues.add(v);
 		}
 	}
-
+	
 	private final String name;
-	private boolean isSimpleValue = false;
 	private float increasement = 0.1F;
-	private Object type, min, max;
+	private ValueType type = ValueType.NORMAL;
+	private Object min, max;
 
 	private Collection list;
 
 	private ArrayList<Value> otherValues = new ArrayList<Value>();
-	private boolean hasExtraValues = false;
-	private boolean shown = false;
+	private boolean isOpen = false;
 
-	public boolean isShown() {
-		return shown;
+	public boolean isOpen() {
+		return isOpen;
 	}
 
-	public void setShown(boolean shown) {
-		this.shown = shown;
+	public void setOpen(boolean open) {
+		this.isOpen = open;
 	}
 
-	public boolean hasExtraValues() {
-		return hasExtraValues;
+	public ValueType getType() {
+		return type;
 	}
-
-	public boolean isSimpleValue() {
-		return isSimpleValue;
-	}
-
+	
 	public float getIncreasement() {
 		return increasement;
 	}
@@ -89,4 +82,8 @@ public class Value {
 		return otherValues;
 	}
 
+	public enum ValueType {
+		NORMAL, MODE, DISPLAYLIST, SAVING;
+	}
+	
 }

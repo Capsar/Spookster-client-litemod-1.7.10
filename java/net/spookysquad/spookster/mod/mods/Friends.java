@@ -15,6 +15,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.mod.values.Value.ValueType;
 import net.spookysquad.spookster.render.external.console.MessageType;
 import net.spookysquad.spookster.utils.PlayerUtil;
 import net.spookysquad.spookster.utils.Wrapper;
@@ -26,63 +27,57 @@ public class Friends extends Module implements HasValues {
 	public Friends() {
 		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.FRIENDS, -1, -1);
 		this.toggle(false);
-		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "addfriend", "addfr", "af", "friendadd", "fadd", "fa" }, "Add friends") {
+		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "friend", "f" }, "Manager friends") {
 			@Override
 			public boolean onCommand(String text, String cmd, String[] args) {
 				for (String name : getNames()) {
 					if (cmd.equalsIgnoreCase(name)) {
-						if (args.length > 1) {
-							String username = args[1];
-							String alias = (args.length > 2 ? args[2] : username);
-							if (args.length > 2) {
-								alias = "";
-								for (int i = 2; i < args.length; i++) {
-									alias += args[i] + " ";
+						if (args.length == 1) {
+							logChat(MessageType.NOTIFCATION, getCommand() + " list | lists all your friends.");
+							logChat(MessageType.NOTIFCATION, getCommand() + " <name> | to quickly toggle a friend.");
+							logChat(MessageType.NOTIFCATION, getCommand() + " add <name> <alias> | add a friend with a specific alias.");
+							logChat(MessageType.NOTIFCATION, getCommand() + " rem <name/alias> | removes a friend from you friendlist.");
+							return true;
+						}
+						if(args[1].toLowerCase().equals("clear")) {
+							friends.clear();
+							logChat(MessageType.NOTIFCATION, "Poof, all yo friends gone now nigguh.");
+							
+						} else if (args[1].toLowerCase().equals("list")) {
+							if (!friends.isEmpty()) {
+								String names = "";
+								for (Friend f : friends) {
+									names += f.getAlias() + ", ";
 								}
-								alias = alias.substring(0, alias.length() - 1);
-							}
-							Friend isFriend = getFriend(username);
-							if (isFriend != null) {
-								friends.remove(isFriend);
-								friends.add(new Friend(username, alias));
-								Wrapper.logChat(MessageType.NOTIFCATION, "Changed friend " + username + ", with alias " + alias + "!");
+								logChat(MessageType.NOTIFCATION, friends.size() + " friends listed: " + names);
 							} else {
-								friends.add(new Friend(username, alias));
-								Wrapper.logChat(MessageType.NOTIFCATION, "Added friend " + username + ", with alias " + alias + "!");
+								logChat(MessageType.ERROR, "You have no friends.");
 							}
-						} else {
-							Wrapper.logChat(MessageType.NOTIFCATION, "Invalid syntax! Use:");
-							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username> [alias] - Adds friend");
+						} else if (args[1].toLowerCase().equals("add")) {
+							friends.add(new Friend(args[2], args[3]));
+						} else if (args[1].toLowerCase().equals("rem")) {
+							friends.remove(Friends.getFriend(args[2]));
+						} else if (args[1].toLowerCase().equals("remove")) {
+							friends.remove(Friends.getFriend(args[2]));
+						} else if (args[1].toLowerCase().equals("del")) {
+							friends.remove(Friends.getFriend(args[2]));
+						} else if (args[1].toLowerCase().equals("delete")) {
+							friends.remove(Friends.getFriend(args[2]));
+						} else if (!args[1].equalsIgnoreCase("list") && !args[1].equalsIgnoreCase("add") && !args[1].equalsIgnoreCase("rem")) {
+							for (EntityPlayer player : (List<EntityPlayer>) getWorld().playerEntities) {
+								if (player.getCommandSenderName().equalsIgnoreCase(args[1])) {
+									if (getFriend(player.getCommandSenderName()) == null) friends.add(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
+									else friends.remove(getFriend(player.getCommandSenderName()));
+								}
+							}
+							if (getFriend(args[1]) == null) friends.add(new Friend(args[1], args[1]));
+							else friends.remove(getFriend(args[1]));
 						}
-						return true;
 					}
 				}
 				return super.onCommand(text, cmd, args);
 			}
-		});
-		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "delfriend", "delfr", "df", "frienddel", "fdel", "fd", "fr", "frem", "friendremove", "rf", "removefr", "removefriend" }, "Delete friends") {
-			@Override
-			public boolean onCommand(String text, String cmd, String[] args) {
-				for (String name : getNames()) {
-					if (cmd.equalsIgnoreCase(name)) {
-						if (args.length > 1) {
-							String username = args[1];
-							Friend isFriend = getFriend(username);
-							if (isFriend != null) {
-								friends.remove(isFriend);
-								Wrapper.logChat(MessageType.NOTIFCATION, "Removed friend " + username + "!");
-							} else {
-								Wrapper.logChat(MessageType.NOTIFCATION, "You're not friends with " + username + "!");
-							}
-						} else {
-							Wrapper.logChat(MessageType.NOTIFCATION, "Invalid syntax! Use:");
-							Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <username> - Removes friend");
-						}
-						return true;
-					}
-				}
-				return super.onCommand(text, cmd, args);
-			}
+
 		});
 	}
 
@@ -102,7 +97,7 @@ public class Friends extends Module implements HasValues {
 						if (entity instanceof EntityPlayer) {
 							EntityPlayer player = (EntityPlayer) entity;
 							if (getFriend(player.getCommandSenderName()) == null) friends.add(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
-							else friends.remove(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
+							else friends.remove(getFriend(player.getCommandSenderName()));
 						}
 					}
 				}
@@ -111,7 +106,7 @@ public class Friends extends Module implements HasValues {
 	}
 
 	public static boolean isFriend(String name) {
-		return getFriend(name) == null ? false : !getFriend(name).isAttackable();
+		return getFriend(name) != null;
 	}
 
 	public static Friend getFriend(String name) {
@@ -124,24 +119,29 @@ public class Friends extends Module implements HasValues {
 		return null;
 	}
 
-	private String FRIENDS = "Friends", MIDDLEMOUSE = "MiddleMouseFriends";
-	List<Value> values = Arrays.asList(new Value[] { new Value(MIDDLEMOUSE, false, true), new Value(FRIENDS, friends, Friend.class) });
+	private String SAVINGFRIENDS = "Saved_Friends", MIDDLEMOUSE = "MiddleMouseFriends", FRIENDS = "Friends";
+	List<Value> values = Arrays.asList(new Value[] { new Value(MIDDLEMOUSE, false, true), new Value(SAVINGFRIENDS, friends) });
+	private Value friendsDisplay = new Value(FRIENDS, false, new ArrayList<Value>(), ValueType.DISPLAYLIST);
 
 	@Override
 	public List<Value> getValues() {
 		List<Value> tempList = new ArrayList<Value>();
 		tempList.addAll(values);
-		for (Friend friend : friends) {
-			tempList.add(new Value(friend.getName(), false, true));
+
+		friendsDisplay.getOtherValues().clear();
+		List<Value> friendList = new ArrayList<Value>();
+		for (Friend f : friends) {
+			friendsDisplay.getOtherValues().add(new Value(f.getName(), false, false));
 		}
+		tempList.add(friendsDisplay);
 		return tempList;
 	}
 
 	@Override
 	public Object getValue(String n) {
-		if(n.equals(MIDDLEMOUSE)) {
+		if (n.equals(MIDDLEMOUSE)) {
 			return middleMouseFriends;
-		} else if (n.equals(FRIENDS)) {
+		} else if (n.equals(SAVINGFRIENDS)) {
 			String s = ",";
 			for (Friend friend : friends) {
 				String friendData = friend.getName() + ";" + friend.getAlias();
@@ -149,15 +149,15 @@ public class Friends extends Module implements HasValues {
 			}
 			return s;
 		} else {
-			return getFriend(n).isAttackable();
+			return false;
 		}
 	}
 
 	@Override
 	public void setValue(String n, Object v) {
-		if(n.equals(MIDDLEMOUSE)) {
+		if (n.equals(MIDDLEMOUSE)) {
 			middleMouseFriends = (Boolean) v;
-		} else if (n.equals(FRIENDS)) {
+		} else if (n.equals(SAVINGFRIENDS)) {
 			friends.clear();
 			String[] obj = String.valueOf(v).split(",");
 			for (String s : obj) {
@@ -171,8 +171,6 @@ public class Friends extends Module implements HasValues {
 					}
 				}
 			}
-		} else {
-			getFriend(n).setAttackable((Boolean) v);
 		}
 	}
 
@@ -180,7 +178,6 @@ public class Friends extends Module implements HasValues {
 
 		private String name;
 		private String alias;
-		private boolean attackable = false;
 
 		public Friend(String name, String alias) {
 			this.name = name;
@@ -193,14 +190,6 @@ public class Friends extends Module implements HasValues {
 
 		public String getAlias() {
 			return alias;
-		}
-
-		public boolean isAttackable() {
-			return attackable;
-		}
-
-		public void setAttackable(boolean attackable) {
-			this.attackable = attackable;
 		}
 
 		@Override
