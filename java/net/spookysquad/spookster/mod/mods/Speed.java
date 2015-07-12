@@ -30,7 +30,7 @@ public class Speed extends Module implements HasValues {
 	private boolean boundingBoxOffset = true;
 
 	public Speed() {
-		super(new String[] { "Speed" }, "Move faster.", Type.EXPLOITS, Keyboard.KEY_C, 0xFF96CC39);
+		super(new String[] { "Speed" }, "Move faster.", Type.MOVEMENT, Keyboard.KEY_C, 0xFF96CC39);
 	}
 
 	@Override

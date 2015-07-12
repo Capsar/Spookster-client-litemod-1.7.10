@@ -15,7 +15,7 @@ import org.lwjgl.input.Keyboard;
 public class GangsterWalk extends Module implements HasValues {
 
 	public GangsterWalk() {
-		super(new String[] { "GangsterWalk" }, "Look like a gangster", Type.RENDER, Keyboard.KEY_APOSTROPHE, -1);
+		super(new String[] { "GangsterWalk" }, "Look like a gangster", Type.RENDER, -1, -1);
 	}
 
 	public void onEvent(Event event) {

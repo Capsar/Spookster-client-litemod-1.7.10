@@ -32,8 +32,8 @@ public interface HasValues {
 		}
 
 		public Value(String name, boolean shown, List<Value> values) {
-			this.shown = shown;
 			hasExtraValues = true;
+			this.shown = shown;
 			this.name = name;
 			this.otherValues.clear();
 			for(Value value : values) {
