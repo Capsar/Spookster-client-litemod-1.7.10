@@ -26,25 +26,25 @@ import org.lwjgl.opengl.Display;
 public class Friends extends Module implements HasValues {
 
 	public Friends() {
-		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.MISC, -1, -1);
+		super(new String[] { "Friends" }, "Modules adapt to the fact there are team members.", Type.FRIENDS, -1, -1);
 		this.toggle(false);
 		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "addfriend", "addfr", "af", "friendadd", "fadd", "fa" }, "Add friends") {
 			@Override
 			public boolean onCommand(String text, String cmd, String[] args) {
-				for(String name: getNames()) {
-					if(cmd.equalsIgnoreCase(name)) {
-						if(args.length > 1) {
+				for (String name : getNames()) {
+					if (cmd.equalsIgnoreCase(name)) {
+						if (args.length > 1) {
 							String username = args[1];
 							String alias = (args.length > 2 ? args[2] : username);
-							if(args.length > 2) {
+							if (args.length > 2) {
 								alias = "";
-								for(int i = 2; i < args.length; i++) {
+								for (int i = 2; i < args.length; i++) {
 									alias += args[i] + " ";
 								}
 								alias = alias.substring(0, alias.length() - 1);
 							}
 							Friend isFriend = getFriend(username);
-							if(isFriend != null) {
+							if (isFriend != null) {
 								friends.remove(isFriend);
 								friends.add(new Friend(username, alias));
 								Wrapper.logChat(MessageType.NOTIFCATION, "Changed friend " + username + ", with alias " + alias + "!");
@@ -65,12 +65,12 @@ public class Friends extends Module implements HasValues {
 		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "delfriend", "delfr", "df", "frienddel", "fdel", "fd", "fr", "frem", "friendremove", "rf", "removefr", "removefriend" }, "Delete friends") {
 			@Override
 			public boolean onCommand(String text, String cmd, String[] args) {
-				for(String name: getNames()) {
-					if(cmd.equalsIgnoreCase(name)) {
-						if(args.length > 1) {
+				for (String name : getNames()) {
+					if (cmd.equalsIgnoreCase(name)) {
+						if (args.length > 1) {
 							String username = args[1];
 							Friend isFriend = getFriend(username);
-							if(isFriend != null) {
+							if (isFriend != null) {
 								friends.remove(isFriend);
 								Wrapper.logChat(MessageType.NOTIFCATION, "Removed friend " + username + "!");
 							} else {
@@ -96,16 +96,16 @@ public class Friends extends Module implements HasValues {
 
 	public void onEvent(Event event) {
 		if (event instanceof EventMouseClicked) {
-			EventMouseClicked clicked = (EventMouseClicked) event;
-			if (clicked.getButton() == 2) {
-				if (PlayerUtil.getEntityOnMouseCurser(5) != null) {
-					Entity entity = PlayerUtil.getEntityOnMouseCurser(5);
-					if (entity instanceof EntityPlayer) {
-						EntityPlayer player = (EntityPlayer) entity;
-						if (getFriend(player.getCommandSenderName()) == null)
-							friends.add(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
-						else
-							friends.remove(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
+			if (Spookster.instance.moduleManager.getModule(MiddleMouseFriends.class).isEnabled()) {
+				EventMouseClicked clicked = (EventMouseClicked) event;
+				if (clicked.getButton() == 2) {
+					if (PlayerUtil.getEntityOnMouseCurser(5) != null) {
+						Entity entity = PlayerUtil.getEntityOnMouseCurser(5);
+						if (entity instanceof EntityPlayer) {
+							EntityPlayer player = (EntityPlayer) entity;
+							if (getFriend(player.getCommandSenderName()) == null) friends.add(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
+							else friends.remove(new Friend(player.getCommandSenderName(), player.getCommandSenderName()));
+						}
 					}
 				}
 			}
