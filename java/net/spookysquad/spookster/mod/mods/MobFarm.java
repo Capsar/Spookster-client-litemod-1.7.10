@@ -7,7 +7,6 @@ import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.spookysquad.spookster.event.Event;
@@ -15,7 +14,6 @@ import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.utils.AngleUtil;
-import net.spookysquad.spookster.utils.PlayerUtil;
 import net.spookysquad.spookster.utils.TimeUtil;
 
 public class MobFarm extends Module {

@@ -3,11 +3,9 @@ package net.spookysquad.spookster.mod.mods;
 import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.Event3DRender;
@@ -15,8 +13,7 @@ import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.mod.HasValues.Value;
-import net.spookysquad.spookster.utils.PlayerUtil;
+import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;

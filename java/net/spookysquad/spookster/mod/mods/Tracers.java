@@ -1,24 +1,14 @@
 package net.spookysquad.spookster.mod.mods;
 
-import java.util.Arrays;
 import java.util.List;
 
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.Event3DRender;
-import net.spookysquad.spookster.event.events.EventRenderNameTag;
-import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.mod.mods.Friends.Friend;
-import net.spookysquad.spookster.render.FontUtil;
-import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;

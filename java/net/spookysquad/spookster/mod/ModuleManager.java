@@ -12,7 +12,6 @@ import net.spookysquad.spookster.event.Listener;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.manager.Manager;
-import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.mods.ArmorSwitch;
 import net.spookysquad.spookster.mod.mods.Blink;
 import net.spookysquad.spookster.mod.mods.ClickGUI;
@@ -36,6 +35,7 @@ import net.spookysquad.spookster.mod.mods.Title;
 import net.spookysquad.spookster.mod.mods.Tracers;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
 import net.spookysquad.spookster.mod.mods.XRay;
+import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.utils.ValueUtil;
 
 import org.lwjgl.input.Keyboard;

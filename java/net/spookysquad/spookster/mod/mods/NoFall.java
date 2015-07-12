@@ -1,8 +1,6 @@
 package net.spookysquad.spookster.mod.mods;
 
 import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.network.play.client.C03PacketPlayer.C04PacketPlayerPosition;
-import net.minecraft.network.play.client.C03PacketPlayer.C05PacketPlayerLook;
 import net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook;
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
@@ -12,7 +10,6 @@ import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.utils.PacketUtil;
 import net.spookysquad.spookster.utils.PlayerUtil;
-import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 

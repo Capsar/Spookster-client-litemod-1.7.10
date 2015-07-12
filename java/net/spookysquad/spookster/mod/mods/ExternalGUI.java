@@ -1,7 +1,5 @@
 package net.spookysquad.spookster.mod.mods;
 
-import org.lwjgl.input.Keyboard;
-
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.mod.Module;

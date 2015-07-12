@@ -1,6 +1,5 @@
 package net.spookysquad.spookster.mod.mods;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,13 +7,12 @@ import java.util.Map.Entry;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import net.spookysquad.spookster.event.Event;
-import net.spookysquad.spookster.event.events.EventGameTick;
 import net.spookysquad.spookster.event.events.EventPostHudRender;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.mod.HasValues.Value;
+import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.render.GuiUtil;
 import net.spookysquad.spookster.utils.TimeUtil;
 

@@ -1,16 +1,12 @@
 package net.spookysquad.spookster.render.clickgui;
 
-import java.util.List;
-
-import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.spookysquad.spookster.mod.HasValues;
-import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.Module;
+import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.render.FontUtil;
 import net.spookysquad.spookster.render.GuiUtil;
 import net.spookysquad.spookster.utils.ValueUtil;
-import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;

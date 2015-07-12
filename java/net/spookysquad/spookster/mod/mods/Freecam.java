@@ -7,8 +7,6 @@ import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.event.events.EventPushOutOfBlocks;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-import net.spookysquad.spookster.utils.PlayerUtil;
-import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 

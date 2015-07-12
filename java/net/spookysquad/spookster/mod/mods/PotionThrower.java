@@ -14,6 +14,7 @@ import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.utils.PacketUtil;
 import net.spookysquad.spookster.utils.TimeUtil;
 

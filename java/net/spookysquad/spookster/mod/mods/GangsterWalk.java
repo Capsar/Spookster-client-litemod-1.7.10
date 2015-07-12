@@ -6,11 +6,9 @@ import java.util.List;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
-import net.spookysquad.spookster.mod.HasValues.Value;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
-
-import org.lwjgl.input.Keyboard;
+import net.spookysquad.spookster.mod.values.Value;
 
 public class GangsterWalk extends Module implements HasValues {
 
