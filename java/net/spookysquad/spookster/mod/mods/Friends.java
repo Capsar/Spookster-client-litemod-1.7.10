@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.command.Command;
@@ -55,7 +56,7 @@ public class Friends extends Module implements HasValues {
 								logChat(MessageType.ERROR, "You have no friends.");
 							}
 						} else if (args[1].toLowerCase().equals("add")) {
-							if(args.length > 2) {
+							if (args.length > 2) {
 								String username = args[2];
 								String alias = args[2];
 								if (args.length > 3) {
@@ -65,9 +66,9 @@ public class Friends extends Module implements HasValues {
 									}
 									alias = alias.substring(0, alias.length() - 1);
 								}
-								
+
 								Friend isFriend = getFriend(username);
-								if(isFriend != null) {
+								if (isFriend != null) {
 									friends.remove(isFriend);
 									friends.add(new Friend(username, alias));
 									Wrapper.logChat(MessageType.NOTIFCATION, "Changed friend \"" + username + "\", to the alias \"" + alias + "\"!");
@@ -79,17 +80,17 @@ public class Friends extends Module implements HasValues {
 								logChat(MessageType.NOTIFCATION, "Invalid Syntax!");
 							}
 						} else if (args[1].toLowerCase().equals("rem") || args[1].toLowerCase().equals("remove") || args[1].toLowerCase().equals("del") || args[1].toLowerCase().equals("delete")) {
-							if(args.length > 2) {
+							if (args.length > 2) {
 								String removeName = args[2];
-								if(args.length > 3) {
+								if (args.length > 3) {
 									removeName = "";
 									for (int i = 2; i < args.length; i++) {
 										removeName += args[i] + " ";
 									}
 									removeName = removeName.substring(0, removeName.length() - 1);
 								}
-								
-								if(friends.contains(Friends.getFriend(removeName))) {
+
+								if (friends.contains(Friends.getFriend(removeName))) {
 									friends.remove(Friends.getFriend(removeName));
 									logChat(MessageType.NOTIFCATION, "Removed friend \"" + removeName + "\"!");
 								} else {
@@ -146,6 +147,18 @@ public class Friends extends Module implements HasValues {
 		return getFriend(name) != null;
 	}
 
+	public static boolean sameTeam(EntityLivingBase entity) {
+		if(((Friends) Spookster.instance.moduleManager.getModule(Friends.class)).Teams) {
+			if(entity.getTeam() == PlayerUtil.getPlayer().getTeam()) {
+				return true;
+			}
+			
+			return false;
+		} else {
+			return false;
+		}
+	}
+
 	public static Friend getFriend(String name) {
 		for (Friend friend : friends) {
 			if (friend.getName().equalsIgnoreCase(name)) { return friend; }
@@ -156,8 +169,9 @@ public class Friends extends Module implements HasValues {
 		return null;
 	}
 
-	private String SAVINGFRIENDS = "Saved_Friends", MIDDLEMOUSE = "MiddleMouseFriends", FRIENDS = "Friends";
-	List<Value> values = Arrays.asList(new Value[] { new Value(MIDDLEMOUSE, false, true), new Value(SAVINGFRIENDS, friends) });
+	public boolean Teams = false;
+	private String SAVINGFRIENDS = "Saved_Friends", MIDDLEMOUSE = "MiddleMouseFriends", TEAMS = "Teams", FRIENDS = "Friends";
+	List<Value> values = Arrays.asList(new Value[] { new Value(MIDDLEMOUSE, false, true), new Value(TEAMS, false, true), new Value(SAVINGFRIENDS, friends) });
 	private Value friendsDisplay = new Value(FRIENDS, false, new ArrayList<Value>(), ValueType.DISPLAYLIST);
 
 	@Override
@@ -176,7 +190,9 @@ public class Friends extends Module implements HasValues {
 
 	@Override
 	public Object getValue(String n) {
-		if (n.equals(MIDDLEMOUSE)) {
+		if (n.equals(TEAMS)) {
+			return Teams;
+		} else if (n.equals(MIDDLEMOUSE)) {
 			return middleMouseFriends;
 		} else if (n.equals(SAVINGFRIENDS)) {
 			String s = ",";
@@ -192,7 +208,9 @@ public class Friends extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(MIDDLEMOUSE)) {
+		if (n.equals(TEAMS)) {
+			Teams = (Boolean) v;
+		} else if (n.equals(MIDDLEMOUSE)) {
 			middleMouseFriends = (Boolean) v;
 		} else if (n.equals(SAVINGFRIENDS)) {
 			friends.clear();

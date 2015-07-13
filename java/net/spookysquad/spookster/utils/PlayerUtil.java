@@ -123,13 +123,13 @@ public class PlayerUtil extends Wrapper {
 			return targetplayer != null && targetplayer.getUniqueID() != null && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
 					&& (swordOnly ? hasSword : true) && (blockHit ? true : !getPlayer().isUsingItem())
-					&& getMinecraft().inGameHasFocus && !Friends.isFriend(targetplayer.getCommandSenderName());
+					&& getMinecraft().inGameHasFocus && !Friends.isFriend(targetplayer.getCommandSenderName()) && !Friends.sameTeam(targetplayer);
 		} else {
 			return targetplayer != null && getEntityOnMouseCurser(range) != null && targetplayer.getUniqueID() != null
 					&& getEntityOnMouseCurser(range).equals(targetplayer) && targetplayer.getHealth() != 0
 					&& !targetplayer.equals(getPlayer()) && !targetplayer.isPlayerSleeping()
 					&& (swordOnly ? hasSword : true) && (blockHit ? true : !getPlayer().isUsingItem())
-					&& getMinecraft().inGameHasFocus && !Friends.isFriend(targetplayer.getCommandSenderName());
+					&& getMinecraft().inGameHasFocus && !Friends.isFriend(targetplayer.getCommandSenderName()) && !Friends.sameTeam(targetplayer);
 		}
 	}
 
