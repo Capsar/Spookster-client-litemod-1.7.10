@@ -29,25 +29,27 @@ public class Tracers extends Module implements HasValues {
 			Event3DRender render = (Event3DRender) event;
 			for (EntityPlayer player : (List<EntityPlayer>) getWorld().playerEntities) {
 				if (player.getHealth() > 0 && !player.isDead && !player.getCommandSenderName().equals(getPlayer().getCommandSenderName())) {
-					float particalTicks = Wrapper.orientCamera(render.getPartialTicks());
+					GL11.glPushMatrix();
+					GL11.glLoadIdentity();
+					Wrapper.orientCamera(render.getPartialTicks());
+					float particalTicks = render.getPartialTicks();
 					double eposX = player.lastTickPosX + (player.posX - player.lastTickPosX) * particalTicks;
 					double eposY = player.lastTickPosY + (player.posY - player.lastTickPosY) * particalTicks;
 					double eposZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * particalTicks;
-					double x = eposX - RenderManager.renderPosX - particalTicks;
-					double y = eposY - RenderManager.renderPosY - particalTicks;
-					double z = eposZ - RenderManager.renderPosZ - particalTicks;
+					double x = eposX - RenderManager.renderPosX;
+					double y = eposY - RenderManager.renderPosY;
+					double z = eposZ - RenderManager.renderPosZ;
 					drawLines(player, x, y, z);
+					GL11.glPopMatrix();
 				}
 			}
 		}
 	}
 
 	public void drawLines(EntityLivingBase entity, double x, double y, double z) {
-
 		GL11.glPushMatrix();
-
+		
 		RenderHelper.disableStandardItemLighting();
-		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -77,13 +79,14 @@ public class Tracers extends Module implements HasValues {
 			GL11.glEnd();
 		}
 
+		GL11.glDepthMask(true);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
+		
 		GL11.glPopMatrix();
-
 	}
 	
 	public double tracerWidth = 1f;

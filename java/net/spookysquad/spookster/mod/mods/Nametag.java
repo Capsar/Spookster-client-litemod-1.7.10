@@ -101,6 +101,7 @@ public class Nametag extends Module implements HasValues {
 		var15.addVertex((double) (var17 + 1), (double) 8, 0.0D);
 		var15.addVertex((double) (var17 + 1), (double) -1, 0.0D);
 		var15.draw();
+		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + (health ? " " + getHealth(entity) : "")) / 2), 0, 0xffffff);
 		if (health) FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), 0, getHealthColor(entity));
