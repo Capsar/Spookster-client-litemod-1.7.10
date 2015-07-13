@@ -3,18 +3,23 @@ package net.spookysquad.spookster.mod.mods;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.Event3DRender;
+import net.spookysquad.spookster.event.events.EventBoundingBox;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.mod.values.Value.ValueType;
+import net.spookysquad.spookster.utils.TimeUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -26,51 +31,45 @@ public class Step extends Module implements HasValues {
 		super(new String[] { "Step" }, "Lets you Step up blocks", Type.MOVEMENT, Keyboard.KEY_PERIOD, 0xFF8BFFA1);
 	}
 
-	private double mX, mZ;
-	private int inAirTimer = 0;
+	TimeUtil timeBypass = TimeUtil.getTime();
 
 	public void onEvent(Event event) {
 		double size = 8;
-		if (event instanceof Event3DRender) {
-			if(jumpStep) {
-				if (getPlayer().motionX != 0) mX = getPlayer().motionX;
-				if (getPlayer().motionZ != 0) mZ = getPlayer().motionZ;
-				double blockX = RenderManager.renderPosX + (mX * size);
-				double blockY = RenderManager.renderPosY;
-				double blockZ = RenderManager.renderPosZ + (mZ * size);
-				double x = blockX - RenderManager.renderPosX;
-				double y = blockY - RenderManager.renderPosY;
-				double z = blockZ - RenderManager.renderPosZ;
-				GL11.glPushMatrix();
-				GL11.glDisable(GL11.GL_LIGHTING);
-				RenderHelper.disableStandardItemLighting();
-				GL11.glDisable(GL11.GL_TEXTURE_2D);
-				GL11.glColor3d(0.3373, 0.0, 0.2);
-				GL11.glLineWidth(5.0F);
-				GL11.glBegin(GL11.GL_LINE_LOOP);
-				GL11.glVertex3d(0, -1.5, 0);
-				GL11.glVertex3d(x, y - 1, z);
-				GL11.glEnd();
-				GL11.glEnable(GL11.GL_TEXTURE_2D);
-				GL11.glEnable(GL11.GL_LIGHTING);
-				GL11.glPopMatrix();
-			}
-		} else if (event instanceof EventPreMotion) {
+		if (event instanceof EventPreMotion) {
 			if (jumpStep) {
 				if (getPlayer().motionX != 0) mX = getPlayer().motionX;
 				if (getPlayer().motionZ != 0) mZ = getPlayer().motionZ;
 
-				AxisAlignedBB bb = getPlayer().boundingBox.copy().offset(mX * size, 0, mZ * size);
+				AxisAlignedBB bb = getPlayer().boundingBox.copy().offset(mX * size, 0, mZ * size).contract(0, 0.5, 0);
 				bb.maxY -= 1;
 				if ((canJumpOnBlock(bb) || getPlayer().isCollidedHorizontally) && getPlayer().onGround) {
 					getPlayer().jump();
 				}
-			}
-
-			if (vanillaStep) {
+			} else if (vanillaStep) {
 				Wrapper.getPlayer().stepHeight = (float) stepHeight;
 			} else {
 				Wrapper.getPlayer().stepHeight = 0.6F;
+			}
+		} else if (event instanceof EventBoundingBox && bypassStep) {
+			EventBoundingBox e = (EventBoundingBox) event;
+			if (e.getBoundingBox() == null) return;
+			if (!getPlayer().onGround) return;
+			if (e.getBlock() instanceof BlockStairs) {
+				BlockStairs stairs = (BlockStairs) e.getBlock();
+				if (MathHelper.floor_double(getPlayer().boundingBox.minY) == e.getY() && String.valueOf(getPlayer().posY).contains(".5")) return;
+			}
+			if (MathHelper.floor_double(getPlayer().boundingBox.minY) - 1D >= e.getY()) return;
+			if (MathHelper.floor_double(getPlayer().boundingBox.minY) != e.getY()) return;
+			if (e.getBlock() == Blocks.air || e.getBlock() == Blocks.ladder || e.getBlock() == Blocks.vine || e.getBlock() instanceof BlockSlab) return;
+			if (getPlayer().handleLavaMovement() || getPlayer().isInWater()) return;
+			if (!getPlayer().isCollidedVertically) return;
+			if (e.getBoundingBox().maxY - getPlayer().boundingBox.minY < 0.6) return;
+			if (!getGameSettings().keyBindJump.isPressed()) {
+				getPlayer().motionX /= 1.5;
+				getPlayer().motionZ /= 1.5;
+				getPlayer().stepHeight = 1.25F;
+				double offset = e.getBoundingBox().maxY + 0.065;
+				e.setBoundingBox(AxisAlignedBB.getBoundingBox(e.getBoundingBox().minX, e.getBoundingBox().minY, e.getBoundingBox().minZ, e.getBoundingBox().maxX, offset, e.getBoundingBox().maxZ));
 			}
 		}
 	}
@@ -79,6 +78,8 @@ public class Step extends Module implements HasValues {
 		Wrapper.getPlayer().stepHeight = 0.6F;
 		return super.onDisable();
 	}
+
+	private double mX, mZ;
 
 	public boolean canJumpOnBlock(AxisAlignedBB bb) {
 		int minX = MathHelper.floor_double(bb.minX);
@@ -104,8 +105,9 @@ public class Step extends Module implements HasValues {
 	public boolean bypassStep = false;
 	public double stepHeight = 0.5;
 
-	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", LEGIT = "Jump step", BYPASS = "Bypass step", STEPMODE = "Step Mode";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(STEPHEIGHT, 0.5D, 10D, 0.1F), new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(LEGIT, false, true), new Value(BYPASS, false, true)), ValueType.MODE) });
+	private String STEPHEIGHT = "Step Height", VANILLA = "Vanilla Step", JUMP = "Jump step", BYPASS = "Bypass step", STEPMODE = "Step Mode";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(STEPHEIGHT, 0.5D, 10D, 0.1F),
+			new Value(STEPMODE, false, Arrays.asList(new Value(VANILLA, false, true), new Value(JUMP, false, true), new Value(BYPASS, false, true)), ValueType.MODE) });
 
 	@Override
 	public List<Value> getValues() {
@@ -116,7 +118,7 @@ public class Step extends Module implements HasValues {
 	public Object getValue(String n) {
 		if (n.equals(STEPHEIGHT)) return stepHeight;
 		else if (n.equals(VANILLA)) return vanillaStep;
-		else if (n.equals(LEGIT)) return jumpStep;
+		else if (n.equals(JUMP)) return jumpStep;
 		else if (n.equals(BYPASS)) return bypassStep;
 		return null;
 	}
@@ -125,7 +127,7 @@ public class Step extends Module implements HasValues {
 	public void setValue(String n, Object v) {
 		if (n.equals(STEPHEIGHT)) stepHeight = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(VANILLA)) vanillaStep = (Boolean) v;
-		else if (n.equals(LEGIT)) jumpStep = (Boolean) v;
+		else if (n.equals(JUMP)) jumpStep = (Boolean) v;
 		else if (n.equals(BYPASS)) bypassStep = (Boolean) v;
 	}
 
