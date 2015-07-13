@@ -1,5 +1,6 @@
 package net.spookysquad.spookster.mod.mods;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.renderer.RenderHelper;
@@ -8,13 +9,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.Event3DRender;
+import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.mod.values.Value;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
-public class Tracers extends Module {
+public class Tracers extends Module implements HasValues {
 
 	public Tracers() {
 		super(new String[] { "Tracers" }, "Swag yolo tracers.", Type.RENDER, Keyboard.KEY_I, 0xFFA01FA0);
@@ -50,7 +53,7 @@ public class Tracers extends Module {
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDepthMask(false);
 
-		GL11.glLineWidth(1f);
+		GL11.glLineWidth((float) tracerWidth);
 		GL11.glColor4f(1, 1, 1, 1);
 
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
@@ -60,11 +63,13 @@ public class Tracers extends Module {
 		GL11.glVertex3d(x, y, z);
 		GL11.glEnd();
 
-		GL11.glLineWidth(1.5F);
-		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex3d(x, y, z);
-		GL11.glVertex3d(x, y + 2, z);
-		GL11.glEnd();
+		if(spine) {
+			GL11.glLineWidth((float) spineWidth);
+			GL11.glBegin(GL11.GL_LINES);
+			GL11.glVertex3d(x, y, z);
+			GL11.glVertex3d(x, y + 2, z);
+			GL11.glEnd();
+		}
 
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
@@ -73,5 +78,32 @@ public class Tracers extends Module {
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glPopMatrix();
 
+	}
+	
+	public double tracerWidth = 1f;
+	public double spineWidth = 1.5f;
+	public boolean spine = true;
+	
+	private String TRACERWIDTH = "Tracer Width", SPINEWIDTH = "Spine Width", DRAWSPINES = "Draw Spine";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(TRACERWIDTH, 0.5, 5.0, 0.1F),
+			new Value(SPINEWIDTH, 0.5, 5.0, 0.1F), new Value(DRAWSPINES, false, true) });
+	
+	public List<Value> getValues() {
+		return values;
+	}
+
+	@Override
+	public Object getValue(String n) {
+		if (n.equals(TRACERWIDTH)) return tracerWidth;
+		else if (n.equals(SPINEWIDTH)) return spineWidth;
+		else if (n.equals(DRAWSPINES)) return spine;
+		return null;
+	}
+
+	@Override
+	public void setValue(String n, Object v) {
+		if (n.equals(TRACERWIDTH)) tracerWidth = (Math.round((Double) v * 10) / 10.0D);
+		else if (n.equals(SPINEWIDTH)) spineWidth = (Math.round((Double) v * 10) / 10.0D);
+		else if (n.equals(DRAWSPINES)) spine = (Boolean) v;
 	}
 }
