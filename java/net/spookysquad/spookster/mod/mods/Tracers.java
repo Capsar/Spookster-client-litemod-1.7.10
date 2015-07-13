@@ -30,6 +30,12 @@ public class Tracers extends Module implements HasValues {
 			Event3DRender render = (Event3DRender) event;
 			for (EntityPlayer player : (List<EntityPlayer>) getWorld().playerEntities) {
 				if (player.getHealth() > 0 && !player.isDead && !player.getCommandSenderName().equals(getPlayer().getCommandSenderName())) {
+					if (!renderFriends) {
+						if (Friends.isFriend(player.getCommandSenderName())) {
+							continue;
+						}
+					}
+
 					GL11.glPushMatrix();
 					GL11.glLoadIdentity();
 					Render3DUtil.orientCamera(render.getPartialTicks());
@@ -49,7 +55,7 @@ public class Tracers extends Module implements HasValues {
 
 	public void drawLines(EntityLivingBase entity, double x, double y, double z) {
 		GL11.glPushMatrix();
-		
+
 		RenderHelper.disableStandardItemLighting();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
@@ -59,7 +65,7 @@ public class Tracers extends Module implements HasValues {
 		GL11.glDepthMask(false);
 
 		GL11.glLineWidth((float) tracerWidth);
-		if(Friends.isFriend(entity.getCommandSenderName())) {
+		if (Friends.isFriend(entity.getCommandSenderName()) && colorFriends) {
 			GL11.glColor4f(0, 1, 1, 1);
 		} else {
 			GL11.glColor4f(1, 1, 1, 1);
@@ -72,7 +78,7 @@ public class Tracers extends Module implements HasValues {
 		GL11.glVertex3d(x, y, z);
 		GL11.glEnd();
 
-		if(spine) {
+		if (spine) {
 			GL11.glLineWidth((float) spineWidth);
 			GL11.glBegin(GL11.GL_LINES);
 			GL11.glVertex3d(x, y, z);
@@ -86,18 +92,20 @@ public class Tracers extends Module implements HasValues {
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glEnable(GL11.GL_LIGHTING);
-		
+
 		GL11.glPopMatrix();
 	}
-	
+
 	public double tracerWidth = 1f;
 	public double spineWidth = 1.5f;
 	public boolean spine = true;
-	
-	private String TRACERWIDTH = "Tracer Width", SPINEWIDTH = "Spine Width", DRAWSPINES = "Draw Spine";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(TRACERWIDTH, 0.5, 5.0, 0.1F),
-			new Value(SPINEWIDTH, 0.5, 5.0, 0.1F), new Value(DRAWSPINES, false, true) });
-	
+	public boolean colorFriends = true;
+	public boolean renderFriends = true;
+
+	private String TRACERWIDTH = "Tracer Width", SPINEWIDTH = "Spine Width", DRAWSPINES = "Draw Spine", COLORFRIENDS = "Color Friends", RENDERFRIENDS = "Render Friends";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(TRACERWIDTH, 0.5, 5.0, 0.1F), new Value(SPINEWIDTH, 0.5, 5.0, 0.1F), new Value(DRAWSPINES, false, true), new Value(COLORFRIENDS, false, true),
+			new Value(RENDERFRIENDS, false, true) });
+
 	public List<Value> getValues() {
 		return values;
 	}
@@ -107,6 +115,8 @@ public class Tracers extends Module implements HasValues {
 		if (n.equals(TRACERWIDTH)) return tracerWidth;
 		else if (n.equals(SPINEWIDTH)) return spineWidth;
 		else if (n.equals(DRAWSPINES)) return spine;
+		else if (n.equals(COLORFRIENDS)) return colorFriends;
+		else if (n.equals(RENDERFRIENDS)) return renderFriends;
 		return null;
 	}
 
@@ -115,5 +125,7 @@ public class Tracers extends Module implements HasValues {
 		if (n.equals(TRACERWIDTH)) tracerWidth = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(SPINEWIDTH)) spineWidth = (Math.round((Double) v * 10) / 10.0D);
 		else if (n.equals(DRAWSPINES)) spine = (Boolean) v;
+		else if (n.equals(COLORFRIENDS)) colorFriends = (Boolean) v;
+		else if (n.equals(RENDERFRIENDS)) renderFriends = (Boolean) v;
 	}
 }
