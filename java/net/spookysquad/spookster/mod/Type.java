@@ -2,7 +2,7 @@ package net.spookysquad.spookster.mod;
 
 public enum Type {
 
-	COMBAT("Combat"), MOVEMENT("Movement"), RENDER("Render"), EXPLOITS("Exploits"), MISC("Misc"), FRIENDS("Friends"), CORE("");
+	COMBAT("Combat"), MOVEMENT("Movement"), RENDER("Render"), EXPLOITS("Exploits"), MISC("Misc"), CORE("");
 	
 	private final String typeName;
 
