@@ -19,10 +19,7 @@ public class Sprint extends Module {
 	public void onEvent(Event event) {
 		if(event instanceof EventGameTick) {
 			if(PlayerUtil.getPlayer() != null) {
-				EntityPlayerSP player = PlayerUtil.getPlayer();
-				if(player.onGround && !player.movementInput.sneak && player.movementInput.moveForward >= 0.8F && !player.isSprinting() && (player.getFoodStats().getFoodLevel() > 6.0F || player.capabilities.allowFlying) && !player.isUsingItem() && !player.isPotionActive(Potion.blindness) && !player.isCollidedHorizontally) {
-					player.setSprinting(true);
-				}
+				if(PlayerUtil.canSprint()) getPlayer().setSprinting(true);
 			}
 		}
 	}

@@ -165,6 +165,6 @@ public class PlayerUtil extends Wrapper {
 
 	public static boolean canSprint() {
 		return getPlayer().moveForward > 0 && !getPlayer().isSneaking() && !getPlayer().isCollidedHorizontally
-				&& !getPlayer().isUsingItem();
+				&& !getPlayer().isUsingItem() && !getPlayer().isSprinting() && !getPlayer().isPotionActive(Potion.blindness);
 	}
 }
