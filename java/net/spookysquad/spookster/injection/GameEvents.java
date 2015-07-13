@@ -127,14 +127,9 @@ public class GameEvents {
 		}
 	}
 
-	/*public static void renderHand(EventInfo<EntityRenderer> eventInfo, float partialTicks, int xOffset) {
-		Event3DRender event = new Event3DRender(partialTicks, xOffset);
-		event.call();
-	}*/
-
 	public static void renderHand(EventInfo<EntityRenderer> e, float arg1, int arg2) {
 		Event3DRender event = new Event3DRender(arg1, arg2);
-		//event.call();
+		event.call();
 	}
 
 }

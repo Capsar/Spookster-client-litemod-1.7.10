@@ -94,7 +94,7 @@ public class Phase extends Module implements HasValues {
 	public boolean Normal = true;
 	public boolean Noclip = false;
 	private String PHASEMODE = "Phase Mode", NOCLIP = "Noclip", NORMAL = "Normal";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(PHASEMODE, false, Arrays.asList(new Value(NORMAL, false, true), new Value(NOCLIP, false, true), new Value(NORMAL, false, true)), ValueType.MODE) });
+	private List<Value> values = Arrays.asList(new Value[] { new Value(PHASEMODE, false, Arrays.asList(new Value(NORMAL, false, true), new Value(NOCLIP, false, true)), ValueType.MODE) });
 
 	public List<Value> getValues() {
 		return values;
