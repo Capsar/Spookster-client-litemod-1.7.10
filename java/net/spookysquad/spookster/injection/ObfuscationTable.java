@@ -20,6 +20,7 @@ public class ObfuscationTable extends Obf
 	public static ObfuscationTable pushOutOfBlocks = new ObfuscationTable("func_145771_j", "j", "pushOutOfBlocks");
 	public static ObfuscationTable AxisAlignedBB = new ObfuscationTable("net.minecraft.util.AxisAlignedBB", "azt");
 	public static ObfuscationTable World = new ObfuscationTable("net.minecraft.world.World", "ahb");
+	public static ObfuscationTable renderHand = new ObfuscationTable("func_78476_b", "b", "renderHand");
 	        
 	public static ObfuscationTable PlayerControllerMP = new ObfuscationTable("net.minecraft.client.multiplayer.PlayerControllerMP", "bje");
 	public static ObfuscationTable onPlayerDestroyBlock = new ObfuscationTable("func_78751_a", "a", "onPlayerDestroyBlock");

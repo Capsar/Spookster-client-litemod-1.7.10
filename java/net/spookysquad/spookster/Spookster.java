@@ -201,11 +201,11 @@ public class Spookster {
 	}
 
 	public void onPostRenderEntities(float partialTicks) {
-		RenderHelper.disableStandardItemLighting();
+		/*RenderHelper.disableStandardItemLighting();
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glDisable(GL11.GL_LIGHTING);
 		eventManager.callEvent(new Event3DRender(partialTicks));
 		GL11.glEnable(GL11.GL_LIGHTING);
-		RenderHelper.enableStandardItemLighting();
+		RenderHelper.enableStandardItemLighting();*/
 	}
 }

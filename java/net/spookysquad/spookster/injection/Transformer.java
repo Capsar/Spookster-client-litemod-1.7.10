@@ -80,5 +80,11 @@ public class Transformer extends EventInjectionTransformer
         final MethodHead onAttackEntityInjectionPoint = new MethodHead();
         this.addEvent(onAttackEntityEvent, onAttackEntityMethodInfo, onAttackEntityInjectionPoint);
         onAttackEntityEvent.addListener(new MethodInfo(listenerClass, "onAttackEntityEvent"));
+        
+        final Event onRenderHandEvent = Event.getOrCreate("renderHand", true);
+        final MethodInfo onRenderHandMethodInfo = new MethodInfo(ObfuscationTable.EntityRenderer, ObfuscationTable.renderHand, Void.TYPE, new Object[] {Float.TYPE, Integer.TYPE});
+        final MethodHead onRenderHandInjectionPoint = new MethodHead();
+        this.addEvent(onRenderHandEvent, onRenderHandMethodInfo, onRenderHandInjectionPoint);
+        onRenderHandEvent.addListener(new MethodInfo(listenerClass, "renderHand"));
     }
 }
