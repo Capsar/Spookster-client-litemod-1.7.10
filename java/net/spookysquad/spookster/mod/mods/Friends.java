@@ -33,11 +33,11 @@ public class Friends extends Module implements HasValues {
 				for (String name : getNames()) {
 					if (cmd.equalsIgnoreCase(name)) {
 						if (args.length == 1) {
-							logChat(MessageType.NOTIFCATION, getCommand() + " clear | clear all yo friends.");
-							logChat(MessageType.NOTIFCATION, getCommand() + " list | lists all your friends.");
-							logChat(MessageType.NOTIFCATION, getCommand() + " <name> | to quickly toggle a friend.");
-							logChat(MessageType.NOTIFCATION, getCommand() + " add <name> <alias> | add a friend with a specific alias.");
-							logChat(MessageType.NOTIFCATION, getCommand() + " rem <name/alias> | removes a friend from you friendlist.");
+							logChat(MessageType.NOTIFCATION, cmd + " clear | clear all yo friends.");
+							logChat(MessageType.NOTIFCATION, cmd + " list | lists all your friends.");
+							logChat(MessageType.NOTIFCATION, cmd + " <name> | to quickly toggle a friend.");
+							logChat(MessageType.NOTIFCATION, cmd + " add <name> [alias] | add a friend with a specific alias.");
+							logChat(MessageType.NOTIFCATION, cmd + " rem <name/alias> | removes a friend from you friendlist.");
 							return true;
 						}
 						if (args[1].toLowerCase().equals("clear")) {
@@ -49,20 +49,42 @@ public class Friends extends Module implements HasValues {
 								for (Friend f : friends) {
 									names += f.getAlias() + ", ";
 								}
+								names = names.substring(0, names.length() - 2);
 								logChat(MessageType.NOTIFCATION, friends.size() + " friends listed: " + names);
 							} else {
 								logChat(MessageType.ERROR, "You have no friends.");
 							}
 						} else if (args[1].toLowerCase().equals("add")) {
-							friends.add(new Friend(args[2], args[3]));
-						} else if (args[1].toLowerCase().equals("rem")) {
-							friends.remove(Friends.getFriend(args[2]));
-						} else if (args[1].toLowerCase().equals("remove")) {
-							friends.remove(Friends.getFriend(args[2]));
-						} else if (args[1].toLowerCase().equals("del")) {
-							friends.remove(Friends.getFriend(args[2]));
-						} else if (args[1].toLowerCase().equals("delete")) {
-							friends.remove(Friends.getFriend(args[2]));
+							if(args.length > 2) {
+								String username = args[2];
+								String alias = args[2];
+								if (args.length > 3) {
+									alias = "";
+									for (int i = 3; i < args.length; i++) {
+										alias += args[i] + " ";
+									}
+									alias = alias.substring(0, alias.length() - 1);
+								}
+								
+								Friend isFriend = getFriend(username);
+								if(isFriend != null) {
+									friends.remove(isFriend);
+									friends.add(new Friend(username, alias));
+									Wrapper.logChat(MessageType.NOTIFCATION, "Changed friend \"" + username + "\", to the alias \"" + alias + "\"!");
+								} else {
+									friends.add(new Friend(username, alias));
+									logChat(MessageType.NOTIFCATION, "Added friend \"" + username + "\" with the alias of \"" + alias + "\"!");
+								}
+							} else {
+								logChat(MessageType.NOTIFCATION, "Invalid Syntax!");
+							}
+						} else if (args[1].toLowerCase().equals("rem") || args[1].toLowerCase().equals("remove") || args[1].toLowerCase().equals("del") || args[1].toLowerCase().equals("delete")) {
+							if(args.length > 2) {
+								friends.remove(Friends.getFriend(args[2]));
+								logChat(MessageType.NOTIFCATION, "Removed friend \"" + args[2] + "\"!");
+							} else {
+								logChat(MessageType.NOTIFCATION, "Invalid Syntax!");
+							}
 						} else if (!args[1].equalsIgnoreCase("list") && !args[1].equalsIgnoreCase("add") && !args[1].equalsIgnoreCase("rem")) {
 							for (EntityPlayer player : (List<EntityPlayer>) getWorld().playerEntities) {
 								if (player.getCommandSenderName().equalsIgnoreCase(args[1])) {
