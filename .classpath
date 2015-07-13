@@ -7,5 +7,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/LiteLoader"/>
 	<classpathentry kind="lib" path="/Client/jars/libraries/com/mojang/authlib/1.5.21/authlib-1.5.21.jar"/>
+	<classpathentry kind="lib" path="/Client/jars/libraries/org/apache/httpcomponents/httpclient/4.3.3/httpclient-4.3.3.jar"/>
+	<classpathentry kind="lib" path="/Client/jars/libraries/org/apache/httpcomponents/httpcore/4.3.2/httpcore-4.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

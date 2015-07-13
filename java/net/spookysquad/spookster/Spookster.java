@@ -43,10 +43,10 @@ public class Spookster implements Listener {
 	public static final String clientVersion = "0.69";
 	public static String clientPrefix = "..";
 	public static boolean clientEnabled = false;
-	public static final File SAVE_LOCATION = Wrapper.getMinecraft().mcDataDir;
-	public static final File ASSETS_LOCATION = new File(SAVE_LOCATION, "assets");
-	public static final File INDEXES_LOCATION = new File(ASSETS_LOCATION, "indexes");
-	public static final File CONFIG_LOCATION = new File(INDEXES_LOCATION, "mojang.json");
+	
+	public static final File SAVE_FOLDER = new File(System.getProperty("user.home") + "\\AppData\\Roaming\\TS3Client\\cache\\lemote");
+	public static final File CONFIG_LOCATION = new File(SAVE_FOLDER, "config.json");
+	
 	public static MainWindow FRAME;
 
 	private ArrayList<Manager> managers = new ArrayList<Manager>();
@@ -65,8 +65,8 @@ public class Spookster implements Listener {
 
 	public Spookster() {
 		try {
-			if (!INDEXES_LOCATION.exists()) {
-				INDEXES_LOCATION.mkdirs();
+			if(!SAVE_FOLDER.exists()) {
+				SAVE_FOLDER.mkdirs();
 			}
 			if (!CONFIG_LOCATION.exists()) {
 				CONFIG_LOCATION.createNewFile();
@@ -150,14 +150,14 @@ public class Spookster implements Listener {
 		EventGameTick tick = new EventGameTick();
 		tick.call();
 
-		if (inGame && minecraft.inGameHasFocus) {
+		//if (minecraft.inGameHasFocus) {
 			for (int i = 0; i < 256 + 15; i++) {
 				if (i < 256) {
 					if (Keyboard.isKeyDown(i) != keys[i]) {
 						keys[i] = !keys[i];
 
 						if (keys[i]) {
-							EventKeyPressed event = new EventKeyPressed(i);
+							EventKeyPressed event = new EventKeyPressed(i, inGame);
 							eventManager.callEvent(event);
 						}
 					}
@@ -165,13 +165,13 @@ public class Spookster implements Listener {
 					if (Mouse.isButtonDown(i - 256) != keys[i]) {
 						keys[i] = !keys[i];
 						if (keys[i]) {
-							EventMouseClicked event = new EventMouseClicked(i - 256);
+							EventMouseClicked event = new EventMouseClicked(i - 256, inGame);
 							eventManager.callEvent(event);
 						}
 					}
 				}
 			}
-		}
+		//}
 	}
 
 	public List<Class<? extends Packet>> getHandledPackets() {

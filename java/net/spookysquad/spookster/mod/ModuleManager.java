@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import net.minecraft.client.gui.GuiMainMenu;
 import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.Listener;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
+import net.spookysquad.spookster.gui.accountmanager.GuiAccountManager;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.mods.ArmorSwitch;
 import net.spookysquad.spookster.mod.mods.Blink;
@@ -38,6 +40,7 @@ import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.mod.values.Value.ValueType;
 import net.spookysquad.spookster.utils.ValueUtil;
+import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 
@@ -97,30 +100,43 @@ public class ModuleManager extends Manager implements Listener {
 	public void onEvent(Event event) {
 		if (event instanceof EventKeyPressed) {
 			EventKeyPressed pressed = (EventKeyPressed) event;
-			if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) && pressed.getKey() == Keyboard.KEY_UP) {
-				Spookster.clientEnabled = !Spookster.clientEnabled;
-				if (Spookster.clientEnabled) {
-					Spookster.instance.loadClientFromFile();
-				} else {
-					Spookster.instance.disableAndSafeClient();
+			if(pressed.isInGame()) {
+				if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) && pressed.getKey() == Keyboard.KEY_UP) {
+					Spookster.clientEnabled = !Spookster.clientEnabled;
+					if (Spookster.clientEnabled) {
+						Spookster.instance.loadClientFromFile();
+					} else {
+						Spookster.instance.disableAndSafeClient();
+					}
+					return;
 				}
-				return;
-			}
-
-			if (Spookster.clientEnabled) {
-				for (Module m : getModules()) {
-					if (m.getKeyCode() == pressed.getKey()) {
-						m.toggle(true);
+	
+				if (Spookster.clientEnabled) {
+					
+					for (Module m : getModules()) {
+						if (m.getKeyCode() == pressed.getKey()) {
+							m.toggle(true);
+						}
+					}
+				}
+			} else {
+				if(Spookster.clientEnabled) {
+					if(Wrapper.getMinecraft().currentScreen instanceof GuiMainMenu) {
+						if(pressed.getKey() == Keyboard.KEY_DOWN) {
+							Wrapper.getMinecraft().displayGuiScreen(new GuiAccountManager(null));
+						}
 					}
 				}
 			}
 
 		} else if (event instanceof EventMouseClicked) {
 			EventMouseClicked pressed = (EventMouseClicked) event;
-			if (Spookster.clientEnabled) {
-				for (Module m : getModules()) {
-					if (m.getKeyCode() - 256 == pressed.getButton()) {
-						m.toggle(true);
+			if(pressed.isInGame()) {
+				if (Spookster.clientEnabled) {
+					for (Module m : getModules()) {
+						if (m.getKeyCode() - 256 == pressed.getButton()) {
+							m.toggle(true);
+						}
 					}
 				}
 			}
