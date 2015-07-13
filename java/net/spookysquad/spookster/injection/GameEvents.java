@@ -29,6 +29,7 @@ import net.spookysquad.spookster.event.events.EventPostMotion;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.event.events.EventPushOutOfBlocks;
 import net.spookysquad.spookster.event.events.EventRenderNameTag;
+import net.spookysquad.spookster.event.events.EventShutdown;
 import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.utils.PacketUtil;
 
@@ -131,5 +132,10 @@ public class GameEvents {
 		Event3DRender event = new Event3DRender(arg1, arg2);
 		event.call();
 	}
+	
+	public static void onShutdownMinecraftApplet(EventInfo<Minecraft> e) {
+        EventShutdown event = new EventShutdown();
+        event.call();
+    }
 
 }

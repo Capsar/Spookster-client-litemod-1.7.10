@@ -5,6 +5,8 @@ import com.mumfrey.liteloader.core.runtime.Obf;
 
 public class ObfuscationTable extends Obf
 {
+	public static ObfuscationTable shutdownMinecraftApplet = new ObfuscationTable("func_71405_e", "e", "shutdownMinecraftApplet");
+	
 	public static ObfuscationTable Block = new ObfuscationTable("net.minecraft.block.Block", "aji");
 	public static ObfuscationTable addCollisionBoxesToList = new ObfuscationTable("func_149743_a", "a", "addCollisionBoxesToList");
 	public static ObfuscationTable getPlayerRelativeBlockHardness = new ObfuscationTable("func_149737_a", "a", "getPlayerRelativeBlockHardness");

@@ -6,22 +6,22 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 import net.spookysquad.spookster.command.CommandManager;
+import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.EventManager;
+import net.spookysquad.spookster.event.Listener;
 import net.spookysquad.spookster.event.events.EventGameTick;
 import net.spookysquad.spookster.event.events.EventKeyPressed;
 import net.spookysquad.spookster.event.events.EventMouseClicked;
 import net.spookysquad.spookster.event.events.EventPacketGet;
 import net.spookysquad.spookster.event.events.EventPostHudRender;
-import net.spookysquad.spookster.event.events.Event3DRender;
+import net.spookysquad.spookster.event.events.EventShutdown;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.ModuleManager;
@@ -30,17 +30,13 @@ import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.mumfrey.liteloader.HUDRenderListener;
-import com.mumfrey.liteloader.PacketHandler;
-import com.mumfrey.liteloader.Tickable;
 
-public class Spookster {
+public class Spookster implements Listener {
 
 	public static final String clientName = "Spookster";
 	public static final String clientAuthor = "Capsar, TehNeon & Rederpz";
@@ -81,6 +77,7 @@ public class Spookster {
 			managers.add(eventManager = new EventManager());
 			managers.add(moduleManager = new ModuleManager());
 			managers.add(commandManager = new CommandManager());
+			eventManager.registerListener(this);
 			for (Manager manager : managers) {
 				manager.init(this);
 			}
@@ -207,5 +204,12 @@ public class Spookster {
 		eventManager.callEvent(new Event3DRender(partialTicks));
 		GL11.glEnable(GL11.GL_LIGHTING);
 		RenderHelper.enableStandardItemLighting();*/
+	}
+
+	@Override
+	public void onEvent(Event event) {
+		if(event instanceof EventShutdown) {
+			safeClientToFile();
+		}
 	}
 }

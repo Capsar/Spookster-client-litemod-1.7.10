@@ -86,5 +86,11 @@ public class Transformer extends EventInjectionTransformer
         final MethodHead onRenderHandInjectionPoint = new MethodHead();
         this.addEvent(onRenderHandEvent, onRenderHandMethodInfo, onRenderHandInjectionPoint);
         onRenderHandEvent.addListener(new MethodInfo(listenerClass, "renderHand"));
+        
+        final Event onShutdownMinecraftAppletEvent = Event.getOrCreate("onShutdownMinecraftApplet", true);
+        final MethodInfo onShutdownMinecraftAppletMethodInfo = new MethodInfo(ObfuscationTable.Minecraft, ObfuscationTable.shutdownMinecraftApplet, Void.TYPE, new Object[] {});
+        final MethodHead onShutdownMinecraftAppletInjectionPoint = new MethodHead();
+        this.addEvent(onShutdownMinecraftAppletEvent, onShutdownMinecraftAppletMethodInfo, onShutdownMinecraftAppletInjectionPoint);
+        onShutdownMinecraftAppletEvent.addListener(new MethodInfo(listenerClass, "onShutdownMinecraftApplet"));
     }
 }
