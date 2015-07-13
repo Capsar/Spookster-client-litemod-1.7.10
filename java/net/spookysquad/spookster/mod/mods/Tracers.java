@@ -13,6 +13,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -28,12 +29,13 @@ public class Tracers extends Module implements HasValues {
 			Event3DRender render = (Event3DRender) event;
 			for (EntityPlayer player : (List<EntityPlayer>) getWorld().playerEntities) {
 				if (player.getHealth() > 0 && !player.isDead && !player.getCommandSenderName().equals(getPlayer().getCommandSenderName())) {
-					double eposX = player.lastTickPosX + (player.posX - player.lastTickPosX) * render.getPartialTicks();
-					double eposY = player.lastTickPosY + (player.posY - player.lastTickPosY) * render.getPartialTicks();
-					double eposZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * render.getPartialTicks();
-					double x = eposX - RenderManager.renderPosX;
-					double y = eposY - RenderManager.renderPosY;
-					double z = eposZ - RenderManager.renderPosZ;
+					float particalTicks = Wrapper.orientCamera(render.getPartialTicks());
+					double eposX = player.lastTickPosX + (player.posX - player.lastTickPosX) * particalTicks;
+					double eposY = player.lastTickPosY + (player.posY - player.lastTickPosY) * particalTicks;
+					double eposZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * particalTicks;
+					double x = eposX - RenderManager.renderPosX - particalTicks;
+					double y = eposY - RenderManager.renderPosY - particalTicks;
+					double z = eposZ - RenderManager.renderPosZ - particalTicks;
 					drawLines(player, x, y, z);
 				}
 			}
