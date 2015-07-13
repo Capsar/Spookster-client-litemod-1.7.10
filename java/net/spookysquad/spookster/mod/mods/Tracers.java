@@ -54,7 +54,11 @@ public class Tracers extends Module implements HasValues {
 		GL11.glDepthMask(false);
 
 		GL11.glLineWidth((float) tracerWidth);
-		GL11.glColor4f(1, 1, 1, 1);
+		if(Friends.isFriend(entity.getCommandSenderName())) {
+			GL11.glColor4f(0, 1, 1, 1);
+		} else {
+			GL11.glColor4f(1, 1, 1, 1);
+		}
 
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 
