@@ -37,20 +37,6 @@ public class Tracers extends Module implements HasValues {
 						}
 					}
 					
-					if (((Friends) Spookster.instance.moduleManager.getModule(Friends.class)).Teams) {
-						if(!renderSameTeam || !renderOtherTeam) {
-							if(Friends.sameTeam(player)) {
-								if(!renderSameTeam) {
-									continue;
-								}
-							} else {
-								if(!renderOtherTeam) {
-									continue;
-								}
-							}
-						}
-					}
-					
 					GL11.glPushMatrix();
 					GL11.glLoadIdentity();
 					Render3DUtil.orientCamera(render.getPartialTicks());
@@ -83,22 +69,7 @@ public class Tracers extends Module implements HasValues {
 		if (Friends.isFriend(entity.getCommandSenderName()) && colorFriends) {
 			GL11.glColor4f(0, 1, 1, 1);
 		} else {
-			
 			GL11.glColor4f(1, 1, 1, 1);
-			
-			if (((Friends) Spookster.instance.moduleManager.getModule(Friends.class)).Teams) {
-				if(Friends.sameTeam(entity)) {
-					if(colorSameTeam) {
-						GL11.glColor4f(0, 1, 0, 1);
-					}
-				} else {
-					if(colorOtherTeam) {
-						GL11.glColor4f(1, 0, 0, 1);
-					}
-				}
-			} 
-			
-			
 		}
 
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
@@ -132,15 +103,10 @@ public class Tracers extends Module implements HasValues {
 	// Friends
 	public boolean colorFriends = true;
 	public boolean renderFriends = true;
-	// Teams
-	public boolean colorOtherTeam = true;
-	public boolean colorSameTeam = true;
-	public boolean renderSameTeam = true;
-	public boolean renderOtherTeam = true;
 	
-	private String TRACERWIDTH = "Tracer Width", SPINEWIDTH = "Spine Width", DRAWSPINES = "Draw Spine", COLORFRIENDS = "Color Friends", COLOROTHERTEAM = "Color Other Team", COLORSAMETEAM = "Color Same Team", RENDERSAMETEAM = "Render Same Team", RENDEROTHERTEAM = "Render Other Team", RENDERFRIENDS = "Render Friends";
+	private String TRACERWIDTH = "Tracer Width", SPINEWIDTH = "Spine Width", DRAWSPINES = "Draw Spine", COLORFRIENDS = "Color Friends", RENDERFRIENDS = "Render Friends";
 	private List<Value> values = Arrays.asList(new Value[] { new Value(TRACERWIDTH, 0.5, 5.0, 0.1F), new Value(SPINEWIDTH, 0.5, 5.0, 0.1F), new Value(DRAWSPINES, false, true), new Value(COLORFRIENDS, false, true),
-			new Value(RENDERFRIENDS, false, true), new Value(COLOROTHERTEAM, false, true), new Value(RENDEROTHERTEAM, false, true), new Value(COLORSAMETEAM, false, true), new Value(RENDERSAMETEAM, false, true) });
+			new Value(RENDERFRIENDS, false, true) });
 
 	public List<Value> getValues() {
 		return values;
@@ -152,11 +118,6 @@ public class Tracers extends Module implements HasValues {
 		else if (n.equals(SPINEWIDTH)) return spineWidth;
 		else if (n.equals(DRAWSPINES)) return spine;
 		else if (n.equals(COLORFRIENDS)) return colorFriends;
-		else if (n.equals(RENDERFRIENDS)) return renderFriends;
-		else if (n.equals(COLOROTHERTEAM)) return colorOtherTeam;
-		else if (n.equals(COLORSAMETEAM)) return colorSameTeam;
-		else if (n.equals(RENDERSAMETEAM)) return renderSameTeam;
-		else if (n.equals(RENDEROTHERTEAM)) return renderOtherTeam;
 		return null;
 	}
 
@@ -167,9 +128,5 @@ public class Tracers extends Module implements HasValues {
 		else if (n.equals(DRAWSPINES)) spine = (Boolean) v;
 		else if (n.equals(COLORFRIENDS)) colorFriends = (Boolean) v;
 		else if (n.equals(RENDERFRIENDS)) renderFriends = (Boolean) v;
-		else if (n.equals(COLOROTHERTEAM)) colorOtherTeam = (Boolean) v;
-		else if (n.equals(COLORSAMETEAM)) colorSameTeam = (Boolean) v;
-		else if (n.equals(RENDERSAMETEAM)) renderSameTeam = (Boolean) v;
-		else if (n.equals(RENDEROTHERTEAM)) renderOtherTeam = (Boolean) v;
 	}
 }
