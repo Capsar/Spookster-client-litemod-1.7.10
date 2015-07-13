@@ -13,6 +13,7 @@ import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.utils.Render3DUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -31,7 +32,7 @@ public class Tracers extends Module implements HasValues {
 				if (player.getHealth() > 0 && !player.isDead && !player.getCommandSenderName().equals(getPlayer().getCommandSenderName())) {
 					GL11.glPushMatrix();
 					GL11.glLoadIdentity();
-					Wrapper.orientCamera(render.getPartialTicks());
+					Render3DUtil.orientCamera(render.getPartialTicks());
 					float particalTicks = render.getPartialTicks();
 					double eposX = player.lastTickPosX + (player.posX - player.lastTickPosX) * particalTicks;
 					double eposY = player.lastTickPosY + (player.posY - player.lastTickPosY) * particalTicks;
