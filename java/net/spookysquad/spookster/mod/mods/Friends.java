@@ -80,8 +80,21 @@ public class Friends extends Module implements HasValues {
 							}
 						} else if (args[1].toLowerCase().equals("rem") || args[1].toLowerCase().equals("remove") || args[1].toLowerCase().equals("del") || args[1].toLowerCase().equals("delete")) {
 							if(args.length > 2) {
-								friends.remove(Friends.getFriend(args[2]));
-								logChat(MessageType.NOTIFCATION, "Removed friend \"" + args[2] + "\"!");
+								String removeName = args[2];
+								if(args.length > 3) {
+									removeName = "";
+									for (int i = 2; i < args.length; i++) {
+										removeName += args[i] + " ";
+									}
+									removeName = removeName.substring(0, removeName.length() - 1);
+								}
+								
+								if(friends.contains(Friends.getFriend(removeName))) {
+									friends.remove(Friends.getFriend(removeName));
+									logChat(MessageType.NOTIFCATION, "Removed friend \"" + removeName + "\"!");
+								} else {
+									logChat(MessageType.NOTIFCATION, "You're not friends with \"" + removeName + "\"!");
+								}
 							} else {
 								logChat(MessageType.NOTIFCATION, "Invalid Syntax!");
 							}
