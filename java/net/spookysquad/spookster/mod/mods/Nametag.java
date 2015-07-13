@@ -79,12 +79,13 @@ public class Nametag extends Module implements HasValues {
 		}
 		double currentScale = 0.016666668F * theScale;
 		GL11.glPushMatrix();
-		RenderHelper.enableStandardItemLighting();
+		RenderHelper.disableStandardItemLighting();
 		RenderHelper.enableGUIStandardItemLighting();
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
 		OpenGlHelper.glBlendFunc(770, 771, 1, 0);
 		GL11.glTranslated(x, y + entity.height + 0.5F, z);
 		GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);

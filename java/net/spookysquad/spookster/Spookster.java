@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
@@ -29,6 +30,7 @@ import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
@@ -199,6 +201,11 @@ public class Spookster {
 	}
 
 	public void onPostRenderEntities(float partialTicks) {
+		RenderHelper.disableStandardItemLighting();
+		RenderHelper.enableGUIStandardItemLighting();
+		GL11.glDisable(GL11.GL_LIGHTING);
 		eventManager.callEvent(new Event3DRender(partialTicks));
+		GL11.glEnable(GL11.GL_LIGHTING);
+		RenderHelper.enableStandardItemLighting();
 	}
 }
