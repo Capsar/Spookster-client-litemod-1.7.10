@@ -1,5 +1,7 @@
 package net.spookysquad.spookster.render;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import net.spookysquad.spookster.utils.Wrapper;
@@ -107,5 +109,71 @@ public class FontUtil extends Wrapper {
 
 	public static int getFontHeight() {
 		return 9;
+	}
+	
+	public static List<String> wrapText(String text, double width) {
+		List<String> finalWords = new ArrayList<String>();
+		text = filterText(text);
+		if (getFont().getStringWidth(text) > width) {
+			String[] words = text.split(" ");
+			String currentWord = "";
+			int stringCount = 0;
+			char lastColorCode = (char) -1;
+
+			for (String word : words) {
+				for(int i = 0; i < word.toCharArray().length; i++) {
+					char c = word.toCharArray()[i];
+					
+					if(c == '\247' && i < word.toCharArray().length - 1) {
+						lastColorCode = word.toCharArray()[i + 1];
+					}
+				}
+				if (getFont().getStringWidth(currentWord + word + " ") < width) {
+					currentWord += word + " ";
+				} else {
+					finalWords.add(currentWord);
+					currentWord = (lastColorCode == -1 ? word + " " : "\247" + lastColorCode + word + " ");
+					stringCount++;
+				}
+			}
+			if (!currentWord.equals("")) {
+				if (getFont().getStringWidth(currentWord) < width) {
+					finalWords.add((lastColorCode == -1 ? currentWord + " " : "\247" + lastColorCode + currentWord + " "));
+					currentWord = "";
+					stringCount++;
+				} else {
+					for (String s : formatString(currentWord, width))
+						finalWords.add(s);
+				}
+			}
+		} else
+			finalWords.add(text);
+		return finalWords;
+	}
+	
+	public static List<String> formatString(String s, double width) {
+		List<String> finalWords = new ArrayList<String>();
+		String currentWord = "";
+		char lastColorCode = (char) -1;
+		for (int i = 0; i < s.toCharArray().length; i++) {
+			char c = s.toCharArray()[i];
+			
+			if(c == '\247' && i < s.toCharArray().length - 1) {
+				lastColorCode = s.toCharArray()[i + 1];
+			}
+			
+			if (getFont().getStringWidth(currentWord + c) < width) {
+				currentWord += c;
+			} else {
+				finalWords.add(currentWord);
+				currentWord = (lastColorCode == -1 ? String.valueOf(c):"\247" + lastColorCode + String.valueOf(c));
+			}
+		}
+
+		if (!currentWord.equals("")) {
+			finalWords.add(currentWord);
+		}
+
+		return finalWords;
 	}
 }

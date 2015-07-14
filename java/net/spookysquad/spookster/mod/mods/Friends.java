@@ -29,7 +29,6 @@ public class Friends extends Module implements HasValues {
 		super(new String[] { "FriendManager" }, "Modules adapt to the fact there are team members.", Type.MISC, -1, -1);
 		this.toggle(false);
 		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "friend", "friends", "fr", "f" }, "Manage your friends") {
-			@Override
 			public boolean onCommand(String text, String cmd, String[] args) {
 				for (String name : getNames()) {
 					if (cmd.equalsIgnoreCase(name)) {

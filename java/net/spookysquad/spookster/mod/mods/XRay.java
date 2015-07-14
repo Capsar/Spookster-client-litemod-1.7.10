@@ -15,12 +15,17 @@ import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockSign;
 import net.minecraft.block.BlockTripWire;
 import net.minecraft.block.BlockTripWireHook;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.spookysquad.spookster.Spookster;
+import net.spookysquad.spookster.command.Command;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.mod.mods.Friends.Friend;
 import net.spookysquad.spookster.mod.values.Value;
+import net.spookysquad.spookster.render.external.console.MessageType;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -42,6 +47,54 @@ public class XRay extends Module implements HasValues {
 			}
 		}
 		this.smoothLighting = 2;
+		
+		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "xray", "xr" }, "Manage your X-Rayable blocks") {
+			public boolean onCommand(String text, String cmd, String[] args) {
+				for (String name : getNames()) {
+					if (cmd.equalsIgnoreCase(name)) {
+						if (args.length == 1) {
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " clear | clear all yo friends.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " list | lists your blocks.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " add <name/id> | adds block.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " rem <block/id> | removes block.");
+							return true;
+						}
+						if (args[1].toLowerCase().equals("clear")) {
+							blocks.clear();
+							logChat(MessageType.NOTIFCATION, "Poof! All your x-ray blocks are gone.");
+						} else if (args[1].toLowerCase().equals("list")) {
+							if (!blocks.isEmpty()) {
+								String names = "";
+								for (Block b : blocks) {
+									names += b.getLocalizedName() + ", ";
+								}
+								names = names.substring(0, names.length() - 2);
+								logChat(MessageType.NOTIFCATION, blocks.size() + " blocks listed: " + names);
+							} else {
+								logChat(MessageType.ERROR, "You have no blocks.");
+							}
+						} else if (args[1].toLowerCase().equals("add")) {
+							if (args.length > 2) {
+								String block = args[2];
+								
+							} else {
+								logChat(MessageType.NOTIFCATION, "Invalid Syntax!");
+							}
+						} else if (args[1].toLowerCase().equals("rem") || args[1].toLowerCase().equals("remove") || args[1].toLowerCase().equals("del") || args[1].toLowerCase().equals("delete")) {
+							if (args.length > 2) {
+								String removeName = args[2];
+								
+							} else {
+								logChat(MessageType.NOTIFCATION, "Invalid Syntax!");
+							}
+						}
+						return true;
+					}
+				}
+				return super.onCommand(text, cmd, args);
+			}
+
+		});
 	}
 
 	public void onEvent(Event event) {
