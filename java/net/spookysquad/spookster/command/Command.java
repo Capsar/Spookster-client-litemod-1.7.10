@@ -10,6 +10,11 @@ public class Command {
 
 	public Command(String[] names, String description) {
 		this.name = names[0];
+		if(names.length > 1) {
+			if(names[0].contains(" ")) {
+				this.name = names[1];
+			}
+		}
 		this.names = names;
 		this.description = description;
 	}

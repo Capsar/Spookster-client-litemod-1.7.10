@@ -3,6 +3,7 @@ package net.spookysquad.spookster.command;
 import java.util.ArrayList;
 
 import net.spookysquad.spookster.Spookster;
+import net.spookysquad.spookster.command.commands.Help;
 import net.spookysquad.spookster.command.commands.VClip;
 import net.spookysquad.spookster.manager.Manager;
 import net.spookysquad.spookster.render.external.console.MessageType;
@@ -14,6 +15,7 @@ public class CommandManager extends Manager {
 
 	@Override
 	public void init(Spookster spookster) {
+		commands.add(new Help());
 		commands.add(new VClip());
 	}
 

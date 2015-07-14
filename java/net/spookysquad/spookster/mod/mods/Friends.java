@@ -28,17 +28,17 @@ public class Friends extends Module implements HasValues {
 	public Friends() {
 		super(new String[] { "FriendManager" }, "Modules adapt to the fact there are team members.", Type.MISC, -1, -1);
 		this.toggle(false);
-		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "friend", "f", "friends" }, "Manager friends") {
+		Spookster.instance.commandManager.getCommands().add(new Command(new String[] { "friend", "friends", "fr", "f" }, "Manage your friends") {
 			@Override
 			public boolean onCommand(String text, String cmd, String[] args) {
 				for (String name : getNames()) {
 					if (cmd.equalsIgnoreCase(name)) {
 						if (args.length == 1) {
-							logChat(MessageType.NOTIFCATION, cmd + " clear | clear all yo friends.");
-							logChat(MessageType.NOTIFCATION, cmd + " list | lists all your friends.");
-							logChat(MessageType.NOTIFCATION, cmd + " <name> | to quickly toggle a friend.");
-							logChat(MessageType.NOTIFCATION, cmd + " add <name> [alias] | add a friend with a specific alias.");
-							logChat(MessageType.NOTIFCATION, cmd + " rem <name/alias> | removes a friend from you friendlist.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " clear | clear all yo friends.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " list | lists all your friends.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " <name> | to quickly toggle a friend.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " add <name> [alias] | add a friend with a specific alias.");
+							logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " rem <name/alias> | removes a friend from you friendlist.");
 							return true;
 						}
 						if (args[1].toLowerCase().equals("clear")) {

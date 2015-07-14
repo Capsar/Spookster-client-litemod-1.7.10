@@ -1,5 +1,6 @@
 package net.spookysquad.spookster.command.commands;
 
+import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.command.Command;
 import net.spookysquad.spookster.render.external.console.MessageType;
 import net.spookysquad.spookster.utils.PlayerUtil;
@@ -22,11 +23,11 @@ public class VClip extends Command {
 					}
 					catch(Exception e) {
 						Wrapper.logChat(MessageType.NOTIFCATION, "Invalid usage! Use:");
-						Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <amount>");
+						Wrapper.logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " <amount>");
 					}
 				} else {
 					Wrapper.logChat(MessageType.NOTIFCATION, "Invalid syntax! Use:");
-					Wrapper.logChat(MessageType.NOTIFCATION, cmd + " <amount>");
+					Wrapper.logChat(MessageType.NOTIFCATION, Spookster.clientPrefix + cmd + " <amount>");
 				}
 				return true;
 			}
