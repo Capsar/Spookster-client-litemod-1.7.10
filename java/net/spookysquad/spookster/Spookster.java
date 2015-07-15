@@ -83,7 +83,7 @@ public class Spookster implements Listener {
 			}
 
 //			if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) This didn't work for me.. at all. -rederpz
-				clientEnabled = true;
+				//clientEnabled = true;
 			if (clientEnabled) loadClientFromFile();
 			Runtime.getRuntime().addShutdownHook(new Thread("Shutdown Thread") {
 				@Override
