@@ -6,10 +6,7 @@ import java.util.List;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S02PacketChat;
-import net.minecraft.util.IChatComponent;
 
-import com.mumfrey.liteloader.ChatFilter;
 import com.mumfrey.liteloader.HUDRenderListener;
 import com.mumfrey.liteloader.OutboundChatFilter;
 import com.mumfrey.liteloader.PacketHandler;

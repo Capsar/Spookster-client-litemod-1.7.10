@@ -13,6 +13,8 @@ public class Fly extends Module {
 	public Fly() {
 		super(new String[] { "Fly" }, "Weeooooooo", Type.MOVEMENT, Keyboard.KEY_F, 0xC300C3);
 	}
+	
+	// maybe bypass?!?!?!??!?
 
 	public void onEvent(Event event) {
 		if(event instanceof EventPreMotion) {

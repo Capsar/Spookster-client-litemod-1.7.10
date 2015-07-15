@@ -79,13 +79,17 @@ public class ClickScreen extends GuiScreen {
 			Wrapper.logChat(MessageType.NOTIFCATION, "Changed binding of " + keyChangeModule.getDisplay() + " to " + (i == 1 ? "NONE" : Keyboard.getKeyName(i)));
 			keyChangeModule.setKeyCode(i == 1 ? -1 : i);
 			keyChangeModule = null;
-			if (i == 1) return;
+		}else{
+			if (i == 1) {
+				mc.displayGuiScreen(null);
+				return;
+			}
 		}
-		if (i == 1) {
-			mc.displayGuiScreen(null);
-			Spookster.instance.safeClientToFile();
-			return;
-		}
+	}
+	
+	@Override
+	public void onGuiClosed() {	
+		Spookster.instance.safeClientToFile();
 	}
 
 	@Override
@@ -172,6 +176,10 @@ public class ClickScreen extends GuiScreen {
 
 	public void setModuleToChangeKey(Module module) {
 		this.keyChangeModule = module;
+	}
+
+	public Module getModuleToChangeKey() {
+		return this.keyChangeModule;
 	}
 
 }

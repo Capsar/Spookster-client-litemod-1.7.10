@@ -138,7 +138,7 @@ public class ClickPanelItemFactory {
 			drawRect(posX + xOffset + xWidth - 15, posY + yOffset, posX + xWidth + xOffset, posY + yHeight + yOffset, ClickScreen.colors[2]);
 			String name = getModule().getDisplay();
 			drawStringWithShadow(name, (float) posX + xOffset + 1, (float) posY, 0xFFFFFFFF, 0.70F, 0.85F);
-			drawStringWithShadow(" [" + (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode())) + "]", (float) posX + xOffset + 1
+			drawStringWithShadow(" [" + (ClickScreen.getInstance().getModuleToChangeKey() == this.getModule() ? "?" : (getModule().getKeyCode() == -1 ? "-" : getModule().getKeyCode() > 256 ? Mouse.getButtonName(getModule().getKeyCode() - 256) : Keyboard.getKeyName(getModule().getKeyCode()))) + "]", (float) posX + xOffset + 1
 					+ (getFont().getStringWidth(name) * 0.85F), (float) posY + 1.05F, 0xFFFFFFFF, 0.70F, 0.75F);
 			if (this.editProperties) {
 				int total = 2;
