@@ -50,7 +50,7 @@ public class ProjectileRender extends Module {
 
 		GL11.glPushMatrix();
 
-		GL11.glDisable(GL11.GL_LIGHTING);
+		//GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(3042);
 		GL11.glDisable(3553);
@@ -92,7 +92,7 @@ public class ProjectileRender extends Module {
 		GL11.glDisable(3042);
 		GL11.glEnable(3553);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-		GL11.glEnable(GL11.GL_LIGHTING);
+		//GL11.glEnable(GL11.GL_LIGHTING);
 
 		GL11.glPopMatrix();
 	}
