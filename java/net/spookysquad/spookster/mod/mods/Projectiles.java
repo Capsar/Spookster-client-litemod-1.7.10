@@ -196,12 +196,6 @@ public class Projectiles extends Module {
 					vertex(x - 0.5D, y, z - 0.5D);
 					GL11.glEnd();
 					GL11.glColor4d(0.6D, 0, 0.6D, 0.35D);
-					GL11.glBegin(1);
-					vertex(x + 0.5D, y, z - 0.5D);
-					vertex(x - 0.5D, y, z + 0.5D);
-					vertex(x + 0.5D, y, z + 0.5D);
-					vertex(x - 0.5D, y, z - 0.5D);
-					GL11.glEnd();
 					GL11.glColor4d(0.6D, 0, 0.6D, 0.125D);
 					GL11.glDisable(2884);
 					GL11.glBegin(7);
