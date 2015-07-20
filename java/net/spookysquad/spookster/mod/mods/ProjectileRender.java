@@ -39,7 +39,7 @@ public class ProjectileRender extends Module {
 	}
 
 	private boolean isAllowed(Entity ent) {
-		return ent != null && !ent.onGround && !ent.isCollided && !ent.isDead && Wrapper.getWorld().loadedEntityList.contains(ent) && !ent.isCollidedHorizontally;
+		return ent != null && !ent.onGround && !ent.isCollided && !ent.isDead && Wrapper.getWorld().loadedEntityList.contains(ent) && !ent.isCollidedHorizontally && !ent.isCollidedVertically;
 	}
 
 	private void renderProjectile(Entity projectile) {
