@@ -1,9 +1,11 @@
 package net.spookysquad.spookster.utils;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -39,19 +41,19 @@ public class Render3DUtil extends Wrapper {
 			double var14 = (double) (-MathHelper.sin(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI)) * thridPersonDistance;
 			double var16 = (double) (MathHelper.cos(rotationYaw / 180.0F * (float) Math.PI) * MathHelper.cos(rotationPitch / 180.0F * (float) Math.PI)) * thridPersonDistance;
 			double var18 = (double) (-MathHelper.sin(rotationPitch / 180.0F * (float) Math.PI)) * thridPersonDistance;
-			for (int var20 = 0; var20 < 8; ++var20) {
-				float var21 = (float) ((var20 & 1) * 2 - 1);
-				float var22 = (float) ((var20 >> 1 & 1) * 2 - 1);
-				float var23 = (float) ((var20 >> 2 & 1) * 2 - 1);
-				var21 *= 0.1F;
-				var22 *= 0.1F;
-				var23 *= 0.1F;
-				MovingObjectPosition var24 = getMinecraft().theWorld.rayTraceBlocks(Vec3.createVectorHelper(posX + (double) var21, posY + (double) var22, posZ + (double) var23),
-						Vec3.createVectorHelper(posX - var14 + (double) var21 + (double) var23, posY - var18 + (double) var22, posZ - var16 + (double) var23));
-				if (var24 != null) {
-					double var25 = var24.hitVec.distanceTo(Vec3.createVectorHelper(posX, posY, posZ));
-					if (var25 < thridPersonDistance) {
-						thridPersonDistance = var25;
+			for (int renderer0 = 0; renderer0 < 8; ++renderer0) {
+				float renderer1 = (float) ((renderer0 & 1) * 2 - 1);
+				float renderer2 = (float) ((renderer0 >> 1 & 1) * 2 - 1);
+				float renderer3 = (float) ((renderer0 >> 2 & 1) * 2 - 1);
+				renderer1 *= 0.1F;
+				renderer2 *= 0.1F;
+				renderer3 *= 0.1F;
+				MovingObjectPosition renderer4 = getMinecraft().theWorld.rayTraceBlocks(Vec3.createVectorHelper(posX + (double) renderer1, posY + (double) renderer2, posZ + (double) renderer3),
+						Vec3.createVectorHelper(posX - var14 + (double) renderer1 + (double) renderer3, posY - var18 + (double) renderer2, posZ - var16 + (double) renderer3));
+				if (renderer4 != null) {
+					double renderer5 = renderer4.hitVec.distanceTo(Vec3.createVectorHelper(posX, posY, posZ));
+					if (renderer5 < thridPersonDistance) {
+						thridPersonDistance = renderer5;
 					}
 				}
 			}
@@ -70,4 +72,59 @@ public class Render3DUtil extends Wrapper {
 		}
 	}
 
+	public static void drawOutlineBox(AxisAlignedBB aabb) {
+		System.out.println("RENDER HARD");
+		
+		GL11.glPushMatrix();
+		double xDiff = aabb.minX - RenderManager.renderPosX;
+		double yDiff = aabb.minY - RenderManager.renderPosY;
+		double zDiff = aabb.minZ - RenderManager.renderPosZ;
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		GL11.glTranslatef((float) xDiff, (float) yDiff, (float) zDiff);
+		//GL11.glTranslatef((float) -xDiff, (float) -yDiff, (float) -zDiff);
+		GL11.glTranslated(0.0D, 0.1D, 0.0D);
+		
+		drawOutlinedBoundingBox(aabb);
+		
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
+	}
+
+	public static void drawOutlinedBoundingBox(final AxisAlignedBB axisalignedbb) {
+		final Tessellator renderer = Tessellator.instance;
+		renderer.startDrawing(3);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.draw();
+		renderer.startDrawing(3);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.draw();
+		renderer.startDrawing(1);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.draw();
+	}
 }

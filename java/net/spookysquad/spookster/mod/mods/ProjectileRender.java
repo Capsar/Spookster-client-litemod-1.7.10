@@ -97,37 +97,4 @@ public class ProjectileRender extends Module {
 		GL11.glPopMatrix();
 	}
 
-	public void drawLines(EntityLivingBase entity, double x, double y, double z) {
-		/*
-		 * GL11.glPushMatrix();
-		 * 
-		 * RenderHelper.disableStandardItemLighting();
-		 * GL11.glDisable(GL11.GL_LIGHTING); GL11.glEnable(GL11.GL_BLEND);
-		 * GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		 * GL11.glDisable(GL11.GL_DEPTH_TEST);
-		 * GL11.glDisable(GL11.GL_TEXTURE_2D); GL11.glDepthMask(false);
-		 * 
-		 * GL11.glLineWidth((float) tracerWidth); if
-		 * (Friends.isFriend(entity.getCommandSenderName()) && colorFriends) {
-		 * GL11.glColor4f(0, 1, 1, 1); } else { if (distanceColor) {
-		 * GL11.glColor4f(1f,
-		 * Math.min(PlayerUtil.getPlayer().getDistanceToEntity(entity) / 50f,
-		 * 0.4f), 0, 1f); } else { GL11.glColor4f(1, 1, 1, 1); } }
-		 * 
-		 * GL11.glEnable(GL11.GL_LINE_SMOOTH);
-		 * 
-		 * GL11.glBegin(GL11.GL_LINES); GL11.glVertex2d(0, 0);
-		 * GL11.glVertex3d(x, y, z); GL11.glEnd();
-		 * 
-		 * if (spine) { GL11.glLineWidth((float) spineWidth);
-		 * GL11.glBegin(GL11.GL_LINES); GL11.glVertex3d(x, y, z);
-		 * GL11.glVertex3d(x, y + entity.height, z); GL11.glEnd(); }
-		 * 
-		 * GL11.glDepthMask(true); GL11.glDisable(GL11.GL_LINE_SMOOTH);
-		 * GL11.glEnable(GL11.GL_TEXTURE_2D); GL11.glEnable(GL11.GL_DEPTH_TEST);
-		 * GL11.glDisable(GL11.GL_BLEND); GL11.glEnable(GL11.GL_LIGHTING);
-		 * 
-		 * GL11.glPopMatrix();
-		 */
-	}
 }
