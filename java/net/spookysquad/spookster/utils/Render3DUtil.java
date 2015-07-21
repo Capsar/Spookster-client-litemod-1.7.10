@@ -103,7 +103,6 @@ public class Render3DUtil extends Wrapper {
 		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
 		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
 		renderer.draw();
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthMask(true);
@@ -117,6 +116,7 @@ public class Render3DUtil extends Wrapper {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 		GL11.glDepthMask(false);
 		GL11.glTranslated(0.0D, 0.1D, 0.0D);
 		AxisAlignedBB aabb = bb.copy().offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
