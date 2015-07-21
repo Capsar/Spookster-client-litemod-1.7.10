@@ -72,26 +72,37 @@ public class Render3DUtil extends Wrapper {
 		}
 	}
 
-	public static void drawOutlineBox(AxisAlignedBB aabb) {
-		System.out.println("RENDER HARD");
-		
+	public static void drawBox(AxisAlignedBB bb) {
 		GL11.glPushMatrix();
-		double xDiff = aabb.minX - RenderManager.renderPosX;
-		double yDiff = aabb.minY - RenderManager.renderPosY;
-		double zDiff = aabb.minZ - RenderManager.renderPosZ;
-
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glDepthMask(false);
-		GL11.glTranslatef((float) xDiff, (float) yDiff, (float) zDiff);
-		//GL11.glTranslatef((float) -xDiff, (float) -yDiff, (float) -zDiff);
 		GL11.glTranslated(0.0D, 0.1D, 0.0D);
-		
-		drawOutlinedBoundingBox(aabb);
-		
+		AxisAlignedBB aabb = bb.copy().offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
+		final Tessellator renderer = Tessellator.instance;
+		renderer.startDrawing(GL11.GL_QUAD_STRIP);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+		renderer.draw();
+
+		renderer.startDrawing(GL11.GL_QUAD_STRIP);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+		renderer.draw();
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -100,31 +111,45 @@ public class Render3DUtil extends Wrapper {
 		GL11.glPopMatrix();
 	}
 
-	public static void drawOutlinedBoundingBox(final AxisAlignedBB axisalignedbb) {
+	public static void drawOutlineBox(AxisAlignedBB bb) {
+		GL11.glPushMatrix();
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDepthMask(false);
+		GL11.glTranslated(0.0D, 0.1D, 0.0D);
+		AxisAlignedBB aabb = bb.copy().offset(-RenderManager.renderPosX, -RenderManager.renderPosY, -RenderManager.renderPosZ);
 		final Tessellator renderer = Tessellator.instance;
-		renderer.startDrawing(3);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.startDrawing(GL11.GL_LINE_STRIP);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.minZ);
 		renderer.draw();
-		renderer.startDrawing(3);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
+		renderer.startDrawing(GL11.GL_LINE_STRIP);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
 		renderer.draw();
-		renderer.startDrawing(1);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.minZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.maxX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.minY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
-		renderer.addVertex(axisalignedbb.minX - RenderManager.renderPosX, axisalignedbb.maxY - RenderManager.renderPosY, axisalignedbb.maxZ - RenderManager.renderPosZ);
+		renderer.startDrawing(GL11.GL_LINES);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.minZ);
+		renderer.addVertex(aabb.maxX, aabb.minY, aabb.maxZ);
+		renderer.addVertex(aabb.maxX, aabb.maxY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.minY, aabb.maxZ);
+		renderer.addVertex(aabb.minX, aabb.maxY, aabb.maxZ);
 		renderer.draw();
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glPopMatrix();
 	}
 }
