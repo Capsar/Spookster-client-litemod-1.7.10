@@ -1,5 +1,6 @@
 package net.spookysquad.spookster.mod.mods.projectiles;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.spookysquad.spookster.utils.Wrapper;
@@ -14,8 +15,8 @@ public class Arrow implements Throwable {
 		return 0;
 	}
 	
-	public float getPower() {
-		float power = (float) (72000 - Wrapper.getPlayer().getItemInUseCount()) / 20.0F;
+	public float getPower(EntityPlayer player) {
+		float power = (float) (72000 - player.getItemInUseCount()) / 20.0F;
 		power = (power * power + power * 2) / 3;
 		if(power < 0.1) {
 			power = 1;

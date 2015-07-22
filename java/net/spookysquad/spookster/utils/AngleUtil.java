@@ -1,10 +1,21 @@
 package net.spookysquad.spookster.utils;
 
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
 
 public class AngleUtil extends Wrapper {
+
+	public static float[] getAngles(double posX, double posY, double posZ, Entity player) {
+		double x = posX - player.posX;
+		double z = posZ - player.posZ;
+		double y = posY - player.posY;
+		double dist = MathHelper.sqrt_double(x * x + z * z);
+		float yaw = (float) (Math.atan2(z, x) * 180.0D / Math.PI) - 90.0F;
+		float pitch = (float) -(Math.atan2(y, dist) * 180.0D / Math.PI);
+		return (new float[] { yaw, pitch });
+	}
 
 	public static float[] getAngles(final Entity targetentity, final Entity forentity) {
 		double x = targetentity.posX - forentity.posX;
@@ -52,28 +63,6 @@ public class AngleUtil extends Wrapper {
 		float yawDist = getDistanceBetweenAngle(getPlayer().rotationYaw, angles[0]);
 		if (yawDist > degree) { return true; }
 		return false;
-	}
-
-	public static float normalizeAngle(float ang) {
-		return MathHelper.wrapAngleTo180_float((ang + 180.0F) % 360.0F - 180.0F);
-	}
-
-	public static float[] smoothAngles(float[] newAngles, float[] oldAngles, int percentage) {
-		float[] smoothAngles = new float[] { 0, 0 };
-		if (percentage < 0) {
-			percentage = 0;
-		} else if (percentage > 99) {
-			percentage = 99;
-		}
-
-		smoothAngles[0] = normalizeAngle(newAngles[0] - oldAngles[0]);
-		smoothAngles[1] = normalizeAngle(newAngles[1] - oldAngles[1]);
-
-		smoothAngles[0] = normalizeAngle(oldAngles[0] + smoothAngles[0] / 100 * (100 - percentage));
-		smoothAngles[1] = normalizeAngle(oldAngles[1] + smoothAngles[1] / 100 * (100 - percentage));
-
-		return new float[] { MathHelper.wrapAngleTo180_float(smoothAngles[0]),
-				MathHelper.wrapAngleTo180_float(smoothAngles[1]) };
 	}
 
 }

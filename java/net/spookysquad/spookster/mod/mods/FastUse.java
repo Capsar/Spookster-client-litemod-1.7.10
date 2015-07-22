@@ -17,23 +17,13 @@ public class FastUse extends Module {
 		super(new String[] { "FastUse" }, "Use items faster", Type.EXPLOITS, -1, -13845340);
 	}
 	
-	// have a list using capsars values and make it so you can turn shit on/off
-
 	public void onEvent(Event event) {
 		if(event instanceof EventPreMotion) {
 			if(getPlayer().getItemInUse() != null) {
-				// check if item is valid (is a good item from the list)
-				if(getPlayer().getItemInUseDuration() >= 10 * GameUtil.getGameSpeed()) {
-					for(int i = 0; i < 22; i++) {
-						PacketUtil.addPacket(new C03PacketPlayer(true));
-					}
-					
-					if(!(getPlayer().getItemInUse().getItem() instanceof ItemSword)) { // temp until value list thing
-						if(getPlayer().getItemInUse().getItem() instanceof ItemBow) {
-							PacketUtil.addPacket(new C07PacketPlayerDigging(5, -1, -1, -1, -1));
-						}
-						getPlayer().stopUsingItem();
-					}
+				if (getPlayer().getItemInUseDuration() == 11) {
+					for (int i = 0; i < 25; i++) PacketUtil.addPacket(new C03PacketPlayer(true));
+					PacketUtil.sendPacket(new C07PacketPlayerDigging(5, 0, 0, 0, 255));
+					getPlayer().stopUsingItem();
 				}
 			}
 		}

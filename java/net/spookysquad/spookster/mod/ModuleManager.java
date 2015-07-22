@@ -31,7 +31,7 @@ import net.spookysquad.spookster.mod.mods.NoFall;
 import net.spookysquad.spookster.mod.mods.Notifications;
 import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.PotionThrower;
-import net.spookysquad.spookster.mod.mods.ProjectileRender;
+import net.spookysquad.spookster.mod.mods.ProjectileSense;
 import net.spookysquad.spookster.mod.mods.Projectiles;
 import net.spookysquad.spookster.mod.mods.Speed;
 import net.spookysquad.spookster.mod.mods.Sprint;
@@ -60,8 +60,8 @@ public class ModuleManager extends Manager implements Listener {
 	public void init(Spookster spookster) {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
-		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new FastUse(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(), new Nametag(), new Notifications(),
-				new NoFall(), new Phase(), new PotionThrower(), new ProjectileRender(), new Projectiles(), new Speed(), new Sprint(), new Step(), new Title(), new Tracers(), new Triggerbot(), new XRay()));
+		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new FastUse(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(), new Nametag(),
+				new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new ProjectileSense(), new Projectiles(), new Speed(), new Sprint(), new Step(), new Title(), new Tracers(), new Triggerbot(), new XRay()));
 	}
 
 	public void deinit(Spookster spookster) {
@@ -103,24 +103,22 @@ public class ModuleManager extends Manager implements Listener {
 	public void onEvent(Event event) {
 		if (event instanceof EventKeyPressed) {
 			EventKeyPressed pressed = (EventKeyPressed) event;
-			if (pressed.isInGame()) {
-				if (Wrapper.getMinecraft().inGameHasFocus) {
-					if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) && pressed.getKey() == Keyboard.KEY_UP) {
-						Spookster.clientEnabled = !Spookster.clientEnabled;
-						if (Spookster.clientEnabled) {
-							Spookster.instance.loadClientFromFile();
-						} else {
-							Spookster.instance.disableAndSafeClient();
-						}
-						return;
-					}
-
+			if (pressed.isInGame() && Wrapper.getMinecraft().inGameHasFocus) {
+				if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) && pressed.getKey() == Keyboard.KEY_UP) {
+					Spookster.clientEnabled = !Spookster.clientEnabled;
 					if (Spookster.clientEnabled) {
+						Spookster.instance.loadClientFromFile();
+					} else {
+						Spookster.instance.disableAndSafeClient();
+					}
+					return;
+				}
 
-						for (Module m : getModules()) {
-							if (m.getKeyCode() == pressed.getKey()) {
-								m.toggle(true);
-							}
+				if (Spookster.clientEnabled) {
+
+					for (Module m : getModules()) {
+						if (m.getKeyCode() == pressed.getKey()) {
+							m.toggle(true);
 						}
 					}
 				}

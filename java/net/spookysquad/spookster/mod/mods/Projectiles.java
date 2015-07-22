@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemEnderPearl;
 import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -27,6 +28,8 @@ import net.spookysquad.spookster.mod.mods.projectiles.Arrow;
 import net.spookysquad.spookster.mod.mods.projectiles.Basic;
 import net.spookysquad.spookster.mod.mods.projectiles.SplashPotion;
 import net.spookysquad.spookster.mod.mods.projectiles.Throwable;
+import net.spookysquad.spookster.render.FontUtil;
+import net.spookysquad.spookster.utils.AngleUtil;
 import net.spookysquad.spookster.utils.Render3DUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
@@ -58,6 +61,10 @@ public class Projectiles extends Module {
 				this.red = (float) (color >> 16 & 255) / 255.0F;
 				this.green = (float) (color >> 8 & 255) / 255.0F;
 				this.blue = (float) (color & 255) / 255.0F;
+			} else if (throwable instanceof Arrow) {
+				red = 1.0D;
+				green = 0.9647D;
+				blue = 0.5607D;
 			} else {
 				red = 0.6D;
 				green = 0.0D;
@@ -74,6 +81,7 @@ public class Projectiles extends Module {
 			GL11.glDisable(GL11.GL_DEPTH_TEST);
 
 			GL11.glBegin(GL11.GL_LINE_STRIP);
+			
 			double x = RenderManager.renderPosX - Math.cos(getPlayer().rotationYaw / 180.0F * Math.PI) * 0.16D;
 			double y = RenderManager.renderPosY - 0.10000000149011612D;
 			double z = RenderManager.renderPosZ - Math.sin(getPlayer().rotationYaw / 180.0F * Math.PI) * 0.16D;
@@ -85,9 +93,9 @@ public class Projectiles extends Module {
 			motionX /= sqrt;
 			motionY /= sqrt;
 			motionZ /= sqrt;
-			motionX *= throwable.getPower();
-			motionY *= throwable.getPower();
-			motionZ *= throwable.getPower();
+			motionX *= throwable.getPower(getPlayer());
+			motionY *= throwable.getPower(getPlayer());
+			motionZ *= throwable.getPower(getPlayer());
 			MovingObjectPosition movingObjectPosition;
 
 			for (;;) {
@@ -115,7 +123,7 @@ public class Projectiles extends Module {
 				double var6 = 0.0D;
 				for (int index = 0; index < entities.size(); index++) {
 					Entity entity = (Entity) entities.get(index);
-					if (entity instanceof EntityPlayer && entity.canBeCollidedWith() && entity != player) {
+					if (entity instanceof EntityLivingBase && !(entity instanceof EntityEnderman) && entity.canBeCollidedWith() && entity != player) {
 						boundingBox = entity.boundingBox.expand(0.3D, 0.3D, 0.3D);
 						MovingObjectPosition hit = boundingBox.calculateIntercept(present, future);
 						if (hit != null) {
@@ -162,8 +170,31 @@ public class Projectiles extends Module {
 			GL11.glPopMatrix();
 
 			if (movingObjectPosition != null) {
+				/** Shows the distance next to the line, keep it here incase we gonna do sumthing else ;)**/
+//				double distX = x - RenderManager.renderPosX;
+//				double distY = y - RenderManager.renderPosY;
+//				double distZ = z - RenderManager.renderPosZ;
+//				double distance = Math.sqrt(distX * distX + distZ * distZ);
+//				double renderXExtra = -Math.sin(getPlayer().rotationYaw / 180.0F * Math.PI) * Math.cos(getPlayer().rotationPitch / 180.0F * Math.PI);
+//				double renderYExtra = -Math.sin((getPlayer().rotationPitch + throwable.yOffset()) / 180.0F * Math.PI);
+//				double renderZExtra = Math.cos(getPlayer().rotationYaw / 180.0F * Math.PI) * Math.cos(getPlayer().rotationPitch / 180.0F * Math.PI);
+//				GL11.glPushMatrix();
+//				GL11.glLoadIdentity();
+//				Render3DUtil.orientCamera(render.getPartialTicks());
+//				double shit = 1.4;
+//				GL11.glTranslated(renderXExtra, renderYExtra, renderZExtra);
+//				GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+//				GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+//				GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+//				GL11.glEnable(GL11.GL_TEXTURE_2D);
+//				GL11.glScaled(-0.007F, -0.007F, 0);
+//				FontUtil.drawCenteredString("" + MathHelper.floor_double(distance), 30, 0, 0xFFFFFF);
+//				GL11.glDisable(GL11.GL_TEXTURE_2D);
+//				GL11.glPopMatrix();
+
 				if (movingObjectPosition.entityHit != null) {
 					AxisAlignedBB boundingBox = movingObjectPosition.entityHit.boundingBox.expand(0.2D, 0.2D, 0.2D);
+					GL11.glColor3d(red, green, blue);
 					Render3DUtil.drawOutlineBox(boundingBox);
 					GL11.glColor4d(red, green, blue, 0.125D);
 					Render3DUtil.drawBox(boundingBox);
@@ -176,6 +207,7 @@ public class Projectiles extends Module {
 					GL11.glDisable(GL11.GL_CULL_FACE);
 
 					GL11.glTranslated(x - RenderManager.renderPosX, y - RenderManager.renderPosY, z - RenderManager.renderPosZ);
+					boolean isOntop = false;
 					switch (movingObjectPosition.sideHit) {
 					case 2:// east
 					case 3:// west
@@ -189,9 +221,12 @@ public class Projectiles extends Module {
 						break;
 					default:
 						GL11.glRotatef(-(getPlayer().prevRotationYawHead + (getPlayer().rotationYawHead - getPlayer().rotationYawHead) * render.getPartialTicks()), 0.0F, 1.0F, 0.0F);
+					case 1:
+						if (getPlayer().getHeldItem().getItem() instanceof ItemEnderPearl) isOntop = true;
 					}
 					GL11.glTranslated(-(x - RenderManager.renderPosX), -(y - RenderManager.renderPosY), -(z - RenderManager.renderPosZ));
-
+					
+					if(isOntop) GL11.glColor3d(red, green + 0.5, blue + 0.3); else GL11.glColor3d(red, green, blue);
 					GL11.glBegin(GL11.GL_LINE_LOOP);
 					vertex(x + 0.5D, y, z - 0.5D);
 					vertex(x + 0.5D, y, z + 0.5D);
@@ -214,7 +249,6 @@ public class Projectiles extends Module {
 					GL11.glPopMatrix();
 				}
 			}
-
 		}
 	}
 
