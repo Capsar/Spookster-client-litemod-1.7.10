@@ -55,7 +55,7 @@ public class ProjectileSense extends Module {
 		if (event instanceof Event3DRender) {
 			Event3DRender render = (Event3DRender) event;
 			for (Entity e : (List<Entity>) getWorld().loadedEntityList) {
-				if (e instanceof EntityThrowable) {
+				if (e instanceof IProjectile) {
 					if (isAllowed(e)) {
 						renderProjectile(e);
 					}
