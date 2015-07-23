@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.Event3DRender;
 import net.spookysquad.spookster.event.events.EventRenderNameTag;
@@ -19,6 +20,7 @@ import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.mods.Friends.Friend;
 import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.render.FontUtil;
+import net.spookysquad.spookster.render.GuiUtil;
 import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
@@ -26,6 +28,8 @@ import org.lwjgl.opengl.GL11;
 
 public class Nametag extends Module implements HasValues {
 
+	private static final ResourceLocation ICON = new ResourceLocation("spookster", "textures/GExtra_Small_Ghost.png");
+	
 	public Nametag() {
 		super(new String[] { "Nametag" }, "Enlarge nametags and other options.", Type.RENDER, Keyboard.KEY_M, 0xFFCD00CD);
 	}
@@ -65,7 +69,6 @@ public class Nametag extends Module implements HasValues {
 
 		if (fr != null && friends) {
 			name = name.replaceAll(fr.getName(), fr.getAlias());
-			name = "\247b[FR]\247r | " + name;
 		}
 
 		if (entity.isSneaking() && sneak) {
@@ -103,6 +106,12 @@ public class Nametag extends Module implements HasValues {
 		var15.draw();
 		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		
+		if(friends && fr != null) {
+			float size = 8F;
+			GuiUtil.drawTexturedRectangle(ICON, -var17 - size - 2, -1, size, size, 0xFFFFFFFF);
+		}
+		
 		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + (health ? " " + getHealth(entity) : "")) / 2), 0, 0xffffff);
 		if (health) FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), 0, getHealthColor(entity));
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
