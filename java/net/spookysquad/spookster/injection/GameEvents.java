@@ -131,6 +131,8 @@ public class GameEvents {
 	public static void renderHand(EventInfo<EntityRenderer> e, float arg1, int arg2) {
 		Event3DRender event = new Event3DRender(arg1, arg2);
 		event.call();
+		
+		if(event.isCancelled()) e.cancel();
 	}
 	
 	public static void onShutdownMinecraftApplet(EventInfo<Minecraft> e) {
