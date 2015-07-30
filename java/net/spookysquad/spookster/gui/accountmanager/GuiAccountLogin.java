@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.spookysquad.spookster.Spookster;
 
 import org.lwjgl.input.Keyboard;
 
@@ -61,8 +62,8 @@ public class GuiAccountLogin extends GuiScreen implements Messageable {
 		try {
 			this.usernameField.updateCursorCounter();
 			this.passwordField.drawTextBox();
-		} catch (final Exception err) {
-			err.printStackTrace();
+		} catch (final Exception e) {
+			Spookster.logger.info("Failed drawing & updating in accountlogin | Exception: " + e.getMessage());
 		}
 		super.drawScreen(x, y, f);
 	}

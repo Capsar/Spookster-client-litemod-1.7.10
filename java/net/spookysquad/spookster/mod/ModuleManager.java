@@ -69,7 +69,7 @@ public class ModuleManager extends Manager implements Listener {
 		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new FastUse(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new MobFarm(), new Nametag(),
 				new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new ProjectileSense(), new Projectiles(), new Speed(), new Speedmine(), new Sprint(), new Step(), new Title(), new Tracers(), new Triggerbot(), new XRay()));
 	}
-	
+
 	public String toString() {
 		return "ModuleManager[mods=\'" + modules.size() + "\']";
 	}
@@ -114,7 +114,7 @@ public class ModuleManager extends Manager implements Listener {
 		if (event instanceof EventKeyPressed) {
 			EventKeyPressed pressed = (EventKeyPressed) event;
 			if (pressed.isInGame() && Wrapper.getMinecraft().inGameHasFocus) {
-				
+
 				if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) && pressed.getKey() == Keyboard.KEY_UP) {
 					Spookster.clientEnabled = !Spookster.clientEnabled;
 					if (Spookster.clientEnabled) {
@@ -124,7 +124,7 @@ public class ModuleManager extends Manager implements Listener {
 					}
 					return;
 				}
-				
+
 				if (Spookster.clientEnabled) {
 
 					for (Module m : getModules()) {
@@ -143,7 +143,7 @@ public class ModuleManager extends Manager implements Listener {
 					}
 					return;
 				}
-				
+
 				if (Spookster.clientEnabled) {
 					if (Wrapper.getMinecraft().currentScreen instanceof GuiMainMenu) {
 						if (pressed.getKey() == Keyboard.KEY_DOWN) {
@@ -205,13 +205,13 @@ public class ModuleManager extends Manager implements Listener {
 											try {
 												hep.setValue(value.getKey(), ValueUtil.getValue(value.getValue()));
 											} catch (Exception ez) {
-												ez.printStackTrace();
+												Spookster.logger.info("Loading module " + mod.getName() + " values | Exception: " + ez.getMessage());
 											}
 										}
 									}
 								}
 							} catch (Exception e) {
-								e.printStackTrace();
+								Spookster.logger.info("Loading module " + mod.getName() + " | Exception: " + e.getMessage());
 							}
 						}
 					}
@@ -219,19 +219,19 @@ public class ModuleManager extends Manager implements Listener {
 			}
 			reader.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Loading modules | Exception: " + e.getMessage());
 		}
 	}
-	
+
 	public void saveModules() {
 		Spookster.logger.log(Level.INFO, "Saving module data");
-		for(Module mod: getModules()) {
+		for (Module mod : getModules()) {
 			try {
 				BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Spookster.MODULES_FOLDER, mod.getName()[0].toLowerCase() + ".json")));
 				Spookster.logger.log(Level.INFO, "Saving " + mod.getName()[0].toLowerCase() + ".json");
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				JsonObject root = new JsonObject();
-				
+
 				root.addProperty("NAME", mod.getName()[0]);
 				root.addProperty("KEY", mod.getKeyCode());
 				root.addProperty("STATE", mod.isEnabled());
@@ -239,43 +239,45 @@ public class ModuleManager extends Manager implements Listener {
 				root.addProperty("DESC", mod.getDesc());
 				root.addProperty("TYPE", mod.getType().getName());
 				root.addProperty("VISIBLE", mod.isVisible());
-				
+
 				if (mod instanceof HasValues) {
 					HasValues hep = (HasValues) mod;
 					JsonObject newDataObject = new JsonObject();
 					for (Value v : hep.getValues()) {
-						if (v.getType() == ValueType.NORMAL || v.getType() == ValueType.SAVING) {
-							newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
-						} else if (v.getType() == ValueType.MODE) {
-							for (Value extraV : v.getOtherValues()) {
-								newDataObject.addProperty(extraV.getName(), String.valueOf(hep.getValue(extraV.getName())));
+						try {
+							if (v.getType() == ValueType.NORMAL || v.getType() == ValueType.SAVING) {
+								newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
+							} else if (v.getType() == ValueType.MODE) {
+								for (Value extraV : v.getOtherValues()) {
+									newDataObject.addProperty(extraV.getName(), String.valueOf(hep.getValue(extraV.getName())));
+								}
 							}
+						} catch (Exception e) {
+							Spookster.logger.info("Saving " + mod.getName()[0].toLowerCase() + ".json value | Exception: " + e.getMessage());
 						}
 					}
 					root.add("VALUES", newDataObject);
 				}
-				
-				
+
 				writer.write(gson.toJson(root));
 				writer.close();
-			}
-			catch(Exception e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				Spookster.logger.info("Saving " + mod.getName()[0].toLowerCase() + ".json | Exception: " + e.getMessage());
 			}
 		}
 	}
-	
+
 	public void loadModules() {
 		Spookster.logger.log(Level.INFO, "Loading module data");
-		for(Module mod: getModules()) {
+		for (Module mod : getModules()) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(new File(Spookster.MODULES_FOLDER, mod.getName()[0].toLowerCase() + ".json")));
 				Spookster.logger.log(Level.INFO, "Loading " + mod.getName()[0].toLowerCase() + ".json");
-				
+
 				Gson gson = new Gson();
 				JsonObject root = gson.fromJson(reader, JsonObject.class);
-				
-				for(Map.Entry<String, JsonElement> setting : root.entrySet()) {
+
+				for (Map.Entry<String, JsonElement> setting : root.entrySet()) {
 					try {
 						if (setting.getKey().equals("KEY")) {
 							mod.setKeyCode(Integer.valueOf(setting.getValue().getAsString()));
@@ -293,20 +295,19 @@ public class ModuleManager extends Manager implements Listener {
 									try {
 										hep.setValue(value.getKey(), ValueUtil.getValue(value.getValue()));
 									} catch (Exception ez) {
-										ez.printStackTrace();
+										Spookster.logger.info("Loading " + mod.getName()[0].toLowerCase() + ".json value | Exception: " + ez.getMessage());
 									}
 								}
 							}
 						}
 					} catch (Exception e) {
-						e.printStackTrace();
+						Spookster.logger.info("Loading " + mod.getName()[0].toLowerCase() + ".json | Exception: " + e.getMessage());
 					}
 				}
-				
+
 				reader.close();
-			}
-			catch(Exception e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				Spookster.logger.info("Loading module " + mod.getName() + " file | Exception: " + e.getMessage());
 			}
 		}
 	}

@@ -82,11 +82,12 @@ public class Spookster implements Listener {
 			if(!SAVE_FOLDER.exists()) {
 				SAVE_FOLDER.mkdirs();
 			}
-			if (!MODULES_FOLDER.exists()) {
-				MODULES_FOLDER.mkdirs();
-			}
 			if (!LOGS_FOLDER.exists()) {
 				LOGS_FOLDER.mkdirs();
+			}
+			setupLogger();
+			if (!MODULES_FOLDER.exists()) {
+				MODULES_FOLDER.mkdirs();
 			}
 			if (!CONFIG_LOCATION.exists()) {
 				CONFIG_LOCATION.createNewFile();
@@ -95,34 +96,11 @@ public class Spookster implements Listener {
 				CLIENT_LOCATION.createNewFile();
 			}
 			
-			logger.setUseParentHandlers(false);
-
-			final SimpleDateFormat format = new SimpleDateFormat(
-					"MM-d-yyyy HH.mm.ss");
-			FileHandler fileHandler;
-			try {
-
-				fileHandler = new FileHandler(LOGS_FOLDER.getAbsolutePath() + "/"
-						+ format.format(Calendar.getInstance().getTime()) + ".log");
-				logger.addHandler(fileHandler);
-				SimpleFormatter formatter = new SimpleFormatter();
-				fileHandler.setFormatter(new Formatter() {
-
-					public String format(LogRecord record) {
-						StringBuffer buf = new StringBuffer();
-						buf.append(format.format(new Date(record.getMillis())));
-						buf.append(" | ");
-						buf.append(record.getLevel() + ": ");
-						// buf.append(System.getProperty("line.separator"));
-						buf.append(record.getMessage());
-						buf.append(System.getProperty("line.separator"));
-						return buf.toString();
-					}
-
-				});
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		} catch(Exception e) {
+			Spookster.logger.info("Client Folder Setup | Exception: " + e.getMessage());
+		}
+			
+			
 			
 			logger.log(Level.INFO, "Starting client");
 
@@ -149,9 +127,7 @@ public class Spookster implements Listener {
 					}
 				}
 			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	public void init(File configPath) {
@@ -169,7 +145,7 @@ public class Spookster implements Listener {
 			clientPrefix = client.get("CHATPREFIX").getAsString();
 			reader.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Load Client From File | Exception: " + e.getMessage());
 		}
 		moduleManager.loadModulesFromFile();
 		*/
@@ -204,7 +180,7 @@ public class Spookster implements Listener {
 			writer.close();
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Save Client | Exception: " + e.getMessage());
 		}
 	}
 	
@@ -219,7 +195,7 @@ public class Spookster implements Listener {
 			clientPrefix = client.get("CHATPREFIX").getAsString();
 			reader.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Load Client | Exception: " + e.getMessage());
 		}
 	}
 
@@ -243,7 +219,7 @@ public class Spookster implements Listener {
 			writer.write(gson.toJson(root));
 			writer.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Save Client to File | Exception: " + e.getMessage());
 		}*/
 	}
 
@@ -298,6 +274,37 @@ public class Spookster implements Listener {
 	public boolean onSendChatMessage(String message) {
 		if (this.clientEnabled) return commandManager.onCommand(message);
 		return true;
+	}
+	
+	public void setupLogger() {
+		logger.setUseParentHandlers(false);
+
+		final SimpleDateFormat format = new SimpleDateFormat(
+				"MM-d-yyyy HH.mm.ss");
+		FileHandler fileHandler;
+		try {
+
+			fileHandler = new FileHandler(LOGS_FOLDER.getAbsolutePath() + "/"
+					+ format.format(Calendar.getInstance().getTime()) + ".log");
+			logger.addHandler(fileHandler);
+			SimpleFormatter formatter = new SimpleFormatter();
+			fileHandler.setFormatter(new Formatter() {
+
+				public String format(LogRecord record) {
+					StringBuffer buf = new StringBuffer();
+					buf.append(format.format(new Date(record.getMillis())));
+					buf.append(" | ");
+					buf.append(record.getLevel() + ": ");
+					// buf.append(System.getProperty("line.separator"));
+					buf.append(record.getMessage());
+					buf.append(System.getProperty("line.separator"));
+					return buf.toString();
+				}
+
+			});
+		} catch (Exception e) {
+			Spookster.logger.info("Logger Setup Exception: " + e.getMessage());
+		}
 	}
 
 	public void onPostRenderEntities(float partialTicks) {

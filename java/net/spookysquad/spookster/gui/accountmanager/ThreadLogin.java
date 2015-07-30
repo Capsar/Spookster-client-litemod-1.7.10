@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;
+import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.gui.accountmanager.auth.ModernAuth;
 
 class ThreadLogin implements Runnable {
@@ -47,7 +48,7 @@ class ThreadLogin implements Runnable {
 					+ Minecraft.getMinecraft().getSession().getUsername());
 		} catch (final Exception e) {
 			this.parent.setMessage("\2474Failed to login");
-			e.printStackTrace();
+			Spookster.logger.info("Failed to login | Exception: " + e.getMessage());
 			return;
 		}
 	}
@@ -55,10 +56,8 @@ class ThreadLogin implements Runnable {
 	private void setSession(Session s) {
 		try {
 			this.session.set(Minecraft.getMinecraft(), s);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			Spookster.logger.info("Failed setting session | Exception: " + e.getMessage());
 		}
 	}
 

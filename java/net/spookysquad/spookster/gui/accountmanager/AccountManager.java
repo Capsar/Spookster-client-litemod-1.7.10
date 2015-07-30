@@ -22,7 +22,7 @@ public class AccountManager {
 			try {
 				AccountManager.accountFile.createNewFile();
 			} catch (IOException e) {
-				e.printStackTrace();
+				Spookster.logger.info("Failed creating alts.data | Exception: " + e.getMessage());
 			}
 		} else {
 			AccountManager.loadAccounts();
@@ -43,7 +43,7 @@ public class AccountManager {
 			}
 			reader.close();
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Failed loading alts | Exception: " + e.getMessage());
 		}
 	}
 
@@ -57,7 +57,7 @@ public class AccountManager {
 			}
 			writer.close();
 		} catch (final Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Failed saving alts | Exception: " + e.getMessage());
 		}
 	}
 }
