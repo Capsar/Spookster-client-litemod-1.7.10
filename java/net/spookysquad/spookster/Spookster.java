@@ -40,7 +40,7 @@ public class Spookster implements Listener {
 
 	public static final String clientName = "Spookster";
 	public static final String clientAuthor = "Capsar, TehNeon & Rederpz";
-	public static final String clientVersion = "0.69";
+	public static final String clientVersion = "1a";
 	public static String clientPrefix = "..";
 	public static boolean clientEnabled = false;
 	

@@ -81,6 +81,13 @@ public class Transformer extends EventInjectionTransformer
         this.addEvent(onAttackEntityEvent, onAttackEntityMethodInfo, onAttackEntityInjectionPoint);
         onAttackEntityEvent.addListener(new MethodInfo(listenerClass, "onAttackEntityEvent"));
         
+        // public void onPlayerDamageBlock(int p_78759_1_, int p_78759_2_, int p_78759_3_, int p_78759_4_)
+        final Event onPlayerDestroyBlockEvent = Event.getOrCreate("onPlayerDestroyBlockEvent", true);
+        final MethodInfo onPlayerDestroyBlockMethodInfo = new MethodInfo(ObfuscationTable.PlayerControllerMP, ObfuscationTable.onPlayerDestroyBlock, Boolean.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE, Integer.TYPE);
+        final MethodHead onPlayerDestroyBlockInjectionPoint = new MethodHead();
+        this.addEvent(onPlayerDestroyBlockEvent, onPlayerDestroyBlockMethodInfo, onPlayerDestroyBlockInjectionPoint);
+        onPlayerDestroyBlockEvent.addListener(new MethodInfo(listenerClass, "onPlayerDestroyBlock"));
+        
         final Event onRenderHandEvent = Event.getOrCreate("renderHand", true);
         final MethodInfo onRenderHandMethodInfo = new MethodInfo(ObfuscationTable.EntityRenderer, ObfuscationTable.renderHand, Void.TYPE, new Object[] {Float.TYPE, Integer.TYPE});
         final MethodHead onRenderHandInjectionPoint = new MethodHead();
@@ -92,5 +99,7 @@ public class Transformer extends EventInjectionTransformer
         final MethodHead onShutdownMinecraftAppletInjectionPoint = new MethodHead();
         this.addEvent(onShutdownMinecraftAppletEvent, onShutdownMinecraftAppletMethodInfo, onShutdownMinecraftAppletInjectionPoint);
         onShutdownMinecraftAppletEvent.addListener(new MethodInfo(listenerClass, "onShutdownMinecraftApplet"));
+        
+        
     }
 }

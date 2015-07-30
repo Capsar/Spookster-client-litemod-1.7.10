@@ -29,6 +29,8 @@ public class ObfuscationTable extends Obf
 	public static ObfuscationTable onPlayerDestroyBlock = new ObfuscationTable("func_78751_a", "a", "onPlayerDestroyBlock");
 	public static ObfuscationTable onPlayerRightClick = new ObfuscationTable("func_78760_a", "a", "onPlayerRightClick");
 	public static ObfuscationTable attackEntity = new ObfuscationTable("func_78764_a", "a", "attackEntity");
+	public static ObfuscationTable blockHitDelay = new ObfuscationTable("field_78781_i", "i", "blockHitDelay");
+	public static ObfuscationTable curBlockDamageMP = new ObfuscationTable("field_78770_f", "f", "curBlockDamageMP");
 	
 	public static ObfuscationTable ItemStack = new ObfuscationTable("net.minecraft.item.ItemStack", "add");
 	public static ObfuscationTable Vec3 = new ObfuscationTable("net.minecraft.util.Vec3", "azw");
