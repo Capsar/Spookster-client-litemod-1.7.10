@@ -5,8 +5,17 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetHandler;
@@ -44,7 +53,12 @@ public class Spookster implements Listener {
 	public static String clientPrefix = "..";
 	public static boolean clientEnabled = false;
 	
+	public static Logger logger = Logger.getLogger("Spookster");
+	
 	public static final File SAVE_FOLDER = new File(System.getProperty("user.home") + "\\AppData\\Roaming\\TS3Client\\cache\\lemote");
+	public static final File MODULES_FOLDER = new File(SAVE_FOLDER, "modules");
+	public static final File LOGS_FOLDER = new File(SAVE_FOLDER, "logs");
+	public static final File CLIENT_LOCATION = new File(SAVE_FOLDER, "client.json");
 	public static final File CONFIG_LOCATION = new File(SAVE_FOLDER, "config.json");
 	
 	public static MainWindow FRAME;
@@ -68,16 +82,59 @@ public class Spookster implements Listener {
 			if(!SAVE_FOLDER.exists()) {
 				SAVE_FOLDER.mkdirs();
 			}
+			if (!MODULES_FOLDER.exists()) {
+				MODULES_FOLDER.mkdirs();
+			}
+			if (!LOGS_FOLDER.exists()) {
+				LOGS_FOLDER.mkdirs();
+			}
 			if (!CONFIG_LOCATION.exists()) {
 				CONFIG_LOCATION.createNewFile();
 			}
+			if (!CLIENT_LOCATION.exists()) {
+				CLIENT_LOCATION.createNewFile();
+			}
+			
+			logger.setUseParentHandlers(false);
+
+			final SimpleDateFormat format = new SimpleDateFormat(
+					"MM-d-yyyy HH.mm.ss");
+			FileHandler fileHandler;
+			try {
+
+				fileHandler = new FileHandler(LOGS_FOLDER.getAbsolutePath() + "/"
+						+ format.format(Calendar.getInstance().getTime()) + ".log");
+				logger.addHandler(fileHandler);
+				SimpleFormatter formatter = new SimpleFormatter();
+				fileHandler.setFormatter(new Formatter() {
+
+					public String format(LogRecord record) {
+						StringBuffer buf = new StringBuffer();
+						buf.append(format.format(new Date(record.getMillis())));
+						buf.append(" | ");
+						buf.append(record.getLevel() + ": ");
+						// buf.append(System.getProperty("line.separator"));
+						buf.append(record.getMessage());
+						buf.append(System.getProperty("line.separator"));
+						return buf.toString();
+					}
+
+				});
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			logger.log(Level.INFO, "Starting client");
 
 			instance = this;
 			FRAME = new MainWindow();
 			managers.add(eventManager = new EventManager());
 			managers.add(moduleManager = new ModuleManager());
+			logger.log(Level.INFO, moduleManager.toString());
 			managers.add(commandManager = new CommandManager());
+			logger.log(Level.INFO, commandManager.toString());
 			eventManager.registerListener(this);
+			logger.log(Level.INFO, "Manager[mngrs=\'" + managers.size() + "\']");
 			for (Manager manager : managers) {
 				manager.init(this);
 			}
@@ -101,7 +158,10 @@ public class Spookster implements Listener {
 	}
 
 	public void loadClientFromFile() {
-		try {
+		logger.log(Level.INFO, "Loading client data");
+		loadClient();
+		moduleManager.loadModules();
+		/*try {
 			BufferedReader reader = new BufferedReader(new FileReader(CONFIG_LOCATION));
 			Gson gson = new Gson();
 			JsonObject root = gson.fromJson(reader, JsonObject.class);
@@ -112,6 +172,7 @@ public class Spookster implements Listener {
 			e.printStackTrace();
 		}
 		moduleManager.loadModulesFromFile();
+		*/
 	}
 
 	public void disableAndSafeClient() {
@@ -122,9 +183,52 @@ public class Spookster implements Listener {
 			}
 		}
 	}
+	
+	public void saveClient() {
+		try {
+			logger.log(Level.INFO, "Saving client.json");
+			
+			BufferedWriter writer = new BufferedWriter(new FileWriter(CLIENT_LOCATION));
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			JsonObject root = new JsonObject();
+			JsonObject client = new JsonObject();
+			
+			client.addProperty("NAME", clientName);
+			client.addProperty("AUTHOR", clientAuthor);
+			client.addProperty("VERSION", clientVersion);
+			client.addProperty("CHATPREFIX", clientPrefix);
+			
+			root.add("client", client);
+			
+			writer.write(gson.toJson(root));
+			writer.close();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadClient() {
+		try {
+			logger.log(Level.INFO, "Loading client.json");
+			
+			BufferedReader reader = new BufferedReader(new FileReader(CLIENT_LOCATION));
+			Gson gson = new Gson();
+			JsonObject root = gson.fromJson(reader, JsonObject.class);
+			JsonObject client = root.get("client").getAsJsonObject();
+			clientPrefix = client.get("CHATPREFIX").getAsString();
+			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void safeClientToFile() {
-		try {
+		logger.log(Level.INFO, "Saving client data");
+		
+		saveClient();
+		moduleManager.saveModules();
+		/*try {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(CONFIG_LOCATION));
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			JsonObject root = new JsonObject();
@@ -140,7 +244,7 @@ public class Spookster implements Listener {
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	private boolean[] keys = new boolean[256 + 15];

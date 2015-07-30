@@ -18,6 +18,10 @@ public class CommandManager extends Manager {
 		commands.add(new Help());
 		commands.add(new VClip());
 	}
+	
+	public String toString() {
+		return "CommandManager[cmds=\'" + commands.size() + "\']";
+	}
 
 	@Override
 	public void deinit(Spookster spookster) {

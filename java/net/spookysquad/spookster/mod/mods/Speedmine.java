@@ -71,7 +71,7 @@ public class Speedmine extends Module implements HasValues {
 	private double speed = 0.05;
 
 	private String HITDELAY = "Hit Delay", START = "Start Damage", SPEED = "Speed";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(HITDELAY, 0, 5.0, 1F), new Value(START, 0d, 1d, 0.01F), new Value(SPEED, 0d, 1d, 0.01F) });
+	private List<Value> values = Arrays.asList(new Value[] { new Value(HITDELAY, 0, 5, 1F), new Value(START, 0d, 1d, 0.01F), new Value(SPEED, 0d, 1d, 0.01F) });
 
 	@Override
 	public List<Value> getValues() {
@@ -88,7 +88,7 @@ public class Speedmine extends Module implements HasValues {
 
 	@Override
 	public void setValue(String n, Object v) {
-		if (n.equals(HITDELAY)) hitDelay = (int) Math.round((Double) v);
+		if (n.equals(HITDELAY)) hitDelay = (Integer) v;
 		else if(n.equals(START)) start = (Math.round((Double) v * 100) / 100.0D);
 		else if(n.equals(SPEED)) speed = (Math.round((Double) v * 100) / 100.0D);
 	}
