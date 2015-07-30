@@ -20,6 +20,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
+import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.injection.ObfuscationTable;
 import net.spookysquad.spookster.mod.mods.Notifications;
 import net.spookysquad.spookster.render.FontUtil;
@@ -64,7 +65,9 @@ public class Wrapper {
 	}
 
 	public static void logChat(MessageType type, String text) {
+		Spookster.logger.info("Notification: " + type.toString().toUpperCase() + ": " + text);
 		MainWindow.mainConsole.addMessage(text, type);
+		
 		for(String msg: FontUtil.formatString(text, 500)) {
 			Notifications.notifications.add((Entry<String, Long>) getEntry(msg, (long) (System.nanoTime() / 1E6)));
 		}
