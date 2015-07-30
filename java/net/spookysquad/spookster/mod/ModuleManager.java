@@ -115,7 +115,16 @@ public class ModuleManager extends Manager implements Listener {
 			EventKeyPressed pressed = (EventKeyPressed) event;
 			if (pressed.isInGame() && Wrapper.getMinecraft().inGameHasFocus) {
 				
-
+				if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) && pressed.getKey() == Keyboard.KEY_UP) {
+					Spookster.clientEnabled = !Spookster.clientEnabled;
+					if (Spookster.clientEnabled) {
+						Spookster.instance.loadClientFromFile();
+					} else {
+						Spookster.instance.disableAndSafeClient();
+					}
+					return;
+				}
+				
 				if (Spookster.clientEnabled) {
 
 					for (Module m : getModules()) {
