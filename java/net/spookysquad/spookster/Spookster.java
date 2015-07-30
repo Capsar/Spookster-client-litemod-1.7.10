@@ -102,17 +102,17 @@ public class Spookster implements Listener {
 			
 			
 			
-			logger.log(Level.INFO, "Starting client");
+			logger.info("Starting client");
 
 			instance = this;
 			FRAME = new MainWindow();
 			managers.add(eventManager = new EventManager());
 			managers.add(moduleManager = new ModuleManager());
-			logger.log(Level.INFO, moduleManager.toString());
+			logger.info(moduleManager.toString());
 			managers.add(commandManager = new CommandManager());
-			logger.log(Level.INFO, commandManager.toString());
+			logger.info(commandManager.toString());
 			eventManager.registerListener(this);
-			logger.log(Level.INFO, "Manager[mngrs=\'" + managers.size() + "\']");
+			logger.info("Manager[mngrs=\'" + managers.size() + "\']");
 			for (Manager manager : managers) {
 				manager.init(this);
 			}
@@ -121,6 +121,7 @@ public class Spookster implements Listener {
 			Runtime.getRuntime().addShutdownHook(new Thread("Shutdown Thread") {
 				@Override
 				public void run() {
+					logger.info("Shutdown Thread!");
 					safeClientToFile();
 					for (Manager manager : managers) {
 						manager.deinit(Spookster.this);
@@ -134,7 +135,7 @@ public class Spookster implements Listener {
 	}
 
 	public void loadClientFromFile() {
-		logger.log(Level.INFO, "Loading client data");
+		logger.info("Loading client data");
 		loadClient();
 		moduleManager.loadModules();
 		/*try {
@@ -162,7 +163,7 @@ public class Spookster implements Listener {
 	
 	public void saveClient() {
 		try {
-			logger.log(Level.INFO, "Saving client.json");
+			logger.info("Saving client.json");
 			
 			BufferedWriter writer = new BufferedWriter(new FileWriter(CLIENT_LOCATION));
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -186,7 +187,7 @@ public class Spookster implements Listener {
 	
 	public void loadClient() {
 		try {
-			logger.log(Level.INFO, "Loading client.json");
+			logger.info("Loading client.json");
 			
 			BufferedReader reader = new BufferedReader(new FileReader(CLIENT_LOCATION));
 			Gson gson = new Gson();
@@ -200,7 +201,7 @@ public class Spookster implements Listener {
 	}
 
 	public void safeClientToFile() {
-		logger.log(Level.INFO, "Saving client data");
+		logger.info("Saving client data");
 		
 		saveClient();
 		moduleManager.saveModules();
@@ -320,6 +321,7 @@ public class Spookster implements Listener {
 	public void onEvent(Event event) {
 		if(event instanceof EventShutdown) {
 			safeClientToFile();
+			logger.info("Shutdown Event!");
 		}
 	}
 }

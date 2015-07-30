@@ -228,7 +228,6 @@ public class ModuleManager extends Manager implements Listener {
 		for (Module mod : getModules()) {
 			try {
 				BufferedWriter writer = new BufferedWriter(new FileWriter(new File(Spookster.MODULES_FOLDER, mod.getName()[0].toLowerCase() + ".json")));
-				Spookster.logger.log(Level.INFO, "Saving " + mod.getName()[0].toLowerCase() + ".json");
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				JsonObject root = new JsonObject();
 
@@ -272,7 +271,6 @@ public class ModuleManager extends Manager implements Listener {
 		for (Module mod : getModules()) {
 			try {
 				BufferedReader reader = new BufferedReader(new FileReader(new File(Spookster.MODULES_FOLDER, mod.getName()[0].toLowerCase() + ".json")));
-				Spookster.logger.log(Level.INFO, "Loading " + mod.getName()[0].toLowerCase() + ".json");
 
 				Gson gson = new Gson();
 				JsonObject root = gson.fromJson(reader, JsonObject.class);
