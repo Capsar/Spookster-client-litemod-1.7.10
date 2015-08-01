@@ -26,7 +26,7 @@ public class Speedmine extends Module implements HasValues {
 	private Field curBlockDamageMP;
 
 	public Speedmine() {
-		super("Speedmine", "Allows you to mine faster", Type.MISC, Keyboard.KEY_NONE, 0xFFaaaa00);
+		super("Speedmine", "Allows you to mine faster", Type.WORLD, Keyboard.KEY_NONE, 0xFFaaaa00);
 
 		try {
 			blockHitDelay = PlayerControllerMP.class.getDeclaredField(ModUtilities.getObfuscatedFieldName(ObfuscationTable.blockHitDelay));
