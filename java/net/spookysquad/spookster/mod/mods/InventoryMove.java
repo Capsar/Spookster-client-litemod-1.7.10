@@ -51,7 +51,7 @@ public class InventoryMove extends Module {
 					}
 
 					KeyBinding[] moveKeys = { Wrapper.getGameSettings().keyBindForward, Wrapper.getGameSettings().keyBindBack, Wrapper.getGameSettings().keyBindLeft, Wrapper.getGameSettings().keyBindRight, Wrapper.getGameSettings().keyBindJump,
-							Wrapper.getGameSettings().keyBindSneak, Wrapper.getGameSettings().keyBindSprint };
+							Wrapper.getGameSettings().keyBindSprint };
 
 					for (KeyBinding bind : moveKeys)
 						KeyBinding.setKeyBindState(bind.getKeyCode(), Keyboard.isKeyDown(bind.getKeyCode()));

@@ -25,6 +25,7 @@ public class Speed extends Module implements HasValues {
 	private int state = 0, timerState = 0;
 	private float ground = 0;
 
+	// 2.89 fastest on latest ncp
 	private double speed = 3.15;
 	private boolean autoSprint = true;
 	private boolean boundingBoxOffset = true;

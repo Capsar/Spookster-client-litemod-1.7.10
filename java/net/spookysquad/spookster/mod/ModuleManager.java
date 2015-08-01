@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -39,6 +41,7 @@ import net.spookysquad.spookster.mod.mods.Phase;
 import net.spookysquad.spookster.mod.mods.PotionThrower;
 import net.spookysquad.spookster.mod.mods.ProjectileSense;
 import net.spookysquad.spookster.mod.mods.Projectiles;
+import net.spookysquad.spookster.mod.mods.Search;
 import net.spookysquad.spookster.mod.mods.Speed;
 import net.spookysquad.spookster.mod.mods.Speedmine;
 import net.spookysquad.spookster.mod.mods.Sprint;
@@ -69,8 +72,15 @@ public class ModuleManager extends Manager implements Listener {
 		this.spookster = spookster;
 		spookster.eventManager.registerListener(this);
 		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new FastUse(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new InventoryMove(), new Jesus(),
-				new MobFarm(), new Nametag(), new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new ProjectileSense(), new Projectiles(), new Speed(), new Speedmine(), new Sprint(), new Step(), new Title(), new Tracers(),
+				new MobFarm(), new Nametag(), new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new Projectiles(), new ProjectileSense(), new Search(), new Speed(), new Speedmine(), new Sprint(), new Step(), new Title(), new Tracers(),
 				new Triggerbot(), new XRay()));
+		
+		Collections.sort(modules, new Comparator<Module>() {
+	        @Override
+	        public int compare(Module s1, Module s2) {
+	            return s1.getName()[0].compareToIgnoreCase(s2.getName()[0]);
+	        }
+	    });
 	}
 
 	public String toString() {
