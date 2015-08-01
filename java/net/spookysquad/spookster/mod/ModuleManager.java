@@ -49,6 +49,7 @@ import net.spookysquad.spookster.mod.mods.Step;
 import net.spookysquad.spookster.mod.mods.Title;
 import net.spookysquad.spookster.mod.mods.Tracers;
 import net.spookysquad.spookster.mod.mods.Triggerbot;
+import net.spookysquad.spookster.mod.mods.Velocity;
 import net.spookysquad.spookster.mod.mods.XRay;
 import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.mod.values.Value.ValueType;
@@ -73,7 +74,7 @@ public class ModuleManager extends Manager implements Listener {
 		spookster.eventManager.registerListener(this);
 		this.modules.addAll(Arrays.asList(new ArmorSwitch(), new Blink(), new ClickGUI(), new ExternalGUI(), new FastUse(), new Fly(), new Freecam(), new Friends(), new Fullbright(), new GangsterWalk(), new HUD(), new InventoryMove(), new Jesus(),
 				new MobFarm(), new Nametag(), new Notifications(), new NoFall(), new Phase(), new PotionThrower(), new Projectiles(), new ProjectileSense(), new Search(), new Speed(), new Speedmine(), new Sprint(), new Step(), new Title(), new Tracers(),
-				new Triggerbot(), new XRay()));
+				new Triggerbot(), new XRay(), new Velocity()));
 		
 		Collections.sort(modules, new Comparator<Module>() {
 	        @Override

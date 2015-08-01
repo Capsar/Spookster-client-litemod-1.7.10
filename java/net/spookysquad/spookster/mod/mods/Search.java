@@ -92,7 +92,7 @@ public class Search extends Module implements HasValues {
 		GL11.glDepthMask(false);
 		AxisAlignedBB boundingBox = AxisAlignedBB.getBoundingBox(x, y, z, x + 1.0D, y + 1.0D, z + 1.0D);
 		GL11.glColor4d(r, g, b, innerOpacity);
-		Render3DUtil.drawBox(boundingBox.contract(0.01D, 0.01D, 0.01D));
+		Render3DUtil.drawBox(boundingBox);
 		GL11.glColor4d(r, g, b, outterOpacity);
 		GL11.glLineWidth(1.0F);
 		Render3DUtil.drawOutlineBox(boundingBox);
