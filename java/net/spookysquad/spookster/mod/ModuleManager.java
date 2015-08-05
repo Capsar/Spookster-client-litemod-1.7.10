@@ -183,60 +183,6 @@ public class ModuleManager extends Manager implements Listener {
 		}
 	}
 
-	public void loadModulesFromFile() {
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(Spookster.CONFIG_LOCATION));
-			Gson gson = new Gson();
-			JsonObject root = gson.fromJson(reader, JsonObject.class);
-			JsonArray modulesArray = root.get("modules").getAsJsonArray();
-			for (Object moduleObject : modulesArray) {
-				JsonObject moduleCup = (JsonObject) moduleObject;
-				for (Map.Entry<String, JsonElement> entry : moduleCup.entrySet()) {
-					Module mod = null;
-					for (Module m : modules) {
-						if (m.getDisplay().equalsIgnoreCase(entry.getKey())) {
-							mod = m;
-							break;
-						}
-					}
-					if (mod != null) {
-						JsonObject settings = entry.getValue().getAsJsonObject();
-						for (Map.Entry<String, JsonElement> setting : settings.entrySet()) {
-							try {
-								if (setting.getKey().equals("KEY")) {
-									mod.setKeyCode(Integer.valueOf(setting.getValue().getAsString()));
-								} else if (setting.getKey().equals("STATE")) {
-									if (setting.getValue().getAsBoolean()) mod.toggle(true);
-								} else if (setting.getKey().equals("VISIBLE")) {
-									mod.setVisible(setting.getValue().getAsBoolean());
-								} else if (setting.getKey().equals("COLOR")) {
-									mod.setColor(setting.getValue().getAsInt());
-								} else if (setting.getKey().equals("VALUES")) {
-									if (mod instanceof HasValues) {
-										HasValues hep = (HasValues) mod;
-										JsonObject values = setting.getValue().getAsJsonObject();
-										for (Map.Entry<String, JsonElement> value : values.entrySet()) {
-											try {
-												hep.setValue(value.getKey(), ValueUtil.getValue(value.getValue()));
-											} catch (Exception ez) {
-												Spookster.logger.info("Loading module " + mod.getName() + " values | Exception: " + ez.getMessage());
-											}
-										}
-									}
-								}
-							} catch (Exception e) {
-								Spookster.logger.info("Loading module " + mod.getName() + " | Exception: " + e.getMessage());
-							}
-						}
-					}
-				}
-			}
-			reader.close();
-		} catch (Exception e) {
-			Spookster.logger.info("Loading modules | Exception: " + e.getMessage());
-		}
-	}
-
 	public void saveModules() {
 		Spookster.logger.log(Level.INFO, "Saving module data");
 		for (Module mod : getModules()) {
@@ -322,37 +268,6 @@ public class ModuleManager extends Manager implements Listener {
 				Spookster.logger.info("Loading module " + mod.getName() + " file | Exception: " + e.getMessage());
 			}
 		}
-	}
-
-	public JsonArray safeModules(JsonObject root) {
-		JsonArray modules = new JsonArray();
-		for (Module m : getModules()) {
-			JsonObject moduleObject = new JsonObject();
-			JsonObject dataObject = new JsonObject();
-			dataObject.addProperty("KEY", m.getKeyCode());
-			dataObject.addProperty("STATE", m.isEnabled());
-			dataObject.addProperty("COLOR", m.getColor());
-			dataObject.addProperty("DESC", m.getDesc());
-			dataObject.addProperty("TYPE", m.getType().getName());
-			dataObject.addProperty("VISIBLE", m.isVisible());
-			if (m instanceof HasValues) {
-				HasValues hep = (HasValues) m;
-				JsonObject newDataObject = new JsonObject();
-				for (Value v : hep.getValues()) {
-					if (v.getType() == ValueType.NORMAL || v.getType() == ValueType.SAVING) {
-						newDataObject.addProperty(v.getName(), String.valueOf(hep.getValue(v.getName())));
-					} else if (v.getType() == ValueType.MODE) {
-						for (Value extraV : v.getOtherValues()) {
-							newDataObject.addProperty(extraV.getName(), String.valueOf(hep.getValue(extraV.getName())));
-						}
-					}
-				}
-				dataObject.add("VALUES", newDataObject);
-			}
-			moduleObject.add(m.getDisplay().toLowerCase(), dataObject);
-			modules.add(moduleObject);
-		}
-		return modules;
 	}
 
 }
