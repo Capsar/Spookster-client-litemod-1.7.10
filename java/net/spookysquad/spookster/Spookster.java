@@ -77,14 +77,12 @@ public class Spookster implements Listener {
 
 	public Spookster() {
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/config")));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/config.la")));
 			
 			String currentLine = reader.readLine();
 			
 			if(currentLine == null || currentLine.length() == 0) {
-				System.err.println(";ccccccc");
 			} else {
-				System.err.println("ayyyyyyyy");
 				SAVE_FOLDER = new File(currentLine);
 				MODULES_FOLDER = new File(SAVE_FOLDER, "modules");
 				LOGS_FOLDER = new File(SAVE_FOLDER, "logs");
@@ -94,7 +92,7 @@ public class Spookster implements Listener {
 			reader.close();
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			
 		}
 		
 		try {
