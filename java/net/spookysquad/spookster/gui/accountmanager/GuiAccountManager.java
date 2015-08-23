@@ -5,6 +5,7 @@ import java.io.IOException;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.spookysquad.spookster.Spookster;
 
 import org.lwjgl.input.Keyboard;
 
@@ -154,7 +155,7 @@ public class GuiAccountManager extends GuiScreen implements Messageable {
 			super.mouseClicked(mouseX, mouseY, mouseButton);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			Spookster.logger.info("Mouse Clicked accountmanager | Exception: " + e.getMessage());
 		}
     }
 

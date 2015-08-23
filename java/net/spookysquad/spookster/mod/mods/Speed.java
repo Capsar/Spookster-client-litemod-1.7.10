@@ -16,6 +16,7 @@ import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.mod.values.Value;
 import net.spookysquad.spookster.utils.GameUtil;
 import net.spookysquad.spookster.utils.PlayerUtil;
+import net.spookysquad.spookster.utils.Wrapper;
 
 import org.lwjgl.input.Keyboard;
 
@@ -24,6 +25,7 @@ public class Speed extends Module implements HasValues {
 	private int state = 0, timerState = 0;
 	private float ground = 0;
 
+	// 2.89 fastest on latest ncp
 	private double speed = 3.15;
 	private boolean autoSprint = true;
 	private boolean boundingBoxOffset = true;
@@ -51,6 +53,7 @@ public class Speed extends Module implements HasValues {
 	public void onEvent(Event e) {
 		if (e instanceof EventPreMotion) {
 			EventPreMotion event = (EventPreMotion) e;
+			
 
 			if(autoSprint && PlayerUtil.canSprint())
 				getPlayer().setSprinting(true);

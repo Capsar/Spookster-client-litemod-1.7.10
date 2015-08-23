@@ -1,16 +1,22 @@
 package net.spookysquad.spookster.mod.mods;
 
+import java.util.Arrays;
+import java.util.List;
+
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.spookysquad.spookster.event.Event;
+import net.spookysquad.spookster.event.events.Event3DRender;
 import net.spookysquad.spookster.event.events.EventInOpaqueBlock;
 import net.spookysquad.spookster.event.events.EventPreMotion;
 import net.spookysquad.spookster.event.events.EventPushOutOfBlocks;
+import net.spookysquad.spookster.mod.HasValues;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
+import net.spookysquad.spookster.mod.values.Value;
 
 import org.lwjgl.input.Keyboard;
 
-public class Freecam extends Module {
+public class Freecam extends Module implements HasValues {
 
 	public EntityOtherPlayerMP freecamPlayer;
 	private double posX, posY, posZ;
@@ -76,6 +82,30 @@ public class Freecam extends Module {
 		if(event instanceof EventInOpaqueBlock) {
 			event.cancel();
 		}
+		
+		if(event instanceof Event3DRender && !renderHand) {
+			event.cancel();
+		}
+	}
+	
+	public boolean renderHand = false;
+	private String RENDERHAND = "Render Hand";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(RENDERHAND, false, true) });
+
+	@Override
+	public List<Value> getValues() {
+		return values;
+	}
+
+	@Override
+	public Object getValue(String n) {
+		if (n.equals(RENDERHAND)) return renderHand;
+		return null;
+	}
+
+	@Override
+	public void setValue(String n, Object v) {
+		if (n.equals(RENDERHAND)) renderHand = (Boolean) v;
 	}
 
 }

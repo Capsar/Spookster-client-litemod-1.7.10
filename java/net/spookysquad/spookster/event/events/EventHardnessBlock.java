@@ -20,4 +20,8 @@ public class EventHardnessBlock extends Event {
 	public float getHardness() {
 		return hardness;
 	}
+	
+	public void setHardness(float hardness) {
+		this.hardness = hardness;
+	}
 }

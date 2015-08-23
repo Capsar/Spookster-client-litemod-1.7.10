@@ -70,9 +70,11 @@ public class Nametag extends Module implements HasValues {
 		if (fr != null && friends) {
 			name = name.replaceAll(fr.getName(), fr.getAlias());
 		}
+		
+		String othercrap = "";
 
 		if (entity.isSneaking() && sneak) {
-			name = "\247c[S]\247r | " + name;
+			othercrap = "\247c[S] ";
 		}
 
 		double theScale = scaleFactor;
@@ -97,8 +99,8 @@ public class Nametag extends Module implements HasValues {
 		Tessellator var15 = Tessellator.instance;
 		int var17 = (fontRenderer.getStringWidth(name + (health ? " " + getHealth(entity) : "")) / 2);
 		var15.startDrawingQuads();
-		var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.6F);
-		if (entity.isInvisible() && invisibles) var15.setColorRGBA_F(0.5434F, 0.3379F, 0.1187F, 0.6F);
+		var15.setColorRGBA_F(0.0F, 0.0F, 0.0F, (float) opacity);
+		if (entity.isInvisible() && invisibles) var15.setColorRGBA_F(0.5434F, 0.3379F, 0.1187F, (float) opacity);
 		var15.addVertex((double) (-var17 - 1), (double) -1, 0.0D);
 		var15.addVertex((double) (-var17 - 1), (double) 8, 0.0D);
 		var15.addVertex((double) (var17 + 1), (double) 8, 0.0D);
@@ -111,9 +113,12 @@ public class Nametag extends Module implements HasValues {
 			float size = 8F;
 			GuiUtil.drawTexturedRectangle(ICON, -var17 - size - 2, -1, size, size, 0xFFFFFFFF);
 		}
-		
-		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + (health ? " " + getHealth(entity) : "")) / 2), 0, 0xffffff);
+
+		FontUtil.drawString(name, -(fontRenderer.getStringWidth(name + (health ? " " + getHealth(entity) : "")) / 2), 0, fr != null ? 0x00AAFF : 0xffffff);
+		FontUtil.drawString(othercrap, (fontRenderer.getStringWidth(othercrap + name + (health ? " " + getHealth(entity) : "")) / 2) - 6, 0, fr != null ? 0x00AAFF : 0xffffff);
 		if (health) FontUtil.drawString(getHealth(entity), (fontRenderer.getStringWidth(name + " " + getHealth(entity)) / 2) - fontRenderer.getStringWidth(getHealth(entity)), 0, getHealthColor(entity));
+		
+		
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glEnable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_BLEND);
@@ -136,8 +141,9 @@ public class Nametag extends Module implements HasValues {
 		return ihealth;
 	}
 
-	private String SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible", SCALEFACTOR = "Scale Factor", SCALEDISTANCE = "Scale Distance";
-	private List<Value> values = Arrays.asList(new Value[] { new Value(SCALEFACTOR, 0.1D, 4D, 0.1F), new Value(SCALEDISTANCE, 0, 32, 1), new Value(SNEAK, false, true), new Value(FRIENDS, false, true), new Value(HEALTH, false, true),
+	private double opacity = 0.6f;
+	private String OPACITY = "Opacity", SNEAK = "Show Sneak", FRIENDS = "Show Friends", HEALTH = "Show Health", INVISIBLE = "Show Invisible", SCALEFACTOR = "Scale Factor", SCALEDISTANCE = "Scale Distance";
+	private List<Value> values = Arrays.asList(new Value[] { new Value(OPACITY, 0.1D, 1D, 0.01F),new Value(SCALEFACTOR, 0.1D, 4D, 0.1F), new Value(SCALEDISTANCE, 0, 32, 1), new Value(SNEAK, false, true), new Value(FRIENDS, false, true), new Value(HEALTH, false, true),
 			new Value(INVISIBLE, false, true) });
 
 	@Override
@@ -153,6 +159,7 @@ public class Nametag extends Module implements HasValues {
 		else if (n.equals(FRIENDS)) return friends;
 		else if (n.equals(HEALTH)) return health;
 		else if (n.equals(INVISIBLE)) return invisibles;
+		else if (n.equals(OPACITY)) return opacity;
 
 		return null;
 	}
@@ -164,6 +171,7 @@ public class Nametag extends Module implements HasValues {
 		else if (n.equals(HEALTH)) health = (Boolean) v;
 		else if (n.equals(INVISIBLE)) invisibles = (Boolean) v;
 		else if (n.equals(SCALEFACTOR)) scaleFactor = (Math.round((Double) v * 10) / 10.0D);
+		else if (n.equals(OPACITY)) opacity = (Math.round((Double) v * 100) / 100.0D);
 		else if (n.equals(SCALEDISTANCE)) scaleDistance = (Integer) v;
 	}
 }

@@ -1,9 +1,9 @@
 package net.spookysquad.spookster.mod.mods;
 
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.potion.Potion;
+import net.minecraft.network.play.server.S06PacketUpdateHealth;
 import net.spookysquad.spookster.event.Event;
 import net.spookysquad.spookster.event.events.EventGameTick;
+import net.spookysquad.spookster.event.events.EventPacketGet;
 import net.spookysquad.spookster.mod.Module;
 import net.spookysquad.spookster.mod.Type;
 import net.spookysquad.spookster.utils.PlayerUtil;
@@ -17,9 +17,9 @@ public class Sprint extends Module {
 	}
 
 	public void onEvent(Event event) {
-		if(event instanceof EventGameTick) {
-			if(PlayerUtil.getPlayer() != null) {
-				if(PlayerUtil.canSprint()) getPlayer().setSprinting(true);
+		if (event instanceof EventGameTick) {
+			if (PlayerUtil.getPlayer() != null) {
+				if (PlayerUtil.canSprint()) getPlayer().setSprinting(true);
 			}
 		}
 	}

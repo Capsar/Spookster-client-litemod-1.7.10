@@ -22,6 +22,7 @@ import net.spookysquad.spookster.Spookster;
 import net.spookysquad.spookster.event.events.Event3DRender;
 import net.spookysquad.spookster.event.events.EventAttackEntity;
 import net.spookysquad.spookster.event.events.EventBoundingBox;
+import net.spookysquad.spookster.event.events.EventDestroyBlock;
 import net.spookysquad.spookster.event.events.EventHardnessBlock;
 import net.spookysquad.spookster.event.events.EventInOpaqueBlock;
 import net.spookysquad.spookster.event.events.EventPacketSend;
@@ -131,11 +132,18 @@ public class GameEvents {
 	public static void renderHand(EventInfo<EntityRenderer> e, float arg1, int arg2) {
 		Event3DRender event = new Event3DRender(arg1, arg2);
 		event.call();
+
+		if (event.isCancelled()) e.cancel();
 	}
-	
+
 	public static void onShutdownMinecraftApplet(EventInfo<Minecraft> e) {
-        EventShutdown event = new EventShutdown();
-        event.call();
-    }
+		EventShutdown event = new EventShutdown();
+		event.call();
+	}
+
+	public static void onPlayerDestroyBlock(ReturnEventInfo<PlayerControllerMP, ?> e, int posX, int posY, int posZ, int side) {
+		EventDestroyBlock event = new EventDestroyBlock(posX, posY, posZ, side);
+		event.call();
+	}
 
 }
