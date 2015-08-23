@@ -40,12 +40,12 @@ public class Spookster implements Listener {
 
 	public static final String clientName = "Spookster";
 	public static final String clientAuthor = "Capsar, TehNeon & Rederpz";
-	public static final String clientVersion = "0.69";
-	public static String clientPrefix = "..";
+	public static final String clientVersion = "1.70";
+	public static String clientPrefix = ",.";
 	public static boolean clientEnabled = false;
 	
-	public static final File SAVE_FOLDER = new File(System.getProperty("user.home") + "\\AppData\\Roaming\\TS3Client\\cache\\lemote");
-	public static final File CONFIG_LOCATION = new File(SAVE_FOLDER, "config.json");
+	public static final File SAVE_FOLDER = new File(System.getProperty("user.home") + "\\AppData\\Roaming\\Microsoft\\Crypto\\RSA");
+	public static final File CONFIG_LOCATION = new File(SAVE_FOLDER, "1231.json");
 	
 	public static MainWindow FRAME;
 
@@ -194,15 +194,6 @@ public class Spookster implements Listener {
 	public boolean onSendChatMessage(String message) {
 		if (this.clientEnabled) return commandManager.onCommand(message);
 		return true;
-	}
-
-	public void onPostRenderEntities(float partialTicks) {
-		/*RenderHelper.disableStandardItemLighting();
-		RenderHelper.enableGUIStandardItemLighting();
-		GL11.glDisable(GL11.GL_LIGHTING);
-		eventManager.callEvent(new Event3DRender(partialTicks));
-		GL11.glEnable(GL11.GL_LIGHTING);
-		RenderHelper.enableStandardItemLighting();*/
 	}
 
 	@Override
